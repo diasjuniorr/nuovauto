@@ -1,5 +1,4 @@
 import * as React from "react";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
@@ -10,30 +9,45 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Typography } from "@mui/material";
+import { useRef, useState } from "react";
 
 export default function DialogSelect() {
-  const [open, setOpen] = React.useState(false);
-  const [scratch, setScratch] = React.useState<number | string>("");
-  const [dye, setDye] = React.useState<number | string>(2);
-  const [smallScratch, setSmallScratch] = React.useState<number | string>("");
+  const [open, setOpen] = useState(false);
+  const [paint, setPaint] = useState(false);
+  const [isAluminum, setIsAluminum] = useState(false);
+  const [shouldReplace, setShouldReplace] = useState(false);
+  const [shouldGlue, setShouldGlue] = useState(false);
+  const [smallSmash, setSmallSmash] = useState<number | string>("");
+  const [smash, setSmash] = useState<number | string>("");
+  const smallSmashRef = useRef<HTMLInputElement>(null);
+  const smashRef = useRef<HTMLInputElement>(null);
 
-  const handleScratchChange = (event: SelectChangeEvent<typeof scratch>) => {
-    setScratch(Number(event.target.value) || "");
+  const handlePaintChange = (event: SelectChangeEvent) => {
+    setPaint(!paint);
   };
 
-  const handleDyeChange = (event: SelectChangeEvent<typeof scratch>) => {
-    setDye(Number(event.target.value) || "");
+  const handleIsAluminumChange = (event: SelectChangeEvent) => {
+    setIsAluminum(!isAluminum);
   };
 
-  const handleSmallScratchChange = (
-    event: SelectChangeEvent<typeof scratch>
-  ) => {
-    setSmallScratch(Number(event.target.value) || "");
+  const handleShouldReplaceChange = (event: SelectChangeEvent) => {
+    setShouldReplace(!shouldReplace);
+  };
+
+  const handleShouldGlueChange = (event: SelectChangeEvent) => {
+    setShouldGlue(!shouldGlue);
+  };
+
+  const handleSmallSmashChange = () => {
+    setSmallSmash(smallSmashRef.current?.value as unknown as number);
+  };
+
+  const handleSmashChange = () => {
+    setSmash(smashRef.current?.value as unknown as number);
   };
 
   const handleClickOpen = () => {
@@ -53,7 +67,7 @@ export default function DialogSelect() {
     <div>
       <Button onClick={handleClickOpen} style={{ zIndex: "10" }}>
         <Typography variant="h5" component="span" display="block">
-          {scratch || smallScratch ? +scratch + +smallScratch : "0"}
+          0
         </Typography>
       </Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
@@ -69,22 +83,26 @@ export default function DialogSelect() {
             }}
           >
             <TextField
-              autoFocus
               size="small"
               margin="dense"
               id="name"
               label="25mm"
               type="number"
               variant="standard"
+              value={smallSmash}
+              onChange={handleSmallSmashChange}
+              inputRef={smallSmashRef}
             />
             <TextField
-              autoFocus
               size="small"
               margin="dense"
               id="name"
               label=">25mm"
               type="number"
               variant="standard"
+              value={smash}
+              onChange={handleSmashChange}
+              inputRef={smashRef}
             />
           </Box>
           <Box
@@ -97,11 +115,37 @@ export default function DialogSelect() {
               marginTop: "12px",
             }}
           >
-            <FormControlLabel control={<Checkbox />} label="Pintura" />
-            <FormControlLabel control={<Checkbox />} label="AL" />
-            <FormControlLabel control={<Checkbox />} label="Trocar" />
             <FormControlLabel
-              control={<Checkbox />}
+              control={
+                <Checkbox checked={paint} onChange={handlePaintChange} />
+              }
+              label="Pintura"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={isAluminum}
+                  onChange={handleIsAluminumChange}
+                />
+              }
+              label="AL"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={shouldReplace}
+                  onChange={handleShouldReplaceChange}
+                />
+              }
+              label="Trocar"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={shouldGlue}
+                  onChange={handleShouldGlueChange}
+                />
+              }
               label="Cola"
               disabled={true}
             />
