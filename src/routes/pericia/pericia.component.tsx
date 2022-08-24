@@ -39,13 +39,19 @@ const Pericia = () => {
         <div style={{ position: "absolute", top: "100px", left: "900px" }}>
           <Dialog />
         </div>
-        {/* <div style={{ position: "absolute", top: "370px", left: "35px" }}>
-      <Dialog />
-    </div> */}
         <div style={{ position: "absolute", top: "370px", left: "270px" }}>
           <Dialog />
         </div>
         <div style={{ position: "absolute", top: "370px", left: "670px" }}>
+          <Dialog />
+        </div>
+        <div style={{ position: "absolute", top: "260px", left: "780px" }}>
+          <Dialog />
+        </div>
+        <div style={{ position: "absolute", top: "480px", left: "780px" }}>
+          <Dialog />
+        </div>
+        <div style={{ position: "absolute", top: "370px", left: "950px" }}>
           <Dialog />
         </div>
         <div style={{ position: "absolute", top: "370px", left: "1067px" }}>
