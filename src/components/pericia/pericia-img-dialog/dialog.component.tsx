@@ -9,10 +9,15 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Typography } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
+import {
+  PericiaContext,
+  PericiaContextProps,
+} from "../../../contexts/pericia.context";
+import { CarPart } from "../../../shared/interfaces/car-part.interface";
 
 interface DialogComponentProps {
-  name?: string;
+  name: string;
   top: number;
   left: number;
 }
@@ -35,18 +40,29 @@ const defaultDialogProps = {
   smash: "",
 };
 
-const DialogSelect: React.FC<DialogComponentProps> = ({ top, left }) => {
+const DialogSelect: React.FC<DialogComponentProps> = ({ top, left, name }) => {
   const [open, setOpen] = useState(false);
   const [dialogProps, setDialogProps] =
     useState<DialogProps>(defaultDialogProps);
-  const {
+  const periciaContext = useContext(PericiaContext) as PericiaContextProps;
+  const { updateCarPart } = periciaContext;
+  let {
     isAluminum,
     shouldPaint,
     shouldReplace,
     shouldGlue,
-    smash,
     smallSmash,
-  } = dialogProps;
+    smash,
+  } = periciaContext.carParts.find((cp) => cp.name === name) as CarPart;
+
+  // const {
+  //   isAluminum,
+  //   shouldPaint,
+  //   shouldReplace,
+  //   shouldGlue,
+  //   smash,
+  //   smallSmash,
+  // } = dialogProps;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
