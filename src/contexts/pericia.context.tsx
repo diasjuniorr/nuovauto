@@ -16,7 +16,7 @@ export const PericiaContext = createContext<PericiaContextProps>({
   updateCarPart: (carPart: CarPart) => {},
 });
 
-export const CartProvider: React.FC<Props> = ({ children }) => {
+export const PericiaProvider: React.FC<Props> = ({ children }) => {
   const [carParts, setCarParts] = useState(initialCarParts);
 
   const updateCarPart = (carPart: CarPart) => {
