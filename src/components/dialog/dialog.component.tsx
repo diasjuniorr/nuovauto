@@ -209,7 +209,6 @@ export default function DialogSelect() {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleClose}>Ok</Button>
         </DialogActions>
       </Dialog>
