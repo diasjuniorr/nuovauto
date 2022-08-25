@@ -44,7 +44,6 @@ export default function DialogSelect() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("debug", name, value);
     setDialogProps({ ...dialogProps, [name]: value });
   };
 
