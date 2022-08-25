@@ -12,6 +12,7 @@ import { Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 
 interface DialogComponentProps {
+  name?: string;
   top: number;
   left: number;
 }

@@ -8,8 +8,8 @@ const PericiaImg = () => {
       <Dialog top={100} left={540} />
       <Dialog top={100} left={730} />
       <Dialog top={100} left={900} />
-      <Dialog top={370} left={270} />
-      <Dialog top={370} left={670} />
+      <Dialog top={370} left={270} name="cofano" />
+      <Dialog top={370} left={670} name="tetto" />
       <Dialog top={260} left={780} />
       <Dialog top={480} left={780} />
       <Dialog top={370} left={940} />
