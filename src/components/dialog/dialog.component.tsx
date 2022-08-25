@@ -8,43 +8,44 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { SelectChangeEvent } from "@mui/material/Select";
 import { Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
+
+interface DialogProps {
+  isAluminum: boolean;
+  shouldPaint: boolean;
+  shouldReplace: boolean;
+  shouldGlue: boolean;
+  smallSmash: number | string;
+  smash: number | string;
+}
+
+const defaultDialogProps = {
+  isAluminum: false,
+  shouldPaint: false,
+  shouldReplace: false,
+  shouldGlue: false,
+  smallSmash: "",
+  smash: "",
+};
 
 export default function DialogSelect() {
   const [open, setOpen] = useState(false);
-  const [paint, setPaint] = useState(false);
-  const [isAluminum, setIsAluminum] = useState(false);
-  const [shouldReplace, setShouldReplace] = useState(false);
-  const [shouldGlue, setShouldGlue] = useState(false);
-  const [smallSmash, setSmallSmash] = useState<number | string>("");
-  const [smash, setSmash] = useState<number | string>("");
-  const smallSmashRef = useRef<HTMLInputElement>(null);
-  const smashRef = useRef<HTMLInputElement>(null);
+  const [dialogProps, setDialogProps] =
+    useState<DialogProps>(defaultDialogProps);
+  const {
+    isAluminum,
+    shouldPaint,
+    shouldReplace,
+    shouldGlue,
+    smash,
+    smallSmash,
+  } = dialogProps;
 
-  const handlePaintChange = (event: SelectChangeEvent) => {
-    setPaint(!paint);
-  };
-
-  const handleIsAluminumChange = (event: SelectChangeEvent) => {
-    setIsAluminum(!isAluminum);
-  };
-
-  const handleShouldReplaceChange = (event: SelectChangeEvent) => {
-    setShouldReplace(!shouldReplace);
-  };
-
-  const handleShouldGlueChange = (event: SelectChangeEvent) => {
-    setShouldGlue(!shouldGlue);
-  };
-
-  const handleSmallSmashChange = () => {
-    setSmallSmash(smallSmashRef.current?.value as unknown as number);
-  };
-
-  const handleSmashChange = () => {
-    setSmash(smashRef.current?.value as unknown as number);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log("debug", name, value);
+    setDialogProps({ ...dialogProps, [name]: value });
   };
 
   const handleClickOpen = () => {
@@ -75,7 +76,7 @@ export default function DialogSelect() {
       smashNotes = smash ? `>${String(smash)}` : "";
     }
 
-    if (paint) {
+    if (shouldPaint) {
       paintNotes = "p";
     }
 
@@ -140,8 +141,8 @@ export default function DialogSelect() {
               type="number"
               variant="standard"
               value={smallSmash}
-              onChange={handleSmallSmashChange}
-              inputRef={smallSmashRef}
+              onChange={handleChange}
+              name="smallSmash"
             />
             <TextField
               size="small"
@@ -151,8 +152,8 @@ export default function DialogSelect() {
               type="number"
               variant="standard"
               value={smash}
-              onChange={handleSmashChange}
-              inputRef={smashRef}
+              onChange={handleChange}
+              name="smash"
             />
           </Box>
           <Box
@@ -167,7 +168,11 @@ export default function DialogSelect() {
           >
             <FormControlLabel
               control={
-                <Checkbox checked={paint} onChange={handlePaintChange} />
+                <Checkbox
+                  checked={shouldPaint}
+                  onChange={handleChange}
+                  name="shouldPaint"
+                />
               }
               label="Pintura"
             />
@@ -175,7 +180,8 @@ export default function DialogSelect() {
               control={
                 <Checkbox
                   checked={isAluminum}
-                  onChange={handleIsAluminumChange}
+                  onChange={handleChange}
+                  name="isAluminum"
                 />
               }
               label="AL"
@@ -184,7 +190,8 @@ export default function DialogSelect() {
               control={
                 <Checkbox
                   checked={shouldReplace}
-                  onChange={handleShouldReplaceChange}
+                  onChange={handleChange}
+                  name="shouldReplace"
                 />
               }
               label="Trocar"
@@ -193,7 +200,8 @@ export default function DialogSelect() {
               control={
                 <Checkbox
                   checked={shouldGlue}
-                  onChange={handleShouldGlueChange}
+                  onChange={handleChange}
+                  name="shouldGlue"
                 />
               }
               label="Cola"
