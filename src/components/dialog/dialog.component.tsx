@@ -60,12 +60,65 @@ export default function DialogSelect() {
     }
   };
 
+  const displayNotes = () => {
+    let smashNotes = "";
+    let smallSmashNotes = "";
+    let paintNotes = "";
+    let isAluminumNotes = "";
+    let shouldReplaceNotes = "";
+    let shouldGlueNotes = "";
+
+    if (+smallSmash >= 610 || +smash >= 610 || +smallSmash + +smash >= 610) {
+      smashNotes = "max";
+    } else {
+      smallSmashNotes = smallSmash ? String(smallSmash) : "";
+      smashNotes = smash ? `>${String(smash)}` : "";
+    }
+
+    if (paint) {
+      paintNotes = "p";
+    }
+
+    if (isAluminum) {
+      isAluminumNotes = "al";
+    }
+
+    if (shouldReplace) {
+      shouldReplaceNotes = "x";
+    }
+
+    if (shouldGlue) {
+      shouldGlueNotes = "c";
+    }
+
+    if (
+      !smashNotes &&
+      !smallSmashNotes &&
+      !paintNotes &&
+      !isAluminumNotes &&
+      !shouldReplaceNotes &&
+      !shouldGlueNotes
+    ) {
+      return (
+        <Typography variant="h5" component="span">
+          0
+        </Typography>
+      );
+    }
+
+    return (
+      <Typography variant="h5" component="span" fontSize={22}>
+        {smallSmashNotes} {smashNotes}
+        <br />
+        {paintNotes} {isAluminumNotes} {shouldReplaceNotes} {shouldGlueNotes}
+      </Typography>
+    );
+  };
+
   return (
     <div>
       <Button onClick={handleClickOpen} style={{ zIndex: "10" }}>
-        <Typography variant="h5" component="span" display="block">
-          0
-        </Typography>
+        {displayNotes()}
       </Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Pericia</DialogTitle>
