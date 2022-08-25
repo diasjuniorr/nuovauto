@@ -17,7 +17,7 @@ import {
 import { CarPart } from "../../../shared/interfaces/car-part.interface";
 
 interface DialogComponentProps {
-  name: string;
+  partName: string;
   top: number;
   left: number;
 }
@@ -31,21 +31,19 @@ interface DialogProps {
   smash: number | string;
 }
 
-const defaultDialogProps = {
-  isAluminum: false,
-  shouldPaint: false,
-  shouldReplace: false,
-  shouldGlue: false,
-  smallSmash: "",
-  smash: "",
-};
-
-const DialogSelect: React.FC<DialogComponentProps> = ({ top, left, name }) => {
+const DialogSelect: React.FC<DialogComponentProps> = ({
+  top,
+  left,
+  partName,
+}) => {
   const [open, setOpen] = useState(false);
-  const [dialogProps, setDialogProps] =
-    useState<DialogProps>(defaultDialogProps);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const { updateCarPart } = periciaContext;
+
+  let carPart = periciaContext.carParts.find(
+    (cp) => cp.name === partName
+  ) as CarPart;
+
   let {
     isAluminum,
     shouldPaint,
@@ -53,20 +51,12 @@ const DialogSelect: React.FC<DialogComponentProps> = ({ top, left, name }) => {
     shouldGlue,
     smallSmash,
     smash,
-  } = periciaContext.carParts.find((cp) => cp.name === name) as CarPart;
-
-  // const {
-  //   isAluminum,
-  //   shouldPaint,
-  //   shouldReplace,
-  //   shouldGlue,
-  //   smash,
-  //   smallSmash,
-  // } = dialogProps;
+  } = carPart;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setDialogProps({ ...dialogProps, [name]: value });
+    let { name, value } = e.target;
+    console.log(e.target);
+    updateCarPart({ ...carPart, [name]: value });
   };
 
   const handleClickOpen = () => {

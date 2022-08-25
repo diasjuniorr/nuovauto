@@ -6,7 +6,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-interface PericiaContextProps {
+export interface PericiaContextProps {
   carParts: CarPart[];
   updateCarPart: (carPart: CarPart) => void;
 }
