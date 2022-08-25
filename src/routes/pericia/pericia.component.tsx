@@ -27,48 +27,20 @@ const Pericia = () => {
           position: "relative",
         }}
       >
-        <div style={{ position: "absolute", top: "100px", left: "340px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "100px", left: "540px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "100px", left: "730px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "100px", left: "900px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "370px", left: "270px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "370px", left: "670px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "260px", left: "780px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "480px", left: "780px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "370px", left: "940px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "370px", left: "1067px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "650px", left: "340px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "650px", left: "540px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "650px", left: "730px" }}>
-          <Dialog />
-        </div>
-        <div style={{ position: "absolute", top: "650px", left: "900px" }}>
-          <Dialog />
-        </div>
+        <Dialog top={100} left={340} />
+        <Dialog top={100} left={540} />
+        <Dialog top={100} left={730} />
+        <Dialog top={100} left={900} />
+        <Dialog top={370} left={270} />
+        <Dialog top={370} left={670} />
+        <Dialog top={260} left={780} />
+        <Dialog top={480} left={780} />
+        <Dialog top={370} left={940} />
+        <Dialog top={370} left={1067} />
+        <Dialog top={650} left={340} />
+        <Dialog top={650} left={540} />
+        <Dialog top={650} left={730} />
+        <Dialog top={650} left={900} />
       </div>
     </div>
   );

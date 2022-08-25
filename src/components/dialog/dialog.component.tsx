@@ -11,6 +11,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 
+interface DialogComponentProps {
+  top: number;
+  left: number;
+}
+
 interface DialogProps {
   isAluminum: boolean;
   shouldPaint: boolean;
@@ -29,7 +34,7 @@ const defaultDialogProps = {
   smash: "",
 };
 
-export default function DialogSelect() {
+const DialogSelect: React.FC<DialogComponentProps> = ({ top, left }) => {
   const [open, setOpen] = useState(false);
   const [dialogProps, setDialogProps] =
     useState<DialogProps>(defaultDialogProps);
@@ -116,7 +121,7 @@ export default function DialogSelect() {
   };
 
   return (
-    <div>
+    <div style={{ position: "absolute", top: `${top}px`, left: `${left}px` }}>
       <Button onClick={handleClickOpen} style={{ zIndex: "10" }}>
         {displayNotes()}
       </Button>
@@ -214,4 +219,6 @@ export default function DialogSelect() {
       </Dialog>
     </div>
   );
-}
+};
+
+export default DialogSelect;
