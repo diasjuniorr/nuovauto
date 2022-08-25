@@ -27,13 +27,13 @@ const Pericia = () => {
           position: "relative",
         }}
       >
-        <div style={{ position: "absolute", top: "100px", left: "370px" }}>
+        <div style={{ position: "absolute", top: "100px", left: "340px" }}>
           <Dialog />
         </div>
-        <div style={{ position: "absolute", top: "100px", left: "570px" }}>
+        <div style={{ position: "absolute", top: "100px", left: "540px" }}>
           <Dialog />
         </div>
-        <div style={{ position: "absolute", top: "100px", left: "760px" }}>
+        <div style={{ position: "absolute", top: "100px", left: "730px" }}>
           <Dialog />
         </div>
         <div style={{ position: "absolute", top: "100px", left: "900px" }}>
@@ -51,19 +51,19 @@ const Pericia = () => {
         <div style={{ position: "absolute", top: "480px", left: "780px" }}>
           <Dialog />
         </div>
-        <div style={{ position: "absolute", top: "370px", left: "950px" }}>
+        <div style={{ position: "absolute", top: "370px", left: "940px" }}>
           <Dialog />
         </div>
         <div style={{ position: "absolute", top: "370px", left: "1067px" }}>
           <Dialog />
         </div>
-        <div style={{ position: "absolute", top: "650px", left: "370px" }}>
+        <div style={{ position: "absolute", top: "650px", left: "340px" }}>
           <Dialog />
         </div>
-        <div style={{ position: "absolute", top: "650px", left: "570px" }}>
+        <div style={{ position: "absolute", top: "650px", left: "540px" }}>
           <Dialog />
         </div>
-        <div style={{ position: "absolute", top: "650px", left: "760px" }}>
+        <div style={{ position: "absolute", top: "650px", left: "730px" }}>
           <Dialog />
         </div>
         <div style={{ position: "absolute", top: "650px", left: "900px" }}>
