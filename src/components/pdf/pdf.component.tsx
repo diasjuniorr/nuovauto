@@ -29,7 +29,6 @@ const PDFGenerator = () => {
           CAR_PARTS_CANVAS_COORDINATES[
             part.name as keyof typeof CAR_PARTS_CANVAS_COORDINATES
           ];
-        console.log("part nnote", part.note);
         context.fillText(part.note, x, y);
       });
     };
