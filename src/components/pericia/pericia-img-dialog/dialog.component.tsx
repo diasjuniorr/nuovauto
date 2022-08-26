@@ -14,7 +14,6 @@ import {
   PericiaContext,
   PericiaContextProps,
 } from "../../../contexts/pericia.context";
-import { CarPart } from "../../../shared/interfaces/car-part.interface";
 
 interface DialogComponentProps {
   partName: string;
