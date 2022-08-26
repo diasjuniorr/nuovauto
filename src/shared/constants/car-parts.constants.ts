@@ -26,6 +26,6 @@ export const CAR_PARTS_LIST: CarPart[] = Object.keys(CAR_PARTS).map((key) => {
     shouldGlue: false,
     smallSmash: "",
     smash: "",
-    note: "",
+    note: "0",
   };
 });
