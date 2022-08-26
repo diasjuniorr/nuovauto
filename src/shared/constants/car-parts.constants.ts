@@ -40,7 +40,7 @@ export const CAR_PARTS_CANVAS_COORDINATES = {
   "Pianzone-d": { x: 800, y: 300 },
   "Pianzone-s": { x: 800, y: 505 },
   "Sportello-s": { x: 960, y: 410 },
-  "Sportello-i": { x: 1130, y: 410 },
+  "Sportello-i": { x: 1070, y: 410 },
   "Parafango-as": { x: 330, y: 665 },
   "Porta-as": { x: 510, y: 655 },
   "Porta-ps": { x: 689, y: 655 },
