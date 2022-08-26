@@ -87,6 +87,5 @@ const generateNotes = (carPart: CarPart) => {
     return "0";
   }
 
-  return `${smallSmashNotes} ${smashNotes} ${paintNotes} ${isAluminumNotes} ${shouldReplaceNotes} ${shouldGlueNotes}
-      `;
+  return `${smallSmashNotes} ${smashNotes} \n ${paintNotes} ${isAluminumNotes} ${shouldReplaceNotes} ${shouldGlueNotes}`;
 };
