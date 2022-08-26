@@ -22,15 +22,6 @@ interface DialogComponentProps {
   left: number;
 }
 
-interface DialogProps {
-  isAluminum: boolean;
-  shouldPaint: boolean;
-  shouldReplace: boolean;
-  shouldGlue: boolean;
-  smallSmash: number | string;
-  smash: number | string;
-}
-
 const DialogSelect: React.FC<DialogComponentProps> = ({
   top,
   left,
@@ -76,65 +67,14 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
     }
   };
 
-  const displayNotes = () => {
-    let smashNotes = "";
-    let smallSmashNotes = "";
-    let paintNotes = "";
-    let isAluminumNotes = "";
-    let shouldReplaceNotes = "";
-    let shouldGlueNotes = "";
-
-    if (+smallSmash >= 610 || +smash >= 610 || +smallSmash + +smash >= 610) {
-      smashNotes = "max";
-    } else {
-      smallSmashNotes = smallSmash ? String(smallSmash) : "";
-      smashNotes = smash ? `>${String(smash)}` : "";
-    }
-
-    if (shouldPaint) {
-      paintNotes = "p";
-    }
-
-    if (isAluminum) {
-      isAluminumNotes = "al";
-    }
-
-    if (shouldReplace) {
-      shouldReplaceNotes = "x";
-    }
-
-    if (shouldGlue) {
-      shouldGlueNotes = "c";
-    }
-
-    if (
-      !smashNotes &&
-      !smallSmashNotes &&
-      !paintNotes &&
-      !isAluminumNotes &&
-      !shouldReplaceNotes &&
-      !shouldGlueNotes
-    ) {
-      return (
-        <Typography variant="h5" component="span">
-          0
-        </Typography>
-      );
-    }
-
-    return (
-      <Typography variant="h5" component="span" fontSize={22}>
-        {smallSmashNotes} {smashNotes}
-        <br />
-        {paintNotes} {isAluminumNotes} {shouldReplaceNotes} {shouldGlueNotes}
-      </Typography>
-    );
-  };
-
   return (
     <div style={{ position: "absolute", top: `${top}px`, left: `${left}px` }}>
       <Button onClick={handleClickOpen} style={{ zIndex: "10" }}>
-        {displayNotes()}
+        <Typography variant="h5" component="span" fontSize={22}>
+          {carPart.note.split("\n").slice(0, 1)}
+          {<br />}
+          {carPart.note.split("\n").slice(1, 2)}
+        </Typography>
       </Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Pericia</DialogTitle>
