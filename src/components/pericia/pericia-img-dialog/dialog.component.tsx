@@ -29,11 +29,9 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { updateCarPart } = periciaContext;
+  const { updateCarPart, findCarPart } = periciaContext;
 
-  let carPart = periciaContext.carParts.find(
-    (cp) => cp.name === partName
-  ) as CarPart;
+  let carPart = findCarPart(partName);
 
   let {
     isAluminum,

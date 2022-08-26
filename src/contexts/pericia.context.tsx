@@ -9,11 +9,24 @@ interface Props {
 export interface PericiaContextProps {
   carParts: CarPart[];
   updateCarPart: (carPart: CarPart) => void;
+  findCarPart: (name: string) => CarPart;
 }
 
 export const PericiaContext = createContext<PericiaContextProps>({
   carParts: CAR_PARTS_LIST,
   updateCarPart: (carPart: CarPart) => {},
+  findCarPart: (name: string) => {
+    return {
+      name: "",
+      smallSmash: 0,
+      smash: 0,
+      isAluminum: false,
+      shouldPaint: false,
+      shouldReplace: false,
+      shouldGlue: false,
+      note: "",
+    };
+  },
 });
 
 export const PericiaProvider: React.FC<Props> = ({ children }) => {
@@ -29,8 +42,12 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
+  const findCarPart = (name: string) => {
+    return carParts.find((cp) => cp.name === name) as CarPart;
+  };
+
   return (
-    <PericiaContext.Provider value={{ carParts, updateCarPart }}>
+    <PericiaContext.Provider value={{ carParts, updateCarPart, findCarPart }}>
       {children}
     </PericiaContext.Provider>
   );
