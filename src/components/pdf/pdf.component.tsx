@@ -14,7 +14,7 @@ const PDFGenerator = () => {
   const { carParts } = periciaContext;
 
   const canvas = document.getElementById("pdf-canvas") as HTMLCanvasElement;
-  //   canvas.style.display = "none";
+  canvas.style.display = "none";
 
   const draw = (context: any) => {
     const img = new Image();
@@ -29,6 +29,7 @@ const PDFGenerator = () => {
           CAR_PARTS_CANVAS_COORDINATES[
             part.name as keyof typeof CAR_PARTS_CANVAS_COORDINATES
           ];
+        console.log("part nnote", part.note);
         context.fillText(part.note, x, y);
       });
     };
