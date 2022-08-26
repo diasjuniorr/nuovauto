@@ -54,8 +54,12 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
   } = carPart;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let { name, value } = e.target;
-    console.log(e.target);
+    let { name, value, checked } = e.target;
+
+    if (e.target.type === "checkbox") {
+      return updateCarPart({ ...carPart, [name]: checked });
+    }
+
     updateCarPart({ ...carPart, [name]: value });
   };
 
