@@ -101,7 +101,7 @@ const generateNotes = (carPart: CarPart) => {
     !shouldReplaceNotes &&
     !shouldGlueNotes
   ) {
-    return "0";
+    return "";
   }
 
   return `${smallSmashNotes} ${smashNotes} \n ${paintNotes} ${isAluminumNotes} ${shouldReplaceNotes} ${shouldGlueNotes}`;

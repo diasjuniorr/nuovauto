@@ -64,14 +64,27 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
     }
   };
 
+  const getFormattedNotes = () => {
+    if (carPart.note.length === 0) {
+      return (
+        <Typography variant="h5" component="span" fontSize={22}>
+          0
+        </Typography>
+      );
+    }
+    return (
+      <Typography variant="h5" component="span" fontSize={22}>
+        {carPart.note.split("\n").slice(0, 1)}
+        {<br />}
+        {carPart.note.split("\n").slice(1, 2)}
+      </Typography>
+    );
+  };
+
   return (
     <div style={{ position: "absolute", top: `${top}px`, left: `${left}px` }}>
       <Button onClick={handleClickOpen} style={{ zIndex: "10" }}>
-        <Typography variant="h5" component="span" fontSize={22}>
-          {carPart.note.split("\n").slice(0, 1)}
-          {<br />}
-          {carPart.note.split("\n").slice(1, 2)}
-        </Typography>
+        {getFormattedNotes()}
       </Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>Pericia</DialogTitle>
