@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { CarPart } from "../shared/interfaces/car-part.interface";
-import { initialCarParts } from "../shared/constants/car-parts.constants";
+import { CAR_PARTS_LIST } from "../shared/constants/car-parts.constants";
 
 interface Props {
   children: React.ReactNode;
@@ -12,12 +12,12 @@ export interface PericiaContextProps {
 }
 
 export const PericiaContext = createContext<PericiaContextProps>({
-  carParts: initialCarParts,
+  carParts: CAR_PARTS_LIST,
   updateCarPart: (carPart: CarPart) => {},
 });
 
 export const PericiaProvider: React.FC<Props> = ({ children }) => {
-  const [carParts, setCarParts] = useState(initialCarParts);
+  const [carParts, setCarParts] = useState(CAR_PARTS_LIST);
 
   const updateCarPart = (carPart: CarPart) => {
     setCarParts((prev) => {

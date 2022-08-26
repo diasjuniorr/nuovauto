@@ -6,4 +6,5 @@ export interface CarPart {
   shouldGlue: boolean;
   smallSmash: number | string;
   smash: number | string;
+  note: string;
 }
