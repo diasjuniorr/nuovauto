@@ -87,7 +87,7 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
         {getFormattedNotes()}
       </Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
-        <DialogTitle>Pericia</DialogTitle>
+        <DialogTitle>{partName}</DialogTitle>
         <DialogContent>
           <Box
             component="form"
