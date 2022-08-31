@@ -2,6 +2,7 @@ import PericiaImg from "../../components/pericia/pericia-img/pericia-img.compone
 import PDFGenerator from "../../components/pdf/pdf.component";
 import { Box, Container, Grid, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
 
 const Pericia = () => {
   return (
@@ -15,7 +16,7 @@ const Pericia = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Pericia
+          Cadastro de Pericia
         </Typography>
         <Box component="form" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -77,13 +78,15 @@ const Pericia = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            Adicionar
           </Button>
-          <Grid container justifyContent="flex-end"></Grid>
         </Box>
+        <Typography component="h1" variant="h5">
+          Pericia
+        </Typography>
+        <PericiaImg />
+        <PDFGenerator />
       </Box>
-      <PericiaImg />
-      <PDFGenerator />
     </Container>
   );
 };

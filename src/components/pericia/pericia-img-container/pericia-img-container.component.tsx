@@ -1,4 +1,8 @@
+import { Breakpoint, Theme, useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 const periciaIMG = require("../../../assets/pericia.jpg");
+
+type BreakpointOrNull = Breakpoint | null;
 
 interface PericiaImgContainerProps {
   children: React.ReactNode;
@@ -7,20 +11,44 @@ interface PericiaImgContainerProps {
 const PericiaImgContainer: React.FC<PericiaImgContainerProps> = ({
   children,
 }) => {
+  function useWidth() {
+    const theme: Theme = useTheme();
+    const keys: readonly Breakpoint[] = [...theme.breakpoints.keys].reverse();
+    return (
+      keys.reduce((output: BreakpointOrNull, key: Breakpoint) => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const matches = useMediaQuery(theme.breakpoints.up(key));
+        return !output && matches ? key : output;
+      }, null) || "xs"
+    );
+  }
+
+  const width = useWidth();
+  const getWidth = (width: Breakpoint) => {
+    switch (width) {
+      case "xs":
+        return "400px";
+      case "sm":
+        return "600px";
+      case "md":
+        return "800px";
+      case "lg":
+        return "960px";
+      default:
+        return "1280px";
+    }
+  };
+
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "800px",
-        minWidth: "1200px",
-        height: "100%",
-        width: "100%",
+        marginTop: "64px",
+        background: "pink",
+        maxWidth: `${getWidth(width)}`,
+        overflowX: "auto",
+        whiteSpace: "nowrap",
       }}
     >
-      <h1>Pericia</h1>
       <div
         style={{
           backgroundImage: `url(${periciaIMG})`,
