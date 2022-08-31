@@ -7,7 +7,7 @@ const Canvas = ({ draw, height, width }) => {
     const context = canvas.current.getContext("2d");
     draw(context);
   });
-  return <canvas id="pdf-canvas" ref={canvas} height={height} width={width} />;
+  return <canvas id="pdf-canvas" ref={canvas} height={height} width={width} style={{display: "none"}}/>;
 };
 Canvas.propTypes = {
   draw: PropTypes.func.isRequired,

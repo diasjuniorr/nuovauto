@@ -14,7 +14,6 @@ const PDFGenerator = () => {
   const { carParts } = periciaContext;
 
   const canvas = document.getElementById("pdf-canvas") as HTMLCanvasElement;
-  canvas.style.display = "none";
 
   const draw = (context: any) => {
     const img = new Image();
