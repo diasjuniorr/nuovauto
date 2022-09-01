@@ -28,9 +28,11 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
 }) => {
   const [open, setOpen] = useState(false);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { updateCarPart, findCarPart } = periciaContext;
+  const { updateCarPart, findCarPart, totalPrice, totalHours } = periciaContext;
 
+  //TODO - Refactor this because its being called twice
   let carPart = findCarPart(partName);
+  console.log("dados", totalHours, totalPrice);
 
   let {
     isAluminum,

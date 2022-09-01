@@ -25,8 +25,13 @@ export const CAR_PARTS_LIST: CarPart[] = Object.keys(CAR_PARTS).map((key) => {
     shouldReplace: false,
     shouldGlue: false,
     smallSmash: "",
+    smallSmashWorkingHours: 0,
     smash: "",
+    smashWorkingHours: 0,
     note: "",
+    pricePerHour: 70,
+    workingHours: 0,
+    price: 0,
   };
 });
 
