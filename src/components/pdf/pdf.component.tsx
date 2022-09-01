@@ -6,6 +6,7 @@ import {
 } from "../../contexts/pericia.context";
 import Canvas from "./canvas.component";
 import { CAR_PARTS_CANVAS_COORDINATES } from "../../shared/constants/car-parts.constants";
+import { Button } from "@mui/material";
 
 const carroImg = require("../../assets/pericia.jpg");
 
@@ -42,7 +43,14 @@ const PDFGenerator = () => {
   return (
     <>
       <Canvas draw={draw} height={800} width={1200} />
-      <button onClick={handleGeneratePDF}>Gerar PDF</button>
+      <Button
+        fullWidth
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+        onClick={handleGeneratePDF}
+      >
+        Gerar PDF
+      </Button>
     </>
   );
 };
