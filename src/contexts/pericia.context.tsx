@@ -122,9 +122,7 @@ const workingHours = (carPart: CarPart) => {
 };
 
 const price = (carPart: CarPart) => {
-  let price = carPart.pricePerHour * carPart.workingHours;
-
-  return price / 10;
+  return (carPart.pricePerHour * carPart.workingHours) / 10;
 };
 
 const generateNotes = (carPart: CarPart) => {
