@@ -43,7 +43,6 @@ const PericiaImgContainer: React.FC<PericiaImgContainerProps> = ({
     <div
       style={{
         marginTop: "64px",
-        background: "pink",
         maxWidth: `${getWidth(width)}`,
         overflowX: "auto",
         whiteSpace: "nowrap",

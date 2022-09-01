@@ -2,7 +2,6 @@ import PericiaImg from "../../components/pericia/pericia-img/pericia-img.compone
 import PDFGenerator from "../../components/pdf/pdf.component";
 import { Box, Container, Grid, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
 
 const Pericia = () => {
   return (
