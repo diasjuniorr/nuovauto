@@ -170,7 +170,6 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
                 />
               }
               label="Cola"
-              disabled={true}
             />
           </Box>
         </DialogContent>
