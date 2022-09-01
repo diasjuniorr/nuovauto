@@ -104,23 +104,25 @@ const smashWorkingHours = (carPart: CarPart) => {
 };
 
 const workingHours = (carPart: CarPart) => {
-  return carPart.smallSmashWorkingHours + carPart.smashWorkingHours;
+  let totalHours = carPart.smallSmashWorkingHours + carPart.smashWorkingHours;
+
+  if (carPart.shouldPaint) {
+    totalHours = totalHours * 0.75;
+  }
+
+  if (carPart.isAluminum) {
+    totalHours = totalHours * 1.25;
+  }
+
+  if (carPart.shouldGlue) {
+    totalHours = totalHours * 1.25;
+  }
+
+  return totalHours;
 };
 
 const price = (carPart: CarPart) => {
   let price = carPart.pricePerHour * carPart.workingHours;
-
-  if (carPart.shouldPaint) {
-    price = price * 0.75;
-  }
-
-  if (carPart.isAluminum) {
-    price = price * 1.25;
-  }
-
-  if (carPart.shouldGlue) {
-    price = price * 1.25;
-  }
 
   return price / 10;
 };
