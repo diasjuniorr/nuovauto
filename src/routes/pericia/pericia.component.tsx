@@ -2,6 +2,7 @@ import PericiaImg from "../../components/pericia/pericia-img/pericia-img.compone
 import PDFGenerator from "../../components/pdf/pdf.component";
 import { Box, Container, Grid, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
+import PericiaTable from "../../components/table/table.component";
 
 const Pericia = () => {
   return (
@@ -84,6 +85,10 @@ const Pericia = () => {
           Pericia
         </Typography>
         <PericiaImg />
+        <Typography component="h1" variant="h5">
+          Tabela
+        </Typography>
+        <PericiaTable />
         <PDFGenerator />
       </Box>
     </Container>

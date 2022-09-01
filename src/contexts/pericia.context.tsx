@@ -121,7 +121,6 @@ const price = (carPart: CarPart) => {
   if (carPart.shouldGlue) {
     price = price * 1.25;
   }
-  console.log(price / 10);
 
   return price / 10;
 };
