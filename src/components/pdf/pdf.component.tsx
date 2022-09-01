@@ -46,7 +46,7 @@ const PDFGenerator = () => {
       <Button
         fullWidth
         variant="contained"
-        sx={{ mt: 3, mb: 2 }}
+        sx={{ mt: 5, mb: 1 }}
         onClick={handleGeneratePDF}
       >
         Gerar PDF

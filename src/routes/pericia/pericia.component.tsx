@@ -6,7 +6,7 @@ import PericiaTable from "../../components/table/table.component";
 
 const Pericia = () => {
   return (
-    <Container component="main" maxWidth="xl">
+    <Container component="main" maxWidth="md">
       <Box
         sx={{
           marginTop: 8,
@@ -18,7 +18,7 @@ const Pericia = () => {
         <Typography component="h1" variant="h5">
           Cadastro de Pericia
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 3 }}>
+        <Box component="form" noValidate sx={{ mt: 3, mb: 5 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <TextField
@@ -85,11 +85,14 @@ const Pericia = () => {
           Pericia
         </Typography>
         <PericiaImg />
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 3 }}>
           Tabela
         </Typography>
         <PericiaTable />
         <PDFGenerator />
+        <Button fullWidth variant="contained">
+          Salvar Pericia
+        </Button>
       </Box>
     </Container>
   );
