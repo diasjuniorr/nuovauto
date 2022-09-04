@@ -32,7 +32,6 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
 
   //TODO - Refactor this because its being called twice
   let carPart = findCarPart(partName);
-  console.log("dados", totalHours, totalPrice);
 
   let {
     isAluminum,
