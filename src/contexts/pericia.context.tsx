@@ -11,6 +11,7 @@ export interface PericiaContextProps {
   carParts: CarPart[];
   totalHours: number;
   totalPrice: number;
+  date: Date;
   updateCarPart: (carPart: CarPart) => void;
   findCarPart: (name: string) => CarPart;
 }
@@ -19,6 +20,7 @@ export const PericiaContext = createContext<PericiaContextProps>({
   carParts: CAR_PARTS_LIST,
   totalHours: 0,
   totalPrice: 0,
+  date: new Date(),
   updateCarPart: (carPart: CarPart) => {},
   findCarPart: (name: string) => {
     return {
@@ -67,9 +69,18 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     return carParts.find((cp) => cp.name === name) as CarPart;
   };
 
+  const date = new Date();
+
   return (
     <PericiaContext.Provider
-      value={{ carParts, totalHours, totalPrice, updateCarPart, findCarPart }}
+      value={{
+        carParts,
+        totalHours,
+        totalPrice,
+        date,
+        updateCarPart,
+        findCarPart,
+      }}
     >
       {children}
     </PericiaContext.Provider>

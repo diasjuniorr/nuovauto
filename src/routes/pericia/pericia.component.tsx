@@ -3,8 +3,16 @@ import PDFGenerator from "../../components/pdf/pdf.component";
 import { Box, Container, Grid, TextField, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import PericiaTable from "../../components/table/table.component";
+import { useContext } from "react";
+import {
+  PericiaContext,
+  PericiaContextProps,
+} from "../../contexts/pericia.context";
 
 const Pericia = () => {
+  const periciaContext = useContext(PericiaContext) as PericiaContextProps;
+  const { date } = periciaContext;
+
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -69,6 +77,8 @@ const Pericia = () => {
                 label="Data"
                 id="date"
                 variant="standard"
+                value={date.toLocaleDateString("pt-BR")}
+                disabled
               />
             </Grid>
           </Grid>
