@@ -55,17 +55,17 @@ const PericiaTable = () => {
               <TableCell align="right">{carPart.shouldPaint && "✓"}</TableCell>
               <TableCell align="right">{carPart.workingHours}</TableCell>
               <TableCell align="right">{carPart.pricePerHour}</TableCell>
-              <TableCell align="right">{carPart.price}</TableCell>
+              <TableCell align="right">{`${carPart.price}`}</TableCell>
             </TableRow>
           ))}
           <TableRow>
             <TableCell colSpan={6} />
             <TableCell>Subtotal</TableCell>
             <TableCell align="right" colSpan={2}>
-              {totalHours}
+              {totalHours && `${totalHours} h`}
             </TableCell>
             <TableCell align="right" colSpan={2}>
-              {totalPrice}
+              {totalPrice && `${totalPrice.toFixed(2)} CHF`}
             </TableCell>
           </TableRow>
         </TableBody>
