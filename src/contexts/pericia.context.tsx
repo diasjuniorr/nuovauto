@@ -8,13 +8,15 @@ interface Props {
 }
 
 export interface PericiaContextProps {
-  cardID: string;
+  costumerID: string;
+  carID: string;
   carParts: CarPart[];
   totalHours: number;
   totalPrice: number;
   pricePerHour: number;
   date: Date;
   finished: boolean;
+  updateCostumerID: (costumerID: string) => void;
   updateFinished: (finished: boolean) => void;
   updatePricePerHour: (pricePerHour: number) => void;
   updateCarPart: (carPart: CarPart) => void;
@@ -23,13 +25,15 @@ export interface PericiaContextProps {
 }
 
 export const PericiaContext = createContext<PericiaContextProps>({
-  cardID: "",
+  costumerID: "",
+  carID: "",
   carParts: CAR_PARTS_LIST,
   totalHours: 0,
   totalPrice: 0,
   pricePerHour: 70,
   date: new Date(),
   finished: false,
+  updateCostumerID: (costumerID: string) => {},
   updateFinished: (finished: boolean) => {},
   updatePricePerHour: (pricePerHour: number) => {},
   updateCarID: (cardID: string) => {},
@@ -56,7 +60,8 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   const [carParts, setCarParts] = useState(CAR_PARTS_LIST);
   const [totalHours, setTotalHours] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [cardID, setCardID] = useState("");
+  const [costumerID, setCostumerID] = useState("");
+  const [carID, setCarID] = useState("");
   const [pricePerHour, setPricePerHour] = useState(70);
   const [date, setDate] = useState(new Date());
   const [finished, setFinished] = useState(false);
@@ -85,7 +90,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   };
 
   const updateCarID = (cardID: string) => {
-    setCardID(cardID);
+    setCarID(cardID);
   };
 
   const updatePricePerHour = (pricePerHour: number) => {
@@ -96,16 +101,22 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     setFinished(finished);
   };
 
+  const updateCostumerID = (costumerID: string) => {
+    setCostumerID(costumerID);
+  };
+
   return (
     <PericiaContext.Provider
       value={{
-        cardID,
+        costumerID,
+        carID,
         carParts,
         totalHours,
         totalPrice,
         pricePerHour,
         date,
         finished,
+        updateCostumerID,
         updateFinished,
         updatePricePerHour,
         updateCarID,

@@ -5,7 +5,6 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
-import Autocomplete from "@mui/material/Autocomplete";
 import PericiaTable from "../../components/table/table.component";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import {
@@ -19,16 +18,17 @@ import {
   insertCar,
   insertPericia,
 } from "../../utils/supabase/supabase.utils";
+import CostumerAutocomplete from "../../components/pericia/costumer-autocomplete/costumer-autocomplete.component";
 
 const Pericia = () => {
   const [costumers, setCostumers] = useState<Costumer[]>([]);
-  const [costumer, setCostumer] = useState<Costumer>({} as Costumer);
   const [car, setCar] = useState<Car>({} as Car);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const {
     date,
     pricePerHour,
     finished,
+    costumerID,
     updateFinished,
     updateCarID,
     updatePricePerHour,
@@ -50,7 +50,7 @@ const Pericia = () => {
   };
 
   const handleSavePericia = async () => {
-    if (Object.keys(car).length === 0 || Object.keys(costumer).length === 0) {
+    if (Object.keys(car).length === 0 || costumerID.length === 0) {
       alert("Preencha todos os campos!");
       return;
     }
@@ -68,7 +68,7 @@ const Pericia = () => {
           cardID: insertCarRes.id,
           pricePerHour,
           finished,
-          costumerID: costumer.id,
+          costumerID: costumerID,
           totalHours: periciaContext.totalHours,
           totalPrice: periciaContext.totalPrice,
           carParts: periciaContext.carParts,
@@ -104,30 +104,7 @@ const Pericia = () => {
         <Box component="form" noValidate sx={{ mt: 3, mb: 5 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={costumers.map((costumer) => ({
-                  label: costumer.name,
-                  id: costumer.id,
-                }))}
-                onChange={(e, value) => {
-                  if (!value) return;
-                  setCostumer({ name: value.label, id: value.id });
-                }}
-                isOptionEqualToValue={(option, value) => option.id === value.id}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label="Cliente"
-                    required
-                    fullWidth
-                    id="costumerName"
-                    autoFocus
-                    variant="standard"
-                  />
-                )}
-              />
+              <CostumerAutocomplete costumers={costumers} />
             </Grid>
 
             <Grid item xs={12} sm={4}>
