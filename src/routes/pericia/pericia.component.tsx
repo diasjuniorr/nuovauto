@@ -21,11 +21,17 @@ const Pericia = () => {
   const [costumer, setCostumer] = useState<Costumer>();
   const [car, setCar] = useState<Car>({} as Car);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { date, cardID, updateCardID } = periciaContext;
+  const { date, cardID, pricePerHour, updateCardID, updatePricePerHour } =
+    periciaContext;
 
   const handleCarChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCar({ ...car, [name]: value });
+  };
+
+  const handlePricePerHourChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    updatePricePerHour(Number(value));
   };
 
   const handleSaveCar = async () => {
@@ -123,7 +129,19 @@ const Pericia = () => {
                 onChange={handleCarChange}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                name="pricePerHour"
+                label="CHF/Ora"
+                id="pricePerHour"
+                variant="standard"
+                value={pricePerHour}
+                onChange={handlePricePerHourChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <TextField
                 required
                 fullWidth
