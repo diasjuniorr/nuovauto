@@ -27,7 +27,6 @@ const Pericia = () => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const {
     date,
-    cardID,
     pricePerHour,
     finished,
     updateFinished,
@@ -51,6 +50,11 @@ const Pericia = () => {
   };
 
   const handleSavePericia = async () => {
+    if (Object.keys(car).length === 0 || Object.keys(costumer).length === 0) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
     try {
       const insertCarRes = await insertCar({
         ...car,
