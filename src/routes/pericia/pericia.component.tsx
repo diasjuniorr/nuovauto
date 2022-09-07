@@ -1,6 +1,9 @@
 import PericiaImg from "../../components/pericia/pericia-img/pericia-img.component";
 import PDFGenerator from "../../components/pdf/pdf.component";
 import { Box, Container, Grid, TextField, Typography } from "@mui/material";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
 import PericiaTable from "../../components/table/table.component";
@@ -21,8 +24,15 @@ const Pericia = () => {
   const [costumer, setCostumer] = useState<Costumer>();
   const [car, setCar] = useState<Car>({} as Car);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { date, cardID, pricePerHour, updateCardID, updatePricePerHour } =
-    periciaContext;
+  const {
+    date,
+    cardID,
+    pricePerHour,
+    finished,
+    updateFinished,
+    updateCardID,
+    updatePricePerHour,
+  } = periciaContext;
 
   const handleCarChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,6 +55,11 @@ const Pericia = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleFinishedChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    updateFinished(checked);
   };
 
   useEffect(() => {
@@ -167,6 +182,14 @@ const Pericia = () => {
           Pericia
         </Typography>
         <PericiaImg />
+        <FormGroup sx={{ width: "100%", mt: 3 }}>
+          <FormControlLabel
+            control={
+              <Checkbox onChange={handleFinishedChange} checked={finished} />
+            }
+            label="Liquidado"
+          />
+        </FormGroup>
         <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 3 }}>
           Tabela
         </Typography>

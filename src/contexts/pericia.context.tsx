@@ -14,6 +14,8 @@ export interface PericiaContextProps {
   totalPrice: number;
   pricePerHour: number;
   date: Date;
+  finished: boolean;
+  updateFinished: (finished: boolean) => void;
   updatePricePerHour: (pricePerHour: number) => void;
   updateCarPart: (carPart: CarPart) => void;
   updateCardID: (cardID: string) => void;
@@ -27,6 +29,8 @@ export const PericiaContext = createContext<PericiaContextProps>({
   totalPrice: 0,
   pricePerHour: 70,
   date: new Date(),
+  finished: false,
+  updateFinished: (finished: boolean) => {},
   updatePricePerHour: (pricePerHour: number) => {},
   updateCardID: (cardID: string) => {},
   updateCarPart: (carPart: CarPart) => {},
@@ -55,6 +59,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   const [cardID, setCardID] = useState("");
   const [pricePerHour, setPricePerHour] = useState(70);
   const [date, setDate] = useState(new Date());
+  const [finished, setFinished] = useState(false);
 
   const updateCarPart = (carPart: CarPart) => {
     setCarParts((prev) => {
@@ -87,6 +92,10 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     setPricePerHour(pricePerHour);
   };
 
+  const updateFinished = (finished: boolean) => {
+    setFinished(finished);
+  };
+
   return (
     <PericiaContext.Provider
       value={{
@@ -96,6 +105,8 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         totalPrice,
         pricePerHour,
         date,
+        finished,
+        updateFinished,
         updatePricePerHour,
         updateCardID,
         updateCarPart,
