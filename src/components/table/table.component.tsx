@@ -14,7 +14,7 @@ import {
 
 const PericiaTable = () => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { carParts, totalHours, totalPrice } = periciaContext;
+  const { carParts, totalHours, totalPrice, pricePerHour } = periciaContext;
 
   return (
     <TableContainer component={Paper}>
@@ -54,7 +54,7 @@ const PericiaTable = () => {
               <TableCell align="right">{carPart.isAluminum && "✓"}</TableCell>
               <TableCell align="right">{carPart.shouldPaint && "✓"}</TableCell>
               <TableCell align="right">{carPart.workingHours}</TableCell>
-              <TableCell align="right">{carPart.pricePerHour}</TableCell>
+              <TableCell align="right">{pricePerHour}</TableCell>
               <TableCell align="right">{`${carPart.price}`}</TableCell>
             </TableRow>
           ))}
