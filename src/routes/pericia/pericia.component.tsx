@@ -17,11 +17,12 @@ import {
   Costumer,
   Car,
   insertCar,
+  insertPericia,
 } from "../../utils/supabase/supabase.utils";
 
 const Pericia = () => {
   const [costumers, setCostumers] = useState<Costumer[]>([]);
-  const [costumer, setCostumer] = useState<Costumer>();
+  const [costumer, setCostumer] = useState<Costumer>({} as Costumer);
   const [car, setCar] = useState<Car>({} as Car);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const {
@@ -60,6 +61,24 @@ const Pericia = () => {
   const handleFinishedChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
     updateFinished(checked);
+  };
+
+  const handleSavePericia = async () => {
+    try {
+      const res = await insertPericia({
+        date,
+        cardID,
+        pricePerHour,
+        finished,
+        costumerID: costumer.id,
+        totalHours: periciaContext.totalHours,
+        totalPrice: periciaContext.totalPrice,
+        carParts: periciaContext.carParts,
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -195,7 +214,7 @@ const Pericia = () => {
         </Typography>
         <PericiaTable />
         <PDFGenerator />
-        <Button fullWidth variant="contained">
+        <Button fullWidth variant="contained" onClick={handleSavePericia}>
           Salvar Pericia
         </Button>
       </Box>
