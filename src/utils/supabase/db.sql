@@ -19,7 +19,7 @@ create policy "costumers are inserted by admin" on costumers for insert with che
 -- Create a table for cars
 CREATE TABLE cars (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  make text NOT NULL,
+  brand text NOT NULL,
   model text NOT NULL,
   plate text NOT NULL,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
