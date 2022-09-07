@@ -8,19 +8,23 @@ interface Props {
 }
 
 export interface PericiaContextProps {
+  cardID: string;
   carParts: CarPart[];
   totalHours: number;
   totalPrice: number;
   date: Date;
   updateCarPart: (carPart: CarPart) => void;
+  updateCardID: (cardID: string) => void;
   findCarPart: (name: string) => CarPart;
 }
 
 export const PericiaContext = createContext<PericiaContextProps>({
+  cardID: "",
   carParts: CAR_PARTS_LIST,
   totalHours: 0,
   totalPrice: 0,
   date: new Date(),
+  updateCardID: (cardID: string) => {},
   updateCarPart: (carPart: CarPart) => {},
   findCarPart: (name: string) => {
     return {
@@ -45,6 +49,8 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   const [carParts, setCarParts] = useState(CAR_PARTS_LIST);
   const [totalHours, setTotalHours] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [cardID, setCardID] = useState("");
+  const [date, setDate] = useState(new Date());
 
   const updateCarPart = (carPart: CarPart) => {
     setCarParts((prev) => {
@@ -69,15 +75,19 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     return carParts.find((cp) => cp.name === name) as CarPart;
   };
 
-  const date = new Date();
+  const updateCardID = (cardID: string) => {
+    setCardID(cardID);
+  };
 
   return (
     <PericiaContext.Provider
       value={{
+        cardID,
         carParts,
         totalHours,
         totalPrice,
         date,
+        updateCardID,
         updateCarPart,
         findCarPart,
       }}
