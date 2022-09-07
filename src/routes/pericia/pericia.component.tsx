@@ -64,10 +64,10 @@ const Pericia = () => {
   };
 
   const handleSavePericia = async () => {
-    if (!validateFields(car, costumerID)) {
-      alert("Preencha todos os campos!");
-      return;
-    }
+    // if (!validateFields(car, costumerID)) {
+    //   alert("Preencha todos os campos!");
+    //   return;
+    // }
 
     try {
       const insertCarRes = await insertCar({
