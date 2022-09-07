@@ -45,19 +45,6 @@ const Pericia = () => {
     updatePricePerHour(Number(value));
   };
 
-  const handleSaveCar = async () => {
-    if (!car) return;
-    try {
-      const res = await insertCar({
-        ...car,
-      });
-
-      res && updateCardID(res.id);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const handleFinishedChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
     updateFinished(checked);
@@ -65,17 +52,25 @@ const Pericia = () => {
 
   const handleSavePericia = async () => {
     try {
-      const res = await insertPericia({
-        date,
-        cardID,
-        pricePerHour,
-        finished,
-        costumerID: costumer.id,
-        totalHours: periciaContext.totalHours,
-        totalPrice: periciaContext.totalPrice,
-        carParts: periciaContext.carParts,
+      const insertCarRes = await insertCar({
+        ...car,
       });
-      console.log(res);
+
+      if (insertCarRes) {
+        updateCardID(insertCarRes.id);
+
+        const insertPericiaRes = await insertPericia({
+          date,
+          cardID: insertCarRes.id,
+          pricePerHour,
+          finished,
+          costumerID: costumer.id,
+          totalHours: periciaContext.totalHours,
+          totalPrice: periciaContext.totalPrice,
+          carParts: periciaContext.carParts,
+        });
+        console.log(insertPericiaRes);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -188,12 +183,7 @@ const Pericia = () => {
               />
             </Grid>
           </Grid>
-          <Button
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            onClick={handleSaveCar}
-          >
+          <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Adicionar
           </Button>
         </Box>
