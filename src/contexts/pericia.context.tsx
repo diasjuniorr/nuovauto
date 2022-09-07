@@ -12,7 +12,9 @@ export interface PericiaContextProps {
   carParts: CarPart[];
   totalHours: number;
   totalPrice: number;
+  pricePerHour: number;
   date: Date;
+  updatePricePerHour: (pricePerHour: number) => void;
   updateCarPart: (carPart: CarPart) => void;
   updateCardID: (cardID: string) => void;
   findCarPart: (name: string) => CarPart;
@@ -23,7 +25,9 @@ export const PericiaContext = createContext<PericiaContextProps>({
   carParts: CAR_PARTS_LIST,
   totalHours: 0,
   totalPrice: 0,
+  pricePerHour: 70,
   date: new Date(),
+  updatePricePerHour: (pricePerHour: number) => {},
   updateCardID: (cardID: string) => {},
   updateCarPart: (carPart: CarPart) => {},
   findCarPart: (name: string) => {
@@ -38,7 +42,6 @@ export const PericiaContext = createContext<PericiaContextProps>({
       shouldReplace: false,
       shouldGlue: false,
       note: "",
-      pricePerHour: 70,
       workingHours: 0,
       price: 0,
     };
@@ -50,6 +53,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   const [totalHours, setTotalHours] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [cardID, setCardID] = useState("");
+  const [pricePerHour, setPricePerHour] = useState(70);
   const [date, setDate] = useState(new Date());
 
   const updateCarPart = (carPart: CarPart) => {
@@ -61,7 +65,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         smallSmashWorkingHours(carPart);
       newCarParts[index].smashWorkingHours = smashWorkingHours(carPart);
       newCarParts[index].workingHours = workingHours(carPart);
-      newCarParts[index].price = price(carPart);
+      newCarParts[index].price = price(carPart, pricePerHour);
       newCarParts[index].note = generateNotes(carPart);
 
       setTotalHours(getTotalHours(newCarParts));
@@ -79,6 +83,10 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     setCardID(cardID);
   };
 
+  const updatePricePerHour = (pricePerHour: number) => {
+    setPricePerHour(pricePerHour);
+  };
+
   return (
     <PericiaContext.Provider
       value={{
@@ -86,7 +94,9 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         carParts,
         totalHours,
         totalPrice,
+        pricePerHour,
         date,
+        updatePricePerHour,
         updateCardID,
         updateCarPart,
         findCarPart,
@@ -142,8 +152,8 @@ const workingHours = (carPart: CarPart) => {
   return totalHours;
 };
 
-const price = (carPart: CarPart) => {
-  return (carPart.pricePerHour * carPart.workingHours) / 10;
+const price = (carPart: CarPart, pricePerHour: number) => {
+  return (pricePerHour * carPart.workingHours) / 10;
 };
 
 const generateNotes = (carPart: CarPart) => {
