@@ -9,24 +9,36 @@ import {
   PericiaContext,
   PericiaContextProps,
 } from "../../contexts/pericia.context";
-import { getCostumers, Costumer } from "../../utils/supabase/supabase.utils";
-
-interface Car {
-  plate: string;
-  brand: string;
-  model: string;
-}
+import {
+  getCostumers,
+  Costumer,
+  Car,
+  insertCar,
+} from "../../utils/supabase/supabase.utils";
 
 const Pericia = () => {
   const [costumers, setCostumers] = useState<Costumer[]>([]);
   const [costumer, setCostumer] = useState<Costumer>();
   const [car, setCar] = useState<Car>({} as Car);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { date } = periciaContext;
+  const { date, cardID, updateCardID } = periciaContext;
 
   const handleCarChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCar({ ...car, [name]: value });
+  };
+
+  const handleSaveCar = async () => {
+    if (!car) return;
+    try {
+      const res = await insertCar({
+        ...car,
+      });
+
+      res && updateCardID(res.id);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -125,10 +137,10 @@ const Pericia = () => {
             </Grid>
           </Grid>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            onClick={handleSaveCar}
           >
             Adicionar
           </Button>
