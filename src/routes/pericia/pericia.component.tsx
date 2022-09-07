@@ -21,19 +21,14 @@ import {
 import CostumerAutocomplete from "../../components/pericia/costumer-autocomplete/costumer-autocomplete.component";
 
 const validateFields = (car: Car, costumerID: string) => {
-  return Object.values(car).every((x) => x.length > 0) && costumerID.length > 0;
-};
-
-const carInitialState = {
-  id: "",
-  brand: "",
-  model: "",
-  plate: "",
+  if (car.brand && car.model && car.plate && costumerID) {
+    return true;
+  }
 };
 
 const Pericia = () => {
   const [costumers, setCostumers] = useState<Costumer[]>([]);
-  const [car, setCar] = useState<Car>(carInitialState);
+  const [car, setCar] = useState<Car>({} as Car);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const {
     date,
@@ -64,10 +59,10 @@ const Pericia = () => {
   };
 
   const handleSavePericia = async () => {
-    // if (!validateFields(car, costumerID)) {
-    //   alert("Preencha todos os campos!");
-    //   return;
-    // }
+    if (!validateFields(car, costumerID)) {
+      alert("Preencha todos os campos!");
+      return;
+    }
 
     try {
       const insertCarRes = await insertCar({
@@ -76,7 +71,6 @@ const Pericia = () => {
 
       if (insertCarRes) {
         updateCarID(insertCarRes.id);
-
         const insertPericiaRes = await insertPericia({
           date,
           cardID: insertCarRes.id,
