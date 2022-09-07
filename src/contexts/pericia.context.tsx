@@ -199,7 +199,7 @@ const generateNotes = (carPart: CarPart) => {
     smashNotes = "max";
   } else {
     smallSmashNotes = smallSmash ? String(smallSmash) : "";
-    smashNotes = smash ? `>${String(smash)}` : "";
+    smashNotes = smash ? `${String(smash)}>` : "";
   }
 
   if (shouldPaint) {
