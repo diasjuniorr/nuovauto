@@ -106,7 +106,6 @@ const Pericia = () => {
             <Grid item xs={12} sm={12}>
               <CostumerAutocomplete costumers={costumers} />
             </Grid>
-
             <Grid item xs={12} sm={4}>
               <TextField
                 required
@@ -165,9 +164,6 @@ const Pericia = () => {
               />
             </Grid>
           </Grid>
-          <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Adicionar
-          </Button>
         </Box>
         <Typography component="h1" variant="h5">
           Pericia
