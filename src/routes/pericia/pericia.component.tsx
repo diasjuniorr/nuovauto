@@ -5,6 +5,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
+import LoadingButton from "@mui/lab/LoadingButton";
 import PericiaTable from "../../components/table/table.component";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import {
@@ -28,6 +29,7 @@ const validateFields = (car: Car, costumerID: string) => {
 
 const Pericia = () => {
   const [costumers, setCostumers] = useState<Costumer[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [car, setCar] = useState<Car>({} as Car);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const {
@@ -64,6 +66,7 @@ const Pericia = () => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const insertCarRes = await insertCar({
         ...car,
@@ -82,7 +85,9 @@ const Pericia = () => {
           carParts: carParts,
         });
       }
+      setIsLoading(false);
     } catch (err) {
+      setIsLoading(false);
       console.log(err);
     }
   };
@@ -111,7 +116,10 @@ const Pericia = () => {
         <Box component="form" noValidate sx={{ mt: 3, mb: 5 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
-              <CostumerAutocomplete costumers={costumers} />
+              <CostumerAutocomplete
+                costumers={costumers}
+                isLoading={isLoading}
+              />
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
@@ -122,6 +130,7 @@ const Pericia = () => {
                 name="plate"
                 variant="standard"
                 onChange={handleCarChange}
+                disabled={isLoading}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -133,6 +142,7 @@ const Pericia = () => {
                 name="brand"
                 variant="standard"
                 onChange={handleCarChange}
+                disabled={isLoading}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -144,6 +154,7 @@ const Pericia = () => {
                 id="model"
                 variant="standard"
                 onChange={handleCarChange}
+                disabled={isLoading}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -156,6 +167,7 @@ const Pericia = () => {
                 variant="standard"
                 value={pricePerHour}
                 onChange={handlePricePerHourChange}
+                disabled={isLoading}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -179,7 +191,11 @@ const Pericia = () => {
         <FormGroup sx={{ width: "100%", mt: 3 }}>
           <FormControlLabel
             control={
-              <Checkbox onChange={handleFinishedChange} checked={finished} />
+              <Checkbox
+                onChange={handleFinishedChange}
+                checked={finished}
+                disabled={isLoading}
+              />
             }
             label="Liquidado"
           />
@@ -188,10 +204,16 @@ const Pericia = () => {
           Tabela
         </Typography>
         <PericiaTable />
-        <PDFGenerator />
-        <Button fullWidth variant="contained" onClick={handleSavePericia}>
+        <PDFGenerator isLoading={isLoading} />
+        <LoadingButton
+          fullWidth
+          variant="contained"
+          onClick={handleSavePericia}
+          loading={isLoading}
+          disabled={isLoading}
+        >
           Salvar Pericia
-        </Button>
+        </LoadingButton>
       </Box>
     </Container>
   );

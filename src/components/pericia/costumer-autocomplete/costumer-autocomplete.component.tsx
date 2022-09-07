@@ -9,9 +9,10 @@ import { Costumer } from "../../../utils/supabase/supabase.utils";
 
 interface Props {
   costumers: Costumer[];
+  isLoading: boolean;
 }
 
-const CostumerAutocomplete: React.FC<Props> = ({ costumers }) => {
+const CostumerAutocomplete: React.FC<Props> = ({ costumers, isLoading }) => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const { updateCostumerID } = periciaContext;
 
@@ -27,6 +28,7 @@ const CostumerAutocomplete: React.FC<Props> = ({ costumers }) => {
         if (!value) return;
         updateCostumerID(value.id);
       }}
+      disabled={isLoading}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       renderInput={(params) => (
         <TextField
