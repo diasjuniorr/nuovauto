@@ -4,7 +4,6 @@ import { Box, Container, Grid, TextField, Typography } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PericiaTable from "../../components/table/table.component";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
@@ -20,6 +19,8 @@ import {
   insertPericia,
 } from "../../utils/supabase/supabase.utils";
 import CostumerAutocomplete from "../../components/pericia/costumer-autocomplete/costumer-autocomplete.component";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const validateFields = (car: Car, costumerID: string) => {
   if (car.brand && car.model && car.plate && costumerID) {
@@ -62,7 +63,7 @@ const Pericia = () => {
 
   const handleSavePericia = async () => {
     if (!validateFields(car, costumerID)) {
-      alert("Preencha todos os campos!");
+      toast.error("Preencha os campos obrigatórios!");
       return;
     }
 
@@ -88,6 +89,7 @@ const Pericia = () => {
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
+      toast.error("Erro ao salvar pericia!");
       console.log(err);
     }
   };
@@ -215,6 +217,7 @@ const Pericia = () => {
           Salvar Pericia
         </LoadingButton>
       </Box>
+      <ToastContainer />
     </Container>
   );
 };
