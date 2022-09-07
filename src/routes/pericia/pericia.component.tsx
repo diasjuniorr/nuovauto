@@ -111,6 +111,7 @@ const Pericia = () => {
                   if (!value) return;
                   setCostumer({ name: value.label, id: value.id });
                 }}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
                 renderInput={(params) => (
                   <TextField
                     {...params}
