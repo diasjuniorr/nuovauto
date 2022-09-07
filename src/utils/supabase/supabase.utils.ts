@@ -20,3 +20,23 @@ export const getCostumers = async () => {
 
   return data as Costumer[];
 };
+
+export interface Car {
+  id: string;
+  plate: string;
+  brand: string;
+  model: string;
+}
+
+export const insertCar = async (car: Car) => {
+  try {
+    const { data, error } = await supabase.from<Car>("cars").insert(car);
+    if (error) {
+      throw error;
+    }
+
+    return data[0];
+  } catch (err) {
+    console.log(err);
+  }
+};
