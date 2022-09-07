@@ -29,6 +29,9 @@ const Pericia = () => {
     pricePerHour,
     finished,
     costumerID,
+    totalHours,
+    totalPrice,
+    carParts,
     updateFinished,
     updateCarID,
     updatePricePerHour,
@@ -69,9 +72,9 @@ const Pericia = () => {
           pricePerHour,
           finished,
           costumerID: costumerID,
-          totalHours: periciaContext.totalHours,
-          totalPrice: periciaContext.totalPrice,
-          carParts: periciaContext.carParts,
+          totalHours: totalHours,
+          totalPrice: totalPrice,
+          carParts: carParts,
         });
         console.log(insertPericiaRes);
       }
