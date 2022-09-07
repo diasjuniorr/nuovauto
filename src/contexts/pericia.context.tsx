@@ -18,7 +18,7 @@ export interface PericiaContextProps {
   updateFinished: (finished: boolean) => void;
   updatePricePerHour: (pricePerHour: number) => void;
   updateCarPart: (carPart: CarPart) => void;
-  updateCardID: (cardID: string) => void;
+  updateCarID: (cardID: string) => void;
   findCarPart: (name: string) => CarPart;
 }
 
@@ -32,7 +32,7 @@ export const PericiaContext = createContext<PericiaContextProps>({
   finished: false,
   updateFinished: (finished: boolean) => {},
   updatePricePerHour: (pricePerHour: number) => {},
-  updateCardID: (cardID: string) => {},
+  updateCarID: (cardID: string) => {},
   updateCarPart: (carPart: CarPart) => {},
   findCarPart: (name: string) => {
     return {
@@ -84,7 +84,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     return carParts.find((cp) => cp.name === name) as CarPart;
   };
 
-  const updateCardID = (cardID: string) => {
+  const updateCarID = (cardID: string) => {
     setCardID(cardID);
   };
 
@@ -108,7 +108,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         finished,
         updateFinished,
         updatePricePerHour,
-        updateCardID,
+        updateCarID,
         updateCarPart,
         findCarPart,
       }}

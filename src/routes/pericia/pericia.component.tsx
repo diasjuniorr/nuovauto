@@ -31,7 +31,7 @@ const Pericia = () => {
     pricePerHour,
     finished,
     updateFinished,
-    updateCardID,
+    updateCarID,
     updatePricePerHour,
   } = periciaContext;
 
@@ -57,7 +57,7 @@ const Pericia = () => {
       });
 
       if (insertCarRes) {
-        updateCardID(insertCarRes.id);
+        updateCarID(insertCarRes.id);
 
         const insertPericiaRes = await insertPericia({
           date,
