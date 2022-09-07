@@ -10,8 +10,8 @@ const PericiaImg = () => {
     PARAFANGO_PD,
     COFANO,
     TETTO,
-    PIAZONE_D,
-    PIAZONE_S,
+    PIANTONE_D,
+    PIANTONE_S,
     SPORTELLO_S,
     SPORTELLO_I,
     PARAFANGO_AS,
@@ -28,8 +28,8 @@ const PericiaImg = () => {
       <Dialog top={100} left={900} partName={PARAFANGO_PD} />
       <Dialog top={370} left={270} partName={COFANO} />
       <Dialog top={370} left={670} partName={TETTO} />
-      <Dialog top={260} left={780} partName={PIAZONE_D} />
-      <Dialog top={480} left={780} partName={PIAZONE_S} />
+      <Dialog top={260} left={780} partName={PIANTONE_D} />
+      <Dialog top={480} left={780} partName={PIANTONE_S} />
       <Dialog top={370} left={940} partName={SPORTELLO_S} />
       <Dialog top={370} left={1067} partName={SPORTELLO_I} />
       <Dialog top={650} left={340} partName={PARAFANGO_AS} />
