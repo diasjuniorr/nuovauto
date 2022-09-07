@@ -11,11 +11,23 @@ import {
 } from "../../contexts/pericia.context";
 import { getCostumers, Costumer } from "../../utils/supabase/supabase.utils";
 
+interface Car {
+  plate: string;
+  brand: string;
+  model: string;
+}
+
 const Pericia = () => {
   const [costumers, setCostumers] = useState<Costumer[]>([]);
   const [costumer, setCostumer] = useState<Costumer>();
+  const [car, setCar] = useState<Car>({} as Car);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const { date } = periciaContext;
+
+  const handleCarChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCar({ ...car, [name]: value });
+  };
 
   useEffect(() => {
     const fetchCostumers = async () => {
@@ -72,8 +84,9 @@ const Pericia = () => {
                 fullWidth
                 id="placa"
                 label="Placa"
-                name="placa"
+                name="plate"
                 variant="standard"
+                onChange={handleCarChange}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -84,6 +97,7 @@ const Pericia = () => {
                 label="Marca"
                 name="brand"
                 variant="standard"
+                onChange={handleCarChange}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -94,6 +108,7 @@ const Pericia = () => {
                 label="Modelo"
                 id="model"
                 variant="standard"
+                onChange={handleCarChange}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
