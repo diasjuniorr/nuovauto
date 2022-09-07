@@ -87,7 +87,6 @@ const Pericia = () => {
           totalPrice: totalPrice,
           carParts: carParts,
         });
-        console.log(insertPericiaRes);
       }
     } catch (err) {
       console.log(err);
