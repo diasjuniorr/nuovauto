@@ -9,7 +9,6 @@ export interface CarPart {
   smash: number | string;
   smashWorkingHours: number;
   note: string;
-  pricePerHour: number;
   workingHours: number;
   price: number;
 }

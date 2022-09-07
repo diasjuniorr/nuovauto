@@ -29,7 +29,6 @@ export const CAR_PARTS_LIST: CarPart[] = Object.keys(CAR_PARTS).map((key) => {
     smash: "",
     smashWorkingHours: 0,
     note: "",
-    pricePerHour: 70,
     workingHours: 0,
     price: 0,
   };
