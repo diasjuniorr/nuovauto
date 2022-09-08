@@ -5,7 +5,7 @@ import {
   PericiaContext,
   PericiaContextProps,
 } from "../../../contexts/pericia.context";
-import { Costumer } from "../../../utils/supabase/supabase.utils";
+import { Costumer } from "../../../shared/interfaces/pericia.interface";
 
 interface Props {
   costumers: Costumer[];
@@ -14,7 +14,7 @@ interface Props {
 
 const CostumerAutocomplete: React.FC<Props> = ({ costumers, isLoading }) => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { updateCostumerID } = periciaContext;
+  const { updateCostumer } = periciaContext;
 
   return (
     <Autocomplete
@@ -26,7 +26,7 @@ const CostumerAutocomplete: React.FC<Props> = ({ costumers, isLoading }) => {
       }))}
       onChange={(e, value) => {
         if (!value) return;
-        updateCostumerID(value.id);
+        updateCostumer({ id: value.id, name: value.label });
       }}
       disabled={isLoading}
       isOptionEqualToValue={(option, value) => option.id === value.id}

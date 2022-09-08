@@ -2,41 +2,54 @@ import { createContext, useState } from "react";
 import { CarPart } from "../shared/interfaces/car-part.interface";
 import { CAR_PARTS_LIST } from "../shared/constants/car-parts.constants";
 import { SMASH_WORKING_HOURS } from "../shared/constants/car-parts.constants";
+import { Car, Costumer } from "../shared/interfaces/pericia.interface";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export interface PericiaContextProps {
-  costumerID: string;
-  carID: string;
+  costumer: Costumer;
+  car: Car;
   carParts: CarPart[];
   totalHours: number;
   totalPrice: number;
   pricePerHour: number;
   date: Date;
   finished: boolean;
-  updateCostumerID: (costumerID: string) => void;
+  updateCostumer: (costumer: Costumer) => void;
   updateFinished: (finished: boolean) => void;
   updatePricePerHour: (pricePerHour: number) => void;
   updateCarPart: (carPart: CarPart) => void;
-  updateCarID: (cardID: string) => void;
+  updateCar: (car: Car) => void;
   findCarPart: (name: string) => CarPart;
 }
 
+const costumerInisitalState: Costumer = {
+  id: "",
+  name: "",
+};
+
+const carInitialState: Car = {
+  id: "",
+  brand: "",
+  model: "",
+  plate: "",
+};
+
 export const PericiaContext = createContext<PericiaContextProps>({
-  costumerID: "",
-  carID: "",
+  costumer: costumerInisitalState,
+  car: carInitialState,
   carParts: CAR_PARTS_LIST,
   totalHours: 0,
   totalPrice: 0,
   pricePerHour: 70,
   date: new Date(),
   finished: false,
-  updateCostumerID: (costumerID: string) => {},
+  updateCostumer: (costumer: Costumer) => {},
   updateFinished: (finished: boolean) => {},
   updatePricePerHour: (pricePerHour: number) => {},
-  updateCarID: (cardID: string) => {},
+  updateCar: (car: Car) => {},
   updateCarPart: (carPart: CarPart) => {},
   findCarPart: (name: string) => {
     return {
@@ -60,8 +73,8 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   const [carParts, setCarParts] = useState(CAR_PARTS_LIST);
   const [totalHours, setTotalHours] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [costumerID, setCostumerID] = useState("");
-  const [carID, setCarID] = useState("");
+  const [costumer, setCostumer] = useState({} as Costumer);
+  const [car, setCar] = useState({} as Car);
   const [pricePerHour, setPricePerHour] = useState(70);
   const [date, setDate] = useState(new Date());
   const [finished, setFinished] = useState(false);
@@ -89,8 +102,8 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     return carParts.find((cp) => cp.name === name) as CarPart;
   };
 
-  const updateCarID = (cardID: string) => {
-    setCarID(cardID);
+  const updateCar = (car: Car) => {
+    setCar(car);
   };
 
   const updatePricePerHour = (pricePerHour: number) => {
@@ -101,25 +114,25 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     setFinished(finished);
   };
 
-  const updateCostumerID = (costumerID: string) => {
-    setCostumerID(costumerID);
+  const updateCostumer = (costumer: Costumer) => {
+    setCostumer(costumer);
   };
 
   return (
     <PericiaContext.Provider
       value={{
-        costumerID,
-        carID,
+        costumer,
+        car,
         carParts,
         totalHours,
         totalPrice,
         pricePerHour,
         date,
         finished,
-        updateCostumerID,
+        updateCostumer,
         updateFinished,
         updatePricePerHour,
-        updateCarID,
+        updateCar,
         updateCarPart,
         findCarPart,
       }}

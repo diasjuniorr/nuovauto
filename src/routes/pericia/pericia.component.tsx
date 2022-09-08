@@ -13,17 +13,16 @@ import {
 } from "../../contexts/pericia.context";
 import {
   getCostumers,
-  Costumer,
-  Car,
   insertCar,
   insertPericia,
 } from "../../utils/supabase/supabase.utils";
 import CostumerAutocomplete from "../../components/pericia/costumer-autocomplete/costumer-autocomplete.component";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Car, Costumer } from "../../shared/interfaces/pericia.interface";
 
-const validateFields = (car: Car, costumerID: string) => {
-  if (car.brand && car.model && car.plate && costumerID) {
+const validateFields = (car: Car, costumer: Costumer) => {
+  if (car.brand && car.model && car.plate && costumer.id) {
     return true;
   }
 };
@@ -37,12 +36,12 @@ const Pericia = () => {
     date,
     pricePerHour,
     finished,
-    costumerID,
+    costumer,
     totalHours,
     totalPrice,
     carParts,
     updateFinished,
-    updateCarID,
+    updateCar,
     updatePricePerHour,
   } = periciaContext;
 
@@ -62,7 +61,7 @@ const Pericia = () => {
   };
 
   const handleSavePericia = async () => {
-    if (!validateFields(car, costumerID)) {
+    if (!validateFields(car, costumer)) {
       toast.error("Preencha os campos obrigatórios!");
       return;
     }
@@ -74,13 +73,13 @@ const Pericia = () => {
       });
 
       if (insertCarRes) {
-        updateCarID(insertCarRes.id);
+        updateCar(insertCarRes);
         const insertPericiaRes = await insertPericia({
           date,
           cardID: insertCarRes.id,
           pricePerHour,
           finished,
-          costumerID: costumerID,
+          costumerID: costumer.id,
           totalHours: totalHours,
           totalPrice: totalPrice,
           carParts: carParts,

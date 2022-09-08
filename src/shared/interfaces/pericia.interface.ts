@@ -10,3 +10,15 @@ export interface Pericia {
   date: Date;
   finished: boolean;
 }
+
+export interface Costumer {
+  id: string;
+  name: string;
+}
+
+export interface Car {
+  id: string;
+  plate: string;
+  brand: string;
+  model: string;
+}
