@@ -40,10 +40,31 @@ export const insertPericia = async (pericia: Pericia) => {
 
   try {
     const { data, error } = await supabase
-      .from<Pericia>("pericias")
+      .from("pericias")
       .insert(periciaToInsert);
     if (error) {
       throw error;
+    }
+
+    return data[0].id;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+interface IPericia {
+  id: string;
+}
+
+export const getPericiaById = async (id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from<IPericia>("pericias")
+      .select("*")
+      .eq("id", id);
+    if (error) {
+      console.log(error);
+      return null;
     }
 
     return data[0];
