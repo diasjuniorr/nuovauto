@@ -87,6 +87,7 @@ const Pericia = () => {
         });
       }
       setIsLoading(false);
+      toast.success("Pericia salva com sucesso!");
     } catch (err) {
       setIsLoading(false);
       toast.error("Erro ao salvar pericia!");
