@@ -108,6 +108,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
 
   const updatePricePerHour = (pricePerHour: number) => {
     setPricePerHour(pricePerHour);
+    updatePartsPrice(pricePerHour);
   };
 
   const updateFinished = (finished: boolean) => {
@@ -129,9 +130,8 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    updatePartsPrice(pricePerHour);
     setTotalPrice(getTotalPrice(carParts));
-  }, [pricePerHour, carParts]);
+  }, [carParts]);
 
   return (
     <PericiaContext.Provider
