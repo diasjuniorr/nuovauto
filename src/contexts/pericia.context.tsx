@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { CarPart } from "../shared/interfaces/car-part.interface";
 import { CAR_PARTS_LIST } from "../shared/constants/car-parts.constants";
 import { SMASH_WORKING_HOURS } from "../shared/constants/car-parts.constants";
@@ -117,6 +117,21 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   const updateCostumer = (costumer: Costumer) => {
     setCostumer(costumer);
   };
+
+  const updatePartsPrice = (newPrice: number) => {
+    setCarParts((prev) => {
+      const newCarParts = prev.map((cp) => {
+        cp.price = price(cp, newPrice);
+        return cp;
+      });
+      return newCarParts;
+    });
+  };
+
+  useEffect(() => {
+    updatePartsPrice(pricePerHour);
+    setTotalPrice(getTotalPrice(carParts));
+  }, [pricePerHour, carParts]);
 
   return (
     <PericiaContext.Provider
