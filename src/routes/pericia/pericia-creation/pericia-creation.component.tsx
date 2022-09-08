@@ -89,11 +89,9 @@ const PericiaCreation = () => {
           carParts: carParts,
         });
         setIsSaved(true);
-        navigate(`/pericia/${insertPericiaRes}`);
-        return toast.success("Pericia salva com sucesso!");
+        return navigate(`/pericia/${insertPericiaRes}`);
       }
       setIsLoading(false);
-      //redirect to pericia page
     } catch (err) {
       setIsLoading(false);
       toast.error("Erro ao salvar pericia!");
