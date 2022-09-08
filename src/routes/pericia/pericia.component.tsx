@@ -25,6 +25,7 @@ const validateFields = (car: Car, costumer: Costumer) => {
   if (car.brand && car.model && car.plate && costumer.id) {
     return true;
   }
+  return false;
 };
 
 const Pericia = () => {
@@ -205,7 +206,7 @@ const Pericia = () => {
           Tabela
         </Typography>
         <PericiaTable />
-        <PDFGenerator isLoading={isLoading} />
+        <PDFGenerator isReady={!validateFields(car, costumer)} />
         <LoadingButton
           fullWidth
           variant="contained"

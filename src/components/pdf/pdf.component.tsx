@@ -11,12 +11,14 @@ import { Button } from "@mui/material";
 const carroImg = require("../../assets/pericia.jpg");
 
 interface Props {
-  isLoading: boolean;
+  isReady: boolean;
 }
 
-const PDFGenerator: React.FC<Props> = ({ isLoading }) => {
+const PDFGenerator: React.FC<Props> = ({ isReady }) => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { carParts } = periciaContext;
+  const { carParts, costumer, car, date } = periciaContext;
+  const { name: CostumerName } = costumer;
+  const { brand, plate } = car;
 
   const canvas = document.getElementById("pdf-canvas") as HTMLCanvasElement;
 
@@ -24,35 +26,51 @@ const PDFGenerator: React.FC<Props> = ({ isLoading }) => {
     const img = new Image();
     img.src = carroImg;
     img.onload = () => {
-      context.drawImage(img, 0, 0, 1200, 800);
+      //set background color
+      context.fillStyle = "white";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      //draw image
+      context.drawImage(img, 0, 30, 1200, 800);
       context.font = "18px Arial";
       context.fillStyle = "blue";
 
+      //draw car part notes
       carParts.forEach((part) => {
         const { x, y } =
           CAR_PARTS_CANVAS_COORDINATES[
             part.name as keyof typeof CAR_PARTS_CANVAS_COORDINATES
           ];
-        context.fillText(part.note, x, y);
+        context.fillText(part.note, x, y + 30);
       });
+
+      //draw identification
+      context.font = "24px Arial";
+      context.fillStyle = "black";
+      context.fillText(`Cliente: ${CostumerName}`, 0, 30);
+      context.fillText(`Marca: ${brand}`, 380, 30);
+      context.fillText(`Placa: ${plate}`, 630, 30);
+      context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 880, 30);
     };
   };
 
   const handleGeneratePDF = () => {
     const doc = new jsPDF();
-    doc.addImage(canvas, "JPEG", 160, 120, 200, 120, "", "NONE", 90);
-    doc.save("pericia.pdf");
+    doc.addImage(canvas, "JPEG", 180, 150, 280, 140, "", "NONE", 90);
+    doc.save(
+      `${CostumerName}-${plate}-${date.toLocaleDateString("pt-br")}.pdf`
+    );
   };
 
   return (
     <>
-      <Canvas draw={draw} height={800} width={1200} />
+      <Canvas draw={draw} height={830} width={1200} />
       <Button
         fullWidth
         variant="contained"
         sx={{ mt: 5, mb: 1 }}
         onClick={handleGeneratePDF}
-        disabled={isLoading}
+        disabled={isReady}
       >
         Gerar PDF
       </Button>
