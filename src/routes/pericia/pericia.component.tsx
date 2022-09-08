@@ -32,6 +32,7 @@ const Pericia = () => {
   const [costumers, setCostumers] = useState<Costumer[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [car, setCar] = useState<Car>({} as Car);
+  const [isSaved, setIsSaved] = useState(false);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const {
     date,
@@ -87,6 +88,7 @@ const Pericia = () => {
         });
       }
       setIsLoading(false);
+      setIsSaved(true);
       toast.success("Pericia salva com sucesso!");
     } catch (err) {
       setIsLoading(false);
@@ -207,7 +209,7 @@ const Pericia = () => {
           Tabela
         </Typography>
         <PericiaTable />
-        <PDFGenerator isReady={!validateFields(car, costumer)} />
+        <PDFGenerator isReady={!isSaved} />
         <LoadingButton
           fullWidth
           variant="contained"
