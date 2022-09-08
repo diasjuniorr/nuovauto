@@ -205,6 +205,15 @@ const Pericia = () => {
             label="Liquidado"
           />
         </FormGroup>
+        <hr
+          style={{
+            height: "1px",
+            backgroundColor: "lightgray",
+            border: "none",
+            width: "100%",
+            marginTop: "32px",
+          }}
+        />
         <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 3 }}>
           Tabela
         </Typography>
