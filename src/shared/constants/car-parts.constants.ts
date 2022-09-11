@@ -1,20 +1,20 @@
 import { CarPart } from "../interfaces/car-part.interface";
 
 export const CAR_PARTS = {
-  PARAFANGO_AD: "Parafango-ad",
-  PORTA_AD: "Porta-ad",
-  PORTA_PD: "Porta-pd",
-  PARAFANGO_PD: "Parafango-pd",
+  PARAFANGO_AD: "Parafango_ad",
+  PORTA_AD: "Porta_ad",
+  PORTA_PD: "Porta_pd",
+  PARAFANGO_PD: "Parafango_pd",
   COFANO: "Cofano",
   TETTO: "Tetto",
-  PIANTONE_D: "Piantone-d",
-  PIANTONE_S: "Piantone-s",
-  SPORTELLO_S: "Sportello-s",
-  SPORTELLO_I: "Sportello-i",
-  PARAFANGO_AS: "Parafango-as",
-  PORTA_AS: "Porta-as",
-  PORTA_PS: "Porta-ps",
-  PARAFANGO_PS: "Parafango-ps",
+  PIANTONE_D: "Piantone_d",
+  PIANTONE_S: "Piantone_s",
+  SPORTELLO_S: "Sportello_s",
+  SPORTELLO_I: "Sportello_i",
+  PARAFANGO_AS: "Parafango_as",
+  PORTA_AS: "Porta_as",
+  PORTA_PS: "Porta_ps",
+  PARAFANGO_PS: "Parafango_ps",
 };
 
 export const CAR_PARTS_LIST: CarPart[] = Object.keys(CAR_PARTS).map((key) => {
@@ -35,20 +35,20 @@ export const CAR_PARTS_LIST: CarPart[] = Object.keys(CAR_PARTS).map((key) => {
 });
 
 export const CAR_PARTS_CANVAS_COORDINATES = {
-  "Parafango-ad": { x: 330, y: 155 },
-  "Porta-ad": { x: 510, y: 155 },
-  "Porta-pd": { x: 689, y: 155 },
-  "Parafango-pd": { x: 860, y: 155 },
+  Parafango_ad: { x: 330, y: 155 },
+  Porta_ad: { x: 510, y: 155 },
+  Porta_pd: { x: 689, y: 155 },
+  Parafango_pd: { x: 860, y: 155 },
   Cofano: { x: 220, y: 410 },
   Tetto: { x: 660, y: 410 },
-  "Piantone-d": { x: 800, y: 300 },
-  "Piantone-s": { x: 800, y: 505 },
-  "Sportello-s": { x: 960, y: 410 },
-  "Sportello-i": { x: 1070, y: 410 },
-  "Parafango-as": { x: 330, y: 665 },
-  "Porta-as": { x: 510, y: 655 },
-  "Porta-ps": { x: 689, y: 655 },
-  "Parafango-ps": { x: 860, y: 655 },
+  Piantone_d: { x: 800, y: 300 },
+  Piantone_s: { x: 800, y: 505 },
+  Sportello_s: { x: 960, y: 410 },
+  Sportello_i: { x: 1070, y: 410 },
+  Parafango_as: { x: 330, y: 665 },
+  Porta_as: { x: 510, y: 655 },
+  Porta_ps: { x: 689, y: 655 },
+  Parafango_ps: { x: 860, y: 655 },
 };
 
 export const SMASH_WORKING_HOURS = {

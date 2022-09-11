@@ -10,11 +10,7 @@ import { Button } from "@mui/material";
 
 const carroImg = require("../../assets/pericia.jpg");
 
-interface Props {
-  isReady: boolean;
-}
-
-const PDFGenerator: React.FC<Props> = ({ isReady }) => {
+const PDFGenerator: React.FC = () => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const { carParts, costumer, car, date } = periciaContext;
   const { name: CostumerName } = costumer;
@@ -70,7 +66,6 @@ const PDFGenerator: React.FC<Props> = ({ isReady }) => {
         variant="contained"
         sx={{ mt: 5, mb: 1 }}
         onClick={handleGeneratePDF}
-        disabled={isReady}
       >
         Gerar PDF
       </Button>

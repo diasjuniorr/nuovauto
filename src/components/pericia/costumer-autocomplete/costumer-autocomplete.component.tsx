@@ -14,12 +14,12 @@ interface Props {
 
 const CostumerAutocomplete: React.FC<Props> = ({ costumers, isLoading }) => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { updateCostumer } = periciaContext;
+  const { updateCostumer, costumer } = periciaContext;
 
   return (
     <Autocomplete
       disablePortal
-      id="combo-box-demo"
+      id="costumer-autocomplete"
       options={costumers.map((costumer) => ({
         label: costumer.name,
         id: costumer.id,
@@ -28,6 +28,7 @@ const CostumerAutocomplete: React.FC<Props> = ({ costumers, isLoading }) => {
         if (!value) return;
         updateCostumer({ id: value.id, name: value.label });
       }}
+      value={findCostumer(costumers, costumer)}
       disabled={isLoading}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       renderInput={(params) => (
@@ -43,6 +44,15 @@ const CostumerAutocomplete: React.FC<Props> = ({ costumers, isLoading }) => {
       )}
     />
   );
+};
+
+const findCostumer = (costumers: Costumer[], costumer: Costumer) => {
+  if (!costumer) return null;
+
+  const res = costumers.find((item) => item.id === costumer.id);
+  if (!res) return null;
+
+  return { label: res.name, id: res.id };
 };
 
 export default CostumerAutocomplete;

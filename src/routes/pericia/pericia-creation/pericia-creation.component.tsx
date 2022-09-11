@@ -34,7 +34,6 @@ const PericiaCreation = () => {
   const [costumers, setCostumers] = useState<Costumer[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [car, setCar] = useState<Car>({} as Car);
-  const [isSaved, setIsSaved] = useState(false);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const {
     date,
@@ -83,13 +82,12 @@ const PericiaCreation = () => {
           cardID: insertCarRes.id,
           pricePerHour,
           finished,
-          costumerID: costumer.id,
+          costumer,
           totalHours: totalHours,
           totalPrice: totalPrice,
           carParts: carParts,
         });
-        setIsSaved(true);
-        return navigate(`/pericia/${insertPericiaRes}`);
+        return navigate(`/pericia/${insertPericiaRes}?operation=creation`);
       }
       setIsLoading(false);
     } catch (err) {
@@ -220,7 +218,6 @@ const PericiaCreation = () => {
           Tabela
         </Typography>
         <PericiaTable />
-        <PDFGenerator isReady={!isSaved} />
         <LoadingButton
           fullWidth
           variant="contained"

@@ -52,15 +52,49 @@ export const insertPericia = async (pericia: Pericia) => {
   }
 };
 
-interface IPericia {
+interface PericiaByID {
   id: string;
+  id_car: string;
+  id_costumer: string;
+  price_per_working_hour: number;
+  date: Date;
+  finished: boolean;
+  cars: Car;
+  costumers: Costumer;
+  cofano: PericiaByIDCarPart;
+  tetto: PericiaByIDCarPart;
+  parafango_ad: PericiaByIDCarPart;
+  parafango_as: PericiaByIDCarPart;
+  parafango_pd: PericiaByIDCarPart;
+  parafango_ps: PericiaByIDCarPart;
+  piantone_d: PericiaByIDCarPart;
+  piantone_s: PericiaByIDCarPart;
+  porta_ad: PericiaByIDCarPart;
+  porta_as: PericiaByIDCarPart;
+  porta_pd: PericiaByIDCarPart;
+  porta_ps: PericiaByIDCarPart;
+  sportello_i: PericiaByIDCarPart;
+  sportello_s: PericiaByIDCarPart;
+}
+
+interface PericiaByIDCarPart {
+  isAluminum: boolean;
+  shouldPaint: boolean;
+  shouldReplace: boolean;
+  shouldGlue: boolean;
+  smallSmash: number | string;
+  smallSmashWorkingHours: number;
+  smash: number | string;
+  smashWorkingHours: number;
+  price: number;
+  note: "string";
 }
 
 export const getPericiaById = async (id: string) => {
   try {
     const { data, error } = await supabase
-      .from<IPericia>("pericias")
-      .select("*")
+      .from<PericiaByID>("pericias")
+      .select(getPericiaByIdSelect)
       .eq("id", id);
     if (error) {
       console.log(error);
@@ -72,3 +106,6 @@ export const getPericiaById = async (id: string) => {
     console.log(err);
   }
 };
+
+const getPericiaByIdSelect = `id,finished, price_per_working_hour, date, cofano, tetto, parafango_ad, parafango_as, parafango_pd, 
+  parafango_ps, piantone_d, piantone_s, porta_ad, porta_as, porta_pd, porta_ps, sportello_i, sportello_s, cars (id, brand, model, plate), costumers (id, name)`;

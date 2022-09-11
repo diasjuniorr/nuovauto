@@ -15,8 +15,7 @@ export interface CarPartsMap {
 }
 
 export const periciaToInsertObject = (pericia: Pericia) => {
-  const { cardID, costumerID, carParts, pricePerHour, date, finished } =
-    pericia;
+  const { cardID, costumer, carParts, pricePerHour, date, finished } = pericia;
 
   const carPartsMap = carParts
     .map((carPart) => {
@@ -54,23 +53,23 @@ export const periciaToInsertObject = (pericia: Pericia) => {
 
   return {
     id_car: cardID,
-    id_costumer: costumerID,
+    id_costumer: costumer?.id,
     price_per_working_hour: pricePerHour,
     finished,
     date,
     cofano: carPartsMap["Cofano"],
     tetto: carPartsMap["Tetto"],
-    parafango_ad: carPartsMap["Parafango-ad"],
-    porta_ad: carPartsMap["Porta-ad"],
-    porta_pd: carPartsMap["Porta-pd"],
-    parafango_pd: carPartsMap["Parafango-pd"],
-    piantone_d: carPartsMap["Piantone-d"],
-    piantone_s: carPartsMap["Piantone-s"],
-    sportello_s: carPartsMap["Sportello-s"],
-    sportello_i: carPartsMap["Sportello-s"],
-    parafango_as: carPartsMap["Parafango-as"],
-    porta_as: carPartsMap["Porta-as"],
-    porta_ps: carPartsMap["Porta-ps"],
-    parafango_ps: carPartsMap["Parafango-ps"],
+    parafango_ad: carPartsMap["Parafango_ad"],
+    porta_ad: carPartsMap["Porta_ad"],
+    porta_pd: carPartsMap["Porta_pd"],
+    parafango_pd: carPartsMap["Parafango_pd"],
+    piantone_d: carPartsMap["Piantone_d"],
+    piantone_s: carPartsMap["Piantone_s"],
+    sportello_s: carPartsMap["Sportello_s"],
+    sportello_i: carPartsMap["Sportello_i"],
+    parafango_as: carPartsMap["Parafango_as"],
+    porta_as: carPartsMap["Porta_as"],
+    porta_ps: carPartsMap["Porta_ps"],
+    parafango_ps: carPartsMap["Parafango_ps"],
   };
 };

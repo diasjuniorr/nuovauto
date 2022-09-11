@@ -6,7 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PericiaTable from "../../../components/table/table.component";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import {
   PericiaContext,
   PericiaContextProps,
@@ -34,8 +34,6 @@ const PericiaEditComponent = () => {
   const { periciaID } = useParams();
   const [costumers, setCostumers] = useState<Costumer[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [car, setCar] = useState<Car>({} as Car);
-  const [isSaved, setIsSaved] = useState(false);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const {
     date,
@@ -45,14 +43,19 @@ const PericiaEditComponent = () => {
     totalHours,
     totalPrice,
     carParts,
+    car,
+    updatePericia,
     updateFinished,
     updateCar,
     updatePricePerHour,
   } = periciaContext;
+  const { plate, model, brand } = car;
+
+  const calledOnce = useRef(false);
 
   const handleCarChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCar({ ...car, [name]: value });
+    updateCar({ ...car, [name]: value });
   };
 
   const handlePricePerHourChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -84,14 +87,13 @@ const PericiaEditComponent = () => {
           cardID: insertCarRes.id,
           pricePerHour,
           finished,
-          costumerID: costumer.id,
+          costumer: costumer,
           totalHours: totalHours,
           totalPrice: totalPrice,
           carParts: carParts,
         });
       }
       setIsLoading(false);
-      setIsSaved(true);
       toast.success("Pericia salva com sucesso!");
     } catch (err) {
       setIsLoading(false);
@@ -101,17 +103,72 @@ const PericiaEditComponent = () => {
   };
 
   useEffect(() => {
+    const capitalizeFirstLetter = (string: string) => {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+    //TODO put it in a function
     const fetchPericia = async () => {
-      const pericia = await getPericiaById(periciaID as string);
-      console.log("mostrando pericia", pericia);
+      const res = await getPericiaById(periciaID as string);
+      if (res) {
+        console.log("shwoind res", res);
+        const {
+          id,
+          id_car,
+          id_costumer,
+          finished,
+          price_per_working_hour,
+          date,
+          cars,
+          costumers,
+          ...rest
+        } = res;
+
+        const carParts = Object.entries(rest).map(([key, value]) => {
+          return {
+            name: capitalizeFirstLetter(key),
+            ...value,
+            workingHours: 0,
+          };
+        });
+
+        updatePericia({
+          id,
+          car: cars,
+          date: new Date(date),
+          pricePerHour: price_per_working_hour,
+          finished,
+          carParts,
+          costumer: costumers,
+        });
+      }
     };
 
+    //TODO put fetchCostumer in a context
     fetchPericia();
-    // const fetchCostumers = async () => {
-    //   const costumers = await getCostumers();
-    //   setCostumers(costumers);
-    // };
-    // fetchCostumers();
+    const fetchCostumers = async () => {
+      const costumers = await getCostumers();
+      setCostumers(costumers);
+    };
+    fetchCostumers();
+  }, []);
+
+  useEffect(() => {
+    if (calledOnce.current) {
+      return;
+    }
+    calledOnce.current = true;
+
+    const queryParams = new URLSearchParams(window.location.search);
+    const term = queryParams.get("operation");
+    if (term === "creation") {
+      toast.success("Pericia criada com sucesso!");
+      return;
+    }
+
+    if (term === "edit") {
+      toast.info("Pericia editada com sucesso!");
+      return;
+    }
   }, []);
 
   return (
@@ -125,7 +182,7 @@ const PericiaEditComponent = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Cadastro de Pericia
+          Edição de Pericia
         </Typography>
         <Box component="form" noValidate sx={{ mt: 3, mb: 5 }}>
           <Grid container spacing={2}>
@@ -144,6 +201,7 @@ const PericiaEditComponent = () => {
                 name="plate"
                 variant="standard"
                 onChange={handleCarChange}
+                value={plate || ""}
                 disabled={isLoading}
               />
             </Grid>
@@ -156,6 +214,7 @@ const PericiaEditComponent = () => {
                 name="brand"
                 variant="standard"
                 onChange={handleCarChange}
+                value={brand || ""}
                 disabled={isLoading}
               />
             </Grid>
@@ -168,6 +227,7 @@ const PericiaEditComponent = () => {
                 id="model"
                 variant="standard"
                 onChange={handleCarChange}
+                value={model || ""}
                 disabled={isLoading}
               />
             </Grid>
@@ -227,7 +287,7 @@ const PericiaEditComponent = () => {
           Tabela
         </Typography>
         <PericiaTable />
-        <PDFGenerator isReady={!isSaved} />
+        <PDFGenerator />
         <LoadingButton
           fullWidth
           variant="contained"
@@ -235,7 +295,7 @@ const PericiaEditComponent = () => {
           loading={isLoading}
           disabled={isLoading}
         >
-          Salvar Pericia
+          Atualizar Pericia
         </LoadingButton>
       </Box>
       <ToastContainer />
