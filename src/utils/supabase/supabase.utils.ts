@@ -109,3 +109,19 @@ export const getPericiaById = async (id: string) => {
 
 const getPericiaByIdSelect = `id,finished, price_per_working_hour, date, cofano, tetto, parafango_ad, parafango_as, parafango_pd, 
   parafango_ps, piantone_d, piantone_s, porta_ad, porta_as, porta_pd, porta_ps, sportello_i, sportello_s, cars (id, brand, model, plate), costumers (id, name)`;
+
+export const createCostumer = async (costumer: Costumer) => {
+  try {
+    const { data, error } = await supabase
+      .from<Costumer>("costumers")
+      .insert(costumer);
+    if (error) {
+      throw error;
+    }
+
+    return data[0];
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};

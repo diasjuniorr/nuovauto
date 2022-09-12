@@ -16,6 +16,10 @@ export interface Pericia {
 export interface Costumer {
   id: string;
   name: string;
+  phone?: string;
+  phone2?: string;
+  email?: string;
+  address?: string;
 }
 
 export interface Car {
