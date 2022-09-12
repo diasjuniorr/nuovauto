@@ -42,6 +42,7 @@ const AddCostumer = () => {
     <Container component="main" maxWidth="md">
       <Box
         sx={{
+          minHeight: "72vh",
           marginTop: 8,
           display: "flex",
           flexDirection: "column",
