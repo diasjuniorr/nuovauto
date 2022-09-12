@@ -114,10 +114,12 @@ const getPericiaByIdSelect = `id,finished, price_per_working_hour, date, cofano,
   parafango_ps, piantone_d, piantone_s, porta_ad, porta_as, porta_pd, porta_ps, sportello_i, sportello_s, cars (id, brand, model, plate), costumers (id, name)`;
 
 export const createCostumer = async (costumer: Costumer) => {
+  const { name, address, phone, phone2, email } = costumer;
+
   try {
     const { data, error } = await supabase
       .from<Costumer>("costumers")
-      .insert(costumer);
+      .insert({ name, address, phone, phone2, email });
     if (error) {
       throw error;
     }
