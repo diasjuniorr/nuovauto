@@ -293,7 +293,7 @@ const PericiaEditComponent = () => {
           variant="contained"
           onClick={handleSavePericia}
           loading={isLoading}
-          disabled={isLoading}
+          disabled={true}
         >
           Atualizar Pericia
         </LoadingButton>

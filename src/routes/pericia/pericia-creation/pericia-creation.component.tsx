@@ -224,6 +224,7 @@ const PericiaCreation = () => {
           onClick={handleSavePericia}
           loading={isLoading}
           disabled={isLoading}
+          sx={{ mt: 3, mb: 2 }}
         >
           Salvar Pericia
         </LoadingButton>
