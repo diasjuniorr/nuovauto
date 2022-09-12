@@ -32,6 +32,7 @@ export const insertCar = async (car: Car) => {
     return data[0];
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
@@ -49,6 +50,7 @@ export const insertPericia = async (pericia: Pericia) => {
     return data[0].id;
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
@@ -104,6 +106,7 @@ export const getPericiaById = async (id: string) => {
     return data[0];
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
