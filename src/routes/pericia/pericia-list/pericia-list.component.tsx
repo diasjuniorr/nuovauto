@@ -3,8 +3,8 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { Box, Container, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Container, Grid, TextField, Typography } from "@mui/material";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   getPericias,
   PericiaWithCarAndCostumer,
@@ -14,12 +14,27 @@ import { useNavigate } from "react-router-dom";
 const PericiaList = () => {
   const navigate = useNavigate();
   const [pericias, setPericias] = useState([] as PericiaWithCarAndCostumer[]);
+  const [periciasFiltered, setPericiasFiltered] = useState(
+    [] as PericiaWithCarAndCostumer[]
+  );
+
+  const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const filteredPericias = pericias.filter((pericia) => {
+      return (
+        pericia.costumers.name.toLowerCase().includes(value.toLowerCase()) ||
+        pericia.cars.plate.toLowerCase().includes(value.toLowerCase())
+      );
+    });
+
+    setPericiasFiltered(filteredPericias);
+  };
 
   useEffect(() => {
     const fetchPericias = async () => {
       const data = await getPericias();
-      console.log(data);
       setPericias(data);
+      setPericiasFiltered(data);
     };
     fetchPericias();
   }, []);
@@ -38,13 +53,25 @@ const PericiaList = () => {
         <Typography component="h1" variant="h5" mb={5}>
           Pericias Cadastradas
         </Typography>
+        <Grid container spacing={2} mb={5}>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              fullWidth
+              id="filter"
+              label="Filtro"
+              name="filter"
+              variant="standard"
+              onChange={handleFilter}
+            />
+          </Grid>
+        </Grid>
         <List
           sx={{
             width: "100%",
             bgcolor: "background.paper",
           }}
         >
-          {pericias.map(({ cars, costumers, done, id }) => {
+          {periciasFiltered.map(({ cars, costumers, done, id }) => {
             const labelId = `checkbox-list-label-${id}`;
 
             return (
@@ -56,7 +83,7 @@ const PericiaList = () => {
                   sx={{
                     display: "flex",
                     flexDirection: "row",
-                    justifyContent: "space-evenly",
+                    justifyContent: "space-between",
                     alignItems: "center",
                     textAlign: "center",
                   }}
