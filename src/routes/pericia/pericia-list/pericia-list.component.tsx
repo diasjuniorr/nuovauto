@@ -9,8 +9,10 @@ import {
   getPericias,
   PericiaWithCarAndCostumer,
 } from "../../../utils/supabase/supabase.utils";
+import { useNavigate } from "react-router-dom";
 
 const PericiaList = () => {
+  const navigate = useNavigate();
   const [pericias, setPericias] = useState([] as PericiaWithCarAndCostumer[]);
 
   useEffect(() => {
@@ -48,6 +50,7 @@ const PericiaList = () => {
             return (
               <ListItem key={id} divider>
                 <ListItemButton
+                  onClick={() => navigate(`/pericia/${id}`)}
                   role={undefined}
                   dense
                   sx={{
