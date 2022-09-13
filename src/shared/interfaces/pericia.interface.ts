@@ -11,11 +11,16 @@ export interface Pericia {
   pricePerHour: number;
   date: Date;
   finished: boolean;
+  done?: boolean;
 }
 
 export interface Costumer {
   id: string;
   name: string;
+  phone?: string;
+  phone2?: string;
+  email?: string;
+  address?: string;
 }
 
 export interface Car {

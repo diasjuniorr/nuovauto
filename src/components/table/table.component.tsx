@@ -62,7 +62,7 @@ const PericiaTable = () => {
             <TableCell colSpan={6} />
             <TableCell>Subtotal</TableCell>
             <TableCell align="right" colSpan={2}>
-              {totalHours && `${totalHours} h`}
+              {totalHours && `${totalHours}`}
             </TableCell>
             <TableCell align="right" colSpan={2}>
               {totalPrice && `${totalPrice.toFixed(2)} CHF`}

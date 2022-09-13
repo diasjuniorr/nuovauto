@@ -1,3 +1,4 @@
+import { Done } from "@mui/icons-material";
 import { createClient } from "@supabase/supabase-js";
 import {
   Car,
@@ -32,6 +33,7 @@ export const insertCar = async (car: Car) => {
     return data[0];
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
@@ -49,6 +51,7 @@ export const insertPericia = async (pericia: Pericia) => {
     return data[0].id;
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
@@ -104,8 +107,52 @@ export const getPericiaById = async (id: string) => {
     return data[0];
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
 const getPericiaByIdSelect = `id,finished, price_per_working_hour, date, cofano, tetto, parafango_ad, parafango_as, parafango_pd, 
   parafango_ps, piantone_d, piantone_s, porta_ad, porta_as, porta_pd, porta_ps, sportello_i, sportello_s, cars (id, brand, model, plate), costumers (id, name)`;
+
+export const createCostumer = async (costumer: Costumer) => {
+  const { name, address, phone, phone2, email } = costumer;
+
+  try {
+    const { data, error } = await supabase
+      .from<Costumer>("costumers")
+      .insert({ name, address, phone, phone2, email });
+    if (error) {
+      throw error;
+    }
+
+    return data[0];
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export interface PericiaWithCarAndCostumer {
+  id: string;
+  cars: Car;
+  costumers: Costumer;
+  done: boolean;
+}
+
+export const getPericias = async () => {
+  try {
+    const { data, error } = await supabase
+      .from<PericiaWithCarAndCostumer>("pericias")
+      .select(getPericiasSelect);
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+const getPericiasSelect = `id, done, cars (id, brand, model, plate), costumers (id, name)`;
