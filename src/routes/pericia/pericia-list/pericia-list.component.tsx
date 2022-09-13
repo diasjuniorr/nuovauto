@@ -3,7 +3,16 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import { Box, Container, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Container,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
 import {
   getPericias,
@@ -11,23 +20,32 @@ import {
 } from "../../../utils/supabase/supabase.utils";
 import { useNavigate } from "react-router-dom";
 
+interface filterProps {
+  term: string;
+  done: boolean;
+}
+
+const initialFilterProps: filterProps = {
+  term: "",
+  done: false,
+};
+
 const PericiaList = () => {
   const navigate = useNavigate();
   const [pericias, setPericias] = useState([] as PericiaWithCarAndCostumer[]);
   const [periciasFiltered, setPericiasFiltered] = useState(
     [] as PericiaWithCarAndCostumer[]
   );
+  const [filter, setFilter] = useState(initialFilterProps);
 
   const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const filteredPericias = pericias.filter((pericia) => {
-      return (
-        pericia.costumers.name.toLowerCase().includes(value.toLowerCase()) ||
-        pericia.cars.plate.toLowerCase().includes(value.toLowerCase())
-      );
-    });
+    setFilter({ ...filter, term: value });
+  };
 
-    setPericiasFiltered(filteredPericias);
+  const handleDoneFilter = (e: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    setFilter({ ...filter, done: checked });
   };
 
   useEffect(() => {
@@ -38,6 +56,12 @@ const PericiaList = () => {
     };
     fetchPericias();
   }, []);
+
+  useEffect(() => {
+    const { term, done } = filter;
+    const filteredPericias = filterPericias(pericias, term, done);
+    setPericiasFiltered(filteredPericias);
+  }, [filter]);
 
   return (
     <Container component="main" maxWidth="md">
@@ -63,6 +87,14 @@ const PericiaList = () => {
               variant="standard"
               onChange={handleFilter}
             />
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <FormGroup sx={{ width: "100%" }}>
+              <FormControlLabel
+                control={<Checkbox onChange={handleDoneFilter} />}
+                label="Finalizadas"
+              />
+            </FormGroup>
           </Grid>
         </Grid>
         <List
@@ -119,6 +151,23 @@ const PericiaList = () => {
       </Box>
     </Container>
   );
+};
+
+const filterPericias = (
+  pericias: PericiaWithCarAndCostumer[],
+  term: string,
+  done: boolean
+) => {
+  return pericias
+    .filter((pericia) => {
+      return (
+        pericia.costumers.name.toLowerCase().includes(term.toLowerCase()) ||
+        pericia.cars.plate.toLowerCase().includes(term.toLowerCase())
+      );
+    })
+    .filter((pericia) => {
+      return pericia.done === done;
+    });
 };
 
 export default PericiaList;
