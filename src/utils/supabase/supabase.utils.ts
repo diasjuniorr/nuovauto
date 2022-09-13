@@ -1,3 +1,4 @@
+import { Done } from "@mui/icons-material";
 import { createClient } from "@supabase/supabase-js";
 import {
   Car,
@@ -130,3 +131,28 @@ export const createCostumer = async (costumer: Costumer) => {
     throw err;
   }
 };
+
+export interface PericiaWithCarAndCostumer {
+  id: string;
+  cars: Car;
+  costumers: Costumer;
+  done: boolean;
+}
+
+export const getPericias = async () => {
+  try {
+    const { data, error } = await supabase
+      .from<PericiaWithCarAndCostumer>("pericias")
+      .select(getPericiasSelect);
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+const getPericiasSelect = `id, done, cars (id, brand, model, plate), costumers (id, name)`;

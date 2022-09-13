@@ -72,6 +72,7 @@ CREATE TABLE pericias (
   parafango_ps jsonb NOT NULL default '{}'::jsonb,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
+  done boolean NOT NULL DEFAULT false,
 
 constraint fk_pericias_car
     foreign key (id_car)

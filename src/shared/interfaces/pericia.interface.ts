@@ -11,6 +11,7 @@ export interface Pericia {
   pricePerHour: number;
   date: Date;
   finished: boolean;
+  done?: boolean;
 }
 
 export interface Costumer {
