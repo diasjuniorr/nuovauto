@@ -1,4 +1,3 @@
-import { Done } from "@mui/icons-material";
 import { createClient } from "@supabase/supabase-js";
 import {
   Car,
@@ -114,13 +113,19 @@ export const getPericiaById = async (id: string) => {
 const getPericiaByIdSelect = `id,finished, price_per_working_hour, date, cofano, tetto, parafango_ad, parafango_as, parafango_pd, 
   parafango_ps, piantone_d, piantone_s, porta_ad, porta_as, porta_pd, porta_ps, sportello_i, sportello_s, cars (id, brand, model, plate), costumers (id, name)`;
 
-export const createCostumer = async (costumer: Costumer) => {
-  const { name, address, phone, phone2, email } = costumer;
+interface CostumerToInsert {
+  name: string;
+  phone: string;
+  phone2: string;
+  email: string;
+  address: string;
+}
 
+export const createCostumer = async (costumer: CostumerToInsert) => {
   try {
     const { data, error } = await supabase
-      .from<Costumer>("costumers")
-      .insert({ name, address, phone, phone2, email });
+      .from<CostumerToInsert>("costumers")
+      .insert(costumer);
     if (error) {
       throw error;
     }
