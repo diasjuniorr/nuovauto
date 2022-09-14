@@ -10,10 +10,8 @@ let costumerSchema = object({
   name: string().required("Nome é obrigatório"),
   address: string().required("Endereço é obrigatório"),
   phone: string().required("Telefone é obrigatório"),
-  phone2: string().required("Telefone 2 é obrigatório"),
-  email: string()
-    .email("Este email não é válido")
-    .required("Email é obrigatório"),
+  phone2: string().nullable(),
+  email: string().email("Este email não é válido").nullable(),
 });
 
 interface FormValues {
@@ -85,7 +83,7 @@ const AddCostumer = () => {
                     required
                     fullWidth
                     name="address"
-                    label="Endereço"
+                    label="Endereço (Google Maps link)"
                     size="small"
                     component={FormTextField}
                   />
