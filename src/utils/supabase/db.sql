@@ -4,8 +4,8 @@ CREATE TABLE costumers (
   name text NOT NULL,
   address text NOT NULL,
   phone text NOT NULL,
-  phone2 text NOT NULL,
-  email text NOT NULL,
+  phone2 text DEFAULT NUll,
+  email text DEFAULT NULL,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now()
 );
