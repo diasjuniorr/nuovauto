@@ -120,7 +120,7 @@ const AddCostumer = () => {
                     component={FormTextField}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} mt={3}>
                   <LoadingButton
                     type="submit"
                     fullWidth
