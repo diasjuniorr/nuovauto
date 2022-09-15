@@ -8,7 +8,9 @@ import { FormTextField } from "../../../components/form/form-input/form-input.co
 
 let costumerSchema = object({
   name: string().required("Nome é obrigatório"),
-  address: string().required("Endereço é obrigatório"),
+  address: string()
+    .url("Este link é inválido")
+    .required("Endereço é obrigatório"),
   phone: string().required("Telefone é obrigatório"),
   phone2: string().nullable(),
   email: string().email("Este email não é válido").nullable(),
