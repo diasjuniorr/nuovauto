@@ -1,43 +1,36 @@
+import { Formik, FormikHelpers, FormikProps, Form, Field } from "formik";
+import { object, string } from "yup";
 import { LoadingButton } from "@mui/lab";
-import { Box, Container, Grid, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
-import { Costumer } from "../../shared/interfaces/pericia.interface";
 import { createCostumer } from "../../utils/supabase/supabase.utils";
+import { FormTextField } from "../../components/form/form-input/form-input.component";
 
-const initialCostumer: Costumer = {
-  id: "",
+let costumerSchema = object({
+  name: string().required("Nome é obrigatório"),
+  address: string().required("Endereço é obrigatório"),
+  phone: string().required("Telefone é obrigatório"),
+  phone2: string().nullable(),
+  email: string().email("Este email não é válido").nullable(),
+});
+
+interface FormValues {
+  name: string;
+  address: string;
+  phone: string;
+  phone2: string;
+  email: string;
+}
+
+const initialValues: FormValues = {
   name: "",
   address: "",
-  email: "",
   phone: "",
   phone2: "",
+  email: "",
 };
 
 const AddCostumer = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [costumer, setCostumer] = useState<Costumer>({} as Costumer);
-  const { name, address, email, phone, phone2 } = costumer;
-
-  const handleCostumerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCostumer({ ...costumer, [name]: value });
-  };
-
-  const handleAddCostumer = async () => {
-    setIsLoading(true);
-    try {
-      const res = await createCostumer(costumer);
-      console.log("res", res);
-      setCostumer(initialCostumer);
-      setIsLoading(false);
-      toast.success("Cliente adicionado com sucesso!");
-    } catch (err) {
-      setIsLoading(false);
-      toast.error("Erro ao adicionar cliente");
-    }
-  };
-
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -52,80 +45,94 @@ const AddCostumer = () => {
         <Typography component="h1" variant="h5">
           Adicionar cliente
         </Typography>
-        <Grid component="form" sx={{ mt: 3, mb: 5 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                required
-                fullWidth
-                id="costumer-name"
-                label="Cliente"
-                name="name"
-                variant="standard"
-                onChange={handleCostumerChange}
-                value={name}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                required
-                fullWidth
-                id="costumer-address"
-                label="Endereço"
-                name="address"
-                variant="standard"
-                onChange={handleCostumerChange}
-                value={address}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <TextField
-                required
-                fullWidth
-                id="costumer-email"
-                label="Email"
-                name="email"
-                variant="standard"
-                type={"email"}
-                onChange={handleCostumerChange}
-                value={email}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                name="phone"
-                label="Phone"
-                id="costumer-phone"
-                variant="standard"
-                onChange={handleCostumerChange}
-                value={phone}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                name="phone2"
-                label="Phone 2"
-                id="costumer-phone-2"
-                variant="standard"
-                onChange={handleCostumerChange}
-                value={phone2}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        <LoadingButton
-          onClick={handleAddCostumer}
-          fullWidth
-          variant="contained"
-          disabled={isLoading}
-          loading={isLoading}
+        <Formik
+          initialValues={initialValues}
+          validationSchema={costumerSchema}
+          onSubmit={(
+            values: FormValues,
+            formikHelpers: FormikHelpers<FormValues>
+          ) => {
+            const formkiCreateCostumer = async () => {
+              try {
+                await createCostumer(values);
+                formikHelpers.setSubmitting(false);
+                toast.success("Cliente adicionado com sucesso!");
+                formikHelpers.resetForm();
+              } catch (err) {
+                toast.error("Erro ao adicionar cliente");
+              }
+            };
+            formkiCreateCostumer();
+          }}
         >
-          Adicionar Cliente
-        </LoadingButton>
+          {(formikProps: FormikProps<FormValues>) => (
+            <Form noValidate autoComplete="off">
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={12}>
+                  <Field
+                    name="name"
+                    label="Cliente"
+                    size="small"
+                    required
+                    fullWidth
+                    component={FormTextField}
+                  />
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <Field
+                    required
+                    fullWidth
+                    name="address"
+                    label="Endereço (Google Maps link)"
+                    size="small"
+                    component={FormTextField}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <Field
+                    required
+                    fullWidth
+                    name="email"
+                    label="Email"
+                    size="small"
+                    component={FormTextField}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Field
+                    required
+                    fullWidth
+                    name="phone"
+                    label="Phone"
+                    size="small"
+                    component={FormTextField}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Field
+                    required
+                    fullWidth
+                    name="phone2"
+                    label="Phone2"
+                    size="small"
+                    component={FormTextField}
+                  />
+                </Grid>
+                <Grid item xs={12} mt={3}>
+                  <LoadingButton
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    loading={formikProps.isSubmitting}
+                    disabled={formikProps.isSubmitting}
+                  >
+                    Adicionar Cliente
+                  </LoadingButton>
+                </Grid>
+              </Grid>
+            </Form>
+          )}
+        </Formik>
       </Box>
       <ToastContainer />
     </Container>
