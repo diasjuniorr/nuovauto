@@ -13,13 +13,15 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export default supabase;
 
 export const getCostumers = async () => {
-  const { data, error } = await supabase.from("costumers").select("*");
+  const { data, error } = await supabase
+    .from<Costumer>("costumers")
+    .select("*");
   if (error) {
     console.log(error);
     return [];
   }
 
-  return data as Costumer[];
+  return data;
 };
 
 export const insertCar = async (car: Car) => {

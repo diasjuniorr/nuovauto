@@ -3,8 +3,8 @@ import { object, string } from "yup";
 import { LoadingButton } from "@mui/lab";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
-import { createCostumer } from "../../utils/supabase/supabase.utils";
-import { FormTextField } from "../../components/form/form-input/form-input.component";
+import { createCostumer } from "../../../utils/supabase/supabase.utils";
+import { FormTextField } from "../../../components/form/form-input/form-input.component";
 
 let costumerSchema = object({
   name: string().required("Nome é obrigatório"),
