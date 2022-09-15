@@ -5,7 +5,14 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import TimeToLeaveSharpIcon from "@mui/icons-material/TimeToLeaveSharp";
 import LocationOnSharpIcon from "@mui/icons-material/LocationOnSharp";
-import { Box, Container, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getCostumers } from "../../../utils/supabase/supabase.utils";
 import { Costumer } from "../../../shared/interfaces/pericia.interface";
@@ -84,14 +91,14 @@ const CostumersList = () => {
                     sx={{ flex: "1", textAlign: "left" }}
                   />
                 </ListItemButton>
-                <ListItemIcon>
+                <IconButton>
                   <a href={address} target="_blank" rel="noreferrer">
                     <LocationOnSharpIcon />
                   </a>
-                </ListItemIcon>
-                <ListItemIcon onClick={() => alert("teste")}>
+                </IconButton>
+                <IconButton>
                   <TimeToLeaveSharpIcon />
-                </ListItemIcon>
+                </IconButton>
               </ListItem>
             );
           })}
