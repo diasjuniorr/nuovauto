@@ -35,20 +35,20 @@ export const CAR_PARTS_LIST: CarPart[] = Object.keys(CAR_PARTS).map((key) => {
 });
 
 export const CAR_PARTS_CANVAS_COORDINATES = {
-  Parafango_ad: { x: 330, y: 155 },
-  Porta_ad: { x: 510, y: 155 },
-  Porta_pd: { x: 689, y: 155 },
-  Parafango_pd: { x: 860, y: 155 },
-  Cofano: { x: 220, y: 410 },
-  Tetto: { x: 660, y: 410 },
-  Piantone_d: { x: 800, y: 300 },
-  Piantone_s: { x: 800, y: 505 },
-  Sportello_s: { x: 960, y: 410 },
-  Sportello_i: { x: 1070, y: 410 },
-  Parafango_as: { x: 330, y: 665 },
-  Porta_as: { x: 510, y: 655 },
-  Porta_ps: { x: 689, y: 655 },
-  Parafango_ps: { x: 860, y: 655 },
+  Parafango_ad: { x: 330, y: 285 },
+  Porta_ad: { x: 510, y: 285 },
+  Porta_pd: { x: 689, y: 285 },
+  Parafango_pd: { x: 860, y: 285 },
+  Cofano: { x: 220, y: 630 },
+  Tetto: { x: 660, y: 630 },
+  Piantone_d: { x: 800, y: 520 },
+  Piantone_s: { x: 800, y: 725 },
+  Sportello_s: { x: 940, y: 630 },
+  Sportello_i: { x: 1065, y: 630 },
+  Parafango_as: { x: 330, y: 985 },
+  Porta_as: { x: 510, y: 985 },
+  Porta_ps: { x: 689, y: 985 },
+  Parafango_ps: { x: 860, y: 985 },
 };
 
 export const SMASH_WORKING_HOURS = {

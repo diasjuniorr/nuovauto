@@ -29,7 +29,7 @@ const PDFGenerator: React.FC = () => {
       //draw image
       // context.drawImage(img, 0, 30, 1200, 800);
       context.drawImage(img, 20, 80, 1150, 1100);
-      context.font = "18px Arial";
+      context.font = "26px Arial";
       context.fillStyle = "blue";
 
       //draw car part notes
@@ -38,17 +38,17 @@ const PDFGenerator: React.FC = () => {
           CAR_PARTS_CANVAS_COORDINATES[
             part.name as keyof typeof CAR_PARTS_CANVAS_COORDINATES
           ];
-        context.fillText(part.note, x, y + 30);
+        context.fillText(part.note, x, y);
       });
 
       //draw identification
-      context.font = "24px Arial";
+      context.font = "26px Arial";
       context.fillStyle = "black";
-      context.fillText(`Cliente: ${CostumerName}`, 0, 30);
-      context.fillText(`Marca: ${brand}`, 380, 30);
-      context.fillText(`Modelo: ${model}`, 530, 30);
-      context.fillText(`Placa: ${plate}`, 730, 30);
-      context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 30);
+      context.fillText(`Cliente: ${CostumerName}`, 10, 40);
+      context.fillText(`Marca: ${brand}`, 430, 40);
+      context.fillText(`Modelo: ${model}`, 590, 40);
+      context.fillText(`Placa: ${plate}`, 790, 40);
+      context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 40);
 
       //draw border
       context.beginPath();
