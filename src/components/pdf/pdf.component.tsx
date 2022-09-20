@@ -55,7 +55,9 @@ const PDFGenerator: React.FC = () => {
     const doc = new jsPDF();
     doc.addImage(canvas, "JPEG", 180, 150, 280, 140, "", "NONE", 90);
     doc.save(
-      `${CostumerName}-${plate}-${date.toLocaleDateString("pt-br")}.pdf`
+      `${removeWhiteSpaces(CostumerName)}-${plate}-${date.toLocaleDateString(
+        "pt-br"
+      )}.pdf`
     );
   };
 
@@ -72,6 +74,10 @@ const PDFGenerator: React.FC = () => {
       </Button>
     </>
   );
+};
+
+const removeWhiteSpaces = (str: string) => {
+  return str.replace(/\s/g, "_");
 };
 
 export default PDFGenerator;
