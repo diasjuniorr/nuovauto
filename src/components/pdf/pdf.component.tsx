@@ -14,7 +14,7 @@ const PDFGenerator: React.FC = () => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const { carParts, costumer, car, date } = periciaContext;
   const { name: CostumerName } = costumer;
-  const { brand, plate } = car;
+  const { brand, plate, model } = car;
 
   const canvas = document.getElementById("pdf-canvas") as HTMLCanvasElement;
 
@@ -45,8 +45,9 @@ const PDFGenerator: React.FC = () => {
       context.fillStyle = "black";
       context.fillText(`Cliente: ${CostumerName}`, 0, 30);
       context.fillText(`Marca: ${brand}`, 380, 30);
-      context.fillText(`Placa: ${plate}`, 630, 30);
-      context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 880, 30);
+      context.fillText(`Modelo: ${model}`, 530, 30);
+      context.fillText(`Placa: ${plate}`, 730, 30);
+      context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 30);
     };
   };
 
