@@ -92,7 +92,6 @@ const AddCostumer = () => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <Field
-                    required
                     fullWidth
                     name="email"
                     label="Email"
@@ -112,7 +111,6 @@ const AddCostumer = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Field
-                    required
                     fullWidth
                     name="phone2"
                     label="Phone2"
