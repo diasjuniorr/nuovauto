@@ -27,7 +27,8 @@ const PDFGenerator: React.FC = () => {
       context.fillRect(0, 0, canvas.width, canvas.height);
 
       //draw image
-      context.drawImage(img, 0, 30, 1200, 800);
+      // context.drawImage(img, 0, 30, 1200, 800);
+      context.drawImage(img, 20, 80, 1150, 1100);
       context.font = "18px Arial";
       context.fillStyle = "blue";
 
@@ -48,12 +49,19 @@ const PDFGenerator: React.FC = () => {
       context.fillText(`Modelo: ${model}`, 530, 30);
       context.fillText(`Placa: ${plate}`, 730, 30);
       context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 30);
+
+      //draw border
+      context.beginPath();
+      context.lineWidth = 2;
+      context.strokeStyle = "black";
+      context.rect(0, 0, canvas.width, canvas.height);
+      context.stroke();
     };
   };
 
   const handleGeneratePDF = () => {
     const doc = new jsPDF();
-    doc.addImage(canvas, "JPEG", 180, 150, 280, 140, "", "NONE", 90);
+    doc.addImage(canvas, "JPEG", 204, 93, 290, 200, "", "NONE", 90);
     doc.save(
       `${removeWhiteSpaces(CostumerName)}-${plate}-${date.toLocaleDateString(
         "pt-br"
@@ -63,7 +71,7 @@ const PDFGenerator: React.FC = () => {
 
   return (
     <>
-      <Canvas draw={draw} height={830} width={1200} />
+      <Canvas draw={draw} height={1200} width={1200} />
       <Button
         fullWidth
         variant="contained"
