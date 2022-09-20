@@ -1,5 +1,4 @@
 import PericiaImg from "../../../components/pericia/pericia-img/pericia-img.component";
-import PDFGenerator from "../../../components/pdf/pdf.component";
 import { Box, Container, Grid, TextField, Typography } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -128,6 +127,7 @@ const PericiaCreation = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
+                autoComplete="off"
                 required
                 fullWidth
                 id="placa"
@@ -140,6 +140,7 @@ const PericiaCreation = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
+                autoComplete="off"
                 required
                 fullWidth
                 id="brand"
@@ -152,6 +153,7 @@ const PericiaCreation = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
+                autoComplete="off"
                 required
                 fullWidth
                 name="model"
