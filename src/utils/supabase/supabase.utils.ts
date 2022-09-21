@@ -3,6 +3,8 @@ import {
   Car,
   Costumer,
   Pericia,
+  PericiaToInsert,
+  PericiaToUpdate,
 } from "../../shared/interfaces/pericia.interface";
 import { periciaToInsertObject } from "../pericia/pericia.utils";
 
@@ -38,7 +40,7 @@ export const insertCar = async (car: Car) => {
   }
 };
 
-export const insertPericia = async (pericia: Pericia) => {
+export const insertPericia = async (pericia: PericiaToInsert) => {
   const periciaToInsert = periciaToInsertObject(pericia);
 
   try {

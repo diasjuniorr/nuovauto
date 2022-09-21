@@ -2,14 +2,19 @@ import { createContext, useEffect, useState } from "react";
 import { CarPart } from "../shared/interfaces/car-part.interface";
 import { CAR_PARTS_LIST } from "../shared/constants/car-parts.constants";
 import { SMASH_WORKING_HOURS } from "../shared/constants/car-parts.constants";
-import { Car, Costumer, Pericia } from "../shared/interfaces/pericia.interface";
+import {
+  Car,
+  Costumer,
+  Pericia,
+  PericiaToUpdate,
+} from "../shared/interfaces/pericia.interface";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export interface PericiaContextProps {
-  id?: string;
+  id: string;
   costumer: Costumer;
   car: Car;
   carParts: CarPart[];
@@ -18,21 +23,22 @@ export interface PericiaContextProps {
   pricePerHour: number;
   date: Date;
   finished: boolean;
-  updatePericia: (pericia: Pericia) => void;
+  updatePericia: (pericia: PericiaToUpdate) => void;
   updateCostumer: (costumer: Costumer) => void;
   updateFinished: (finished: boolean) => void;
   updatePricePerHour: (pricePerHour: number) => void;
   updateCarPart: (carPart: CarPart) => void;
   updateCar: (car: Car) => void;
   findCarPart: (name: string) => CarPart;
+  resetPericia: () => void;
 }
 
-const costumerInitialState: Costumer = {
+const costumerDefaultValue: Costumer = {
   id: "",
   name: "",
 };
 
-const carInitialState: Car = {
+const carDefaultValue: Car = {
   id: "",
   brand: "",
   model: "",
@@ -41,20 +47,21 @@ const carInitialState: Car = {
 
 export const PericiaContext = createContext<PericiaContextProps>({
   id: "",
-  costumer: costumerInitialState,
-  car: carInitialState,
+  costumer: costumerDefaultValue,
+  car: carDefaultValue,
   carParts: CAR_PARTS_LIST,
   totalHours: 0,
   totalPrice: 0,
   pricePerHour: 70,
   date: new Date(),
   finished: false,
-  updatePericia: (pericia: Pericia) => {},
+  updatePericia: (pericia: PericiaToUpdate) => {},
   updateCostumer: (costumer: Costumer) => {},
   updateFinished: (finished: boolean) => {},
   updatePricePerHour: (pricePerHour: number) => {},
   updateCar: (car: Car) => {},
   updateCarPart: (carPart: CarPart) => {},
+  resetPericia: () => {},
   findCarPart: (name: string) => {
     return {
       name: "",
@@ -135,7 +142,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
-  const updatePericia = (pericia: Pericia) => {
+  const updatePericia = (pericia: PericiaToUpdate) => {
     setId(pericia.id as string);
     setCostumer(pericia.costumer as Costumer);
     setCar(pericia.car as Car);
@@ -145,11 +152,25 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         cp.workingHours = workingHours(cp);
         return cp;
       });
+
+      setTotalHours(getTotalHours(newCarParts));
       return newCarParts;
     });
     setPricePerHour(pericia.pricePerHour);
     setDate(pericia.date);
     setFinished(pericia.finished);
+  };
+
+  const resetPericia = () => {
+    setId("");
+    setCostumer(costumerDefaultValue);
+    setCar(carDefaultValue);
+    setCarParts(CAR_PARTS_LIST);
+    setPricePerHour(70);
+    setDate(new Date());
+    setFinished(false);
+    setTotalHours(0);
+    setTotalPrice(0);
   };
 
   useEffect(() => {
@@ -175,6 +196,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         updateCar,
         updateCarPart,
         findCarPart,
+        resetPericia,
       }}
     >
       {children}

@@ -1,4 +1,8 @@
-import { Pericia } from "../../shared/interfaces/pericia.interface";
+import {
+  Pericia,
+  PericiaToInsert,
+  PericiaToUpdate,
+} from "../../shared/interfaces/pericia.interface";
 
 export interface CarPartsMap {
   [key: string]: {
@@ -14,8 +18,8 @@ export interface CarPartsMap {
   };
 }
 
-export const periciaToInsertObject = (pericia: Pericia) => {
-  const { cardID, costumer, carParts, pricePerHour, date, finished } = pericia;
+export const periciaToInsertObject = (pericia: PericiaToInsert) => {
+  const { car, costumer, carParts, pricePerHour, date, finished } = pericia;
 
   const carPartsMap = carParts
     .map((carPart) => {
@@ -52,8 +56,8 @@ export const periciaToInsertObject = (pericia: Pericia) => {
     }, {} as CarPartsMap);
 
   return {
-    id_car: cardID,
-    id_costumer: costumer?.id,
+    id_car: car.id,
+    id_costumer: costumer.id,
     price_per_working_hour: pricePerHour,
     finished,
     date,

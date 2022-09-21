@@ -45,6 +45,7 @@ const PericiaCreation = () => {
     updateFinished,
     updateCar,
     updatePricePerHour,
+    resetPericia,
   } = periciaContext;
 
   const handleCarChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +79,7 @@ const PericiaCreation = () => {
         updateCar(insertCarRes);
         const insertPericiaRes = await insertPericia({
           date,
-          cardID: insertCarRes.id,
+          car: insertCarRes,
           pricePerHour,
           finished,
           costumer,
@@ -86,9 +87,9 @@ const PericiaCreation = () => {
           totalPrice: totalPrice,
           carParts: carParts,
         });
+        resetPericia();
         return navigate(`/pericia/${insertPericiaRes}?operation=creation`);
       }
-      setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
       toast.error("Erro ao salvar pericia!");
@@ -97,11 +98,16 @@ const PericiaCreation = () => {
   };
 
   useEffect(() => {
+    //TODO put costumers in a hook
     const fetchCostumers = async () => {
       const costumers = await getCostumers();
       setCostumers(costumers);
     };
     fetchCostumers();
+  }, []);
+
+  useEffect(() => {
+    return resetPericia();
   }, []);
 
   return (

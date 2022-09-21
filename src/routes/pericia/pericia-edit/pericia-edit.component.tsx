@@ -68,39 +68,39 @@ const PericiaEditComponent = () => {
     updateFinished(checked);
   };
 
-  const handleSavePericia = async () => {
-    if (!validateFields(car, costumer)) {
-      toast.error("Preencha os campos obrigatórios!");
-      return;
-    }
+  // const handleSavePericia = async () => {
+  //   if (!validateFields(car, costumer)) {
+  //     toast.error("Preencha os campos obrigatórios!");
+  //     return;
+  //   }
 
-    setIsLoading(true);
-    try {
-      const insertCarRes = await insertCar({
-        ...car,
-      });
+  //   setIsLoading(true);
+  //   try {
+  //     const insertCarRes = await insertCar({
+  //       ...car,
+  //     });
 
-      if (insertCarRes) {
-        updateCar(insertCarRes);
-        const insertPericiaRes = await insertPericia({
-          date,
-          cardID: insertCarRes.id,
-          pricePerHour,
-          finished,
-          costumer: costumer,
-          totalHours: totalHours,
-          totalPrice: totalPrice,
-          carParts: carParts,
-        });
-      }
-      setIsLoading(false);
-      toast.success("Pericia salva com sucesso!");
-    } catch (err) {
-      setIsLoading(false);
-      toast.error("Erro ao salvar pericia!");
-      console.log(err);
-    }
-  };
+  //     if (insertCarRes) {
+  //       updateCar(insertCarRes);
+  //       const insertPericiaRes = await insertPericia({
+  //         date,
+  //         car: insertCarRes,
+  //         pricePerHour,
+  //         finished,
+  //         costumer: costumer,
+  //         totalHours: totalHours,
+  //         totalPrice: totalPrice,
+  //         carParts: carParts,
+  //       });
+  //     }
+  //     setIsLoading(false);
+  //     toast.success("Pericia salva com sucesso!");
+  //   } catch (err) {
+  //     setIsLoading(false);
+  //     toast.error("Erro ao salvar pericia!");
+  //     console.log(err);
+  //   }
+  // };
 
   useEffect(() => {
     const capitalizeFirstLetter = (string: string) => {
@@ -291,7 +291,7 @@ const PericiaEditComponent = () => {
         <LoadingButton
           fullWidth
           variant="contained"
-          onClick={handleSavePericia}
+          // onClick={handleSavePericia}
           loading={isLoading}
           disabled={true}
         >
