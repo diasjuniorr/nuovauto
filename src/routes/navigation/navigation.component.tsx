@@ -57,9 +57,9 @@ const Navigation = () => {
                 "aria-labelledby": "basic-button",
               }}
             >
-              {pages.map((page) => {
+              {pages.map((page, index) => {
                 return (
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={handleClose} key={index}>
                     <Link to={page.path} style={{ textDecoration: "none" }}>
                       {page.name}
                     </Link>
