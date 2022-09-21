@@ -14,8 +14,6 @@ import {
 import {
   getCostumers,
   getPericiaById,
-  insertCar,
-  insertPericia,
 } from "../../../utils/supabase/supabase.utils";
 import CostumerAutocomplete from "../../../components/pericia/costumer-autocomplete/costumer-autocomplete.component";
 import { toast, ToastContainer } from "react-toastify";
@@ -39,10 +37,6 @@ const PericiaEditComponent = () => {
     date,
     pricePerHour,
     finished,
-    costumer,
-    totalHours,
-    totalPrice,
-    carParts,
     car,
     updatePericia,
     updateFinished,
@@ -50,6 +44,8 @@ const PericiaEditComponent = () => {
     updatePricePerHour,
   } = periciaContext;
   const { plate, model, brand } = car;
+
+  //TODO use skeleton loading
 
   const calledOnce = useRef(false);
 
