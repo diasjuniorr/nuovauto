@@ -12,7 +12,7 @@ const carroImg = require("../../assets/pericia.jpg");
 
 const PDFGenerator: React.FC = () => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { carParts, costumer, car, date } = periciaContext;
+  const { carParts, costumer, car, date, finished } = periciaContext;
   const { name: CostumerName } = costumer;
   const { brand, plate, model } = car;
 
@@ -49,6 +49,10 @@ const PDFGenerator: React.FC = () => {
       context.fillText(`Modelo: ${model}`, 590, 40);
       context.fillText(`Placa: ${plate}`, 790, 40);
       context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 40);
+      if (finished) {
+        context.fillStyle = "red";
+        context.fillText(`Liquidado`, 10, 70);
+      }
 
       //draw border
       context.beginPath();
