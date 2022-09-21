@@ -103,8 +103,9 @@ const PericiaList = () => {
             bgcolor: "background.paper",
           }}
         >
-          {periciasFiltered.map(({ cars, costumers, done, id }) => {
+          {periciasFiltered.map(({ cars, costumers, done, id, finished }) => {
             const labelId = `checkbox-list-label-${id}`;
+            const status = getStatus(done, finished);
 
             return (
               <ListItem key={id} divider>
@@ -137,9 +138,9 @@ const PericiaList = () => {
                   />
                   <ListItemText
                     id={labelId}
-                    primary={`${done ? "Finalizado" : "Andamento"} `}
+                    primary={status.text}
                     sx={{
-                      color: done ? "success.main" : "warning.main",
+                      color: status.color,
                       flex: "1",
                     }}
                   />
@@ -166,8 +167,20 @@ const filterPericias = (
       );
     })
     .filter((pericia) => {
-      return pericia.done === done;
+      return pericia.done === done || pericia.finished === done;
     });
+};
+
+const getStatus = (done: boolean, finished: boolean) => {
+  if (done) {
+    return { color: "success.main", text: "Finalizado" };
+  }
+
+  if (finished) {
+    return { color: "success.main", text: "Liquidado" };
+  }
+
+  return { color: "error.main", text: "Em andamento" };
 };
 
 export default PericiaList;

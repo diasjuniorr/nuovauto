@@ -144,6 +144,7 @@ export interface PericiaWithCarAndCostumer {
   cars: Car;
   costumers: Costumer;
   done: boolean;
+  finished: boolean;
 }
 
 export const getPericias = async () => {
@@ -162,4 +163,4 @@ export const getPericias = async () => {
   }
 };
 
-const getPericiasSelect = `id, done, cars (id, brand, model, plate), costumers (id, name)`;
+const getPericiasSelect = `id, done, finished, cars (id, brand, model, plate), costumers (id, name)`;
