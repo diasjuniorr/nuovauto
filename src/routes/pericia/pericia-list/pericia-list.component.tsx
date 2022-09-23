@@ -11,6 +11,7 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  Skeleton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -20,6 +21,8 @@ import {
   PericiaWithCarAndCostumer,
 } from "../../../utils/supabase/supabase.utils";
 import { useNavigate } from "react-router-dom";
+
+const skeletons = Array.from(new Array(9));
 
 interface filterProps {
   term: string;
@@ -33,6 +36,7 @@ const initialFilterProps: filterProps = {
 
 const PericiaList = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [pericias, setPericias] = useState([] as PericiaWithCarAndCostumer[]);
   const [periciasFiltered, setPericiasFiltered] = useState(
     [] as PericiaWithCarAndCostumer[]
@@ -60,6 +64,7 @@ const PericiaList = () => {
 
       setPericias(res.data);
       setPericiasFiltered(res.data);
+      setIsLoading(false);
     };
     fetchPericias();
   }, []);
@@ -110,51 +115,63 @@ const PericiaList = () => {
             bgcolor: "background.paper",
           }}
         >
-          {periciasFiltered.map(({ cars, costumers, done, id, finished }) => {
-            const labelId = `checkbox-list-label-${id}`;
-            const status = getStatus(done, finished);
+          {isLoading
+            ? skeletons.map((_, index) => (
+                <Skeleton
+                  key={index}
+                  variant="rectangular"
+                  height={40}
+                  sx={{ mt: 2 }}
+                />
+              ))
+            : periciasFiltered.map(
+                ({ cars, costumers, done, id, finished }) => {
+                  const labelId = `checkbox-list-label-${id}`;
+                  const status = getStatus(done, finished);
 
-            return (
-              <ListItem key={id} divider>
-                <ListItemButton
-                  onClick={() => navigate(`/pericia/${id}`)}
-                  role={undefined}
-                  dense
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    textAlign: "center",
-                  }}
-                >
-                  <ListItemText
-                    id={labelId}
-                    primary={`${costumers.name}`}
-                    sx={{ flex: "1", textAlign: "left" }}
-                  />
-                  <ListItemText
-                    id={labelId}
-                    primary={`${cars.plate}`}
-                    sx={{ flex: "1" }}
-                  />
-                  <ListItemText
-                    id={labelId}
-                    primary={`${cars.model}`}
-                    sx={{ flex: "1" }}
-                  />
-                  <ListItemText
-                    id={labelId}
-                    primary={status.text}
-                    sx={{
-                      color: status.color,
-                      flex: "1",
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
+                  return (
+                    <ListItem key={id} divider>
+                      <ListItemButton
+                        onClick={() => navigate(`/pericia/${id}`)}
+                        role={undefined}
+                        dense
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          textAlign: "center",
+                        }}
+                      >
+                        <ListItemText
+                          id={labelId}
+                          primary={`${costumers.name}`}
+                          sx={{ flex: "1", textAlign: "left" }}
+                        />
+                        <ListItemText
+                          id={labelId}
+                          primary={`${cars.plate}`}
+                          sx={{ flex: "1" }}
+                        />
+                        <ListItemText
+                          id={labelId}
+                          primary={`${cars.model}`}
+                          sx={{ flex: "1" }}
+                        />
+                        <ListItemText
+                          id={labelId}
+                          primary={status.text}
+                          sx={{
+                            color: status.color,
+                            flex: "1",
+                          }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  );
+                }
+              )}
+          {}
         </List>
       </Box>
       <ToastContainer />

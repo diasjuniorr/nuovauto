@@ -10,6 +10,7 @@ import {
   Container,
   Grid,
   IconButton,
+  Skeleton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -18,7 +19,10 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { getCostumers } from "../../../utils/supabase/supabase.utils";
 import { Costumer } from "../../../shared/interfaces/pericia.interface";
 
+const skeletons = Array.from(new Array(9));
+
 const CostumersList = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [costumers, setCostumers] = useState([] as Costumer[]);
   const [costumersFiltered, setCostumersFiltered] = useState([] as Costumer[]);
 
@@ -39,6 +43,7 @@ const CostumersList = () => {
 
       setCostumers(res.data);
       setCostumersFiltered(res.data);
+      setIsLoading(false);
     };
     fetchCostumers();
   }, []);
@@ -75,39 +80,48 @@ const CostumersList = () => {
             bgcolor: "background.paper",
           }}
         >
-          {costumersFiltered.map(({ id, name, address }) => {
-            const labelId = `checkbox-list-label-${id}`;
+          {isLoading
+            ? skeletons.map((_, index) => (
+                <Skeleton
+                  key={index}
+                  variant="rectangular"
+                  height={40}
+                  sx={{ mt: 2 }}
+                />
+              ))
+            : costumersFiltered.map(({ id, name, address }) => {
+                const labelId = `checkbox-list-label-${id}`;
 
-            return (
-              <ListItem key={id} divider>
-                <ListItemButton
-                  role={undefined}
-                  dense
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    textAlign: "center",
-                  }}
-                >
-                  <ListItemText
-                    id={labelId}
-                    primary={`${name}`}
-                    sx={{ flex: "1", textAlign: "left" }}
-                  />
-                </ListItemButton>
-                <IconButton>
-                  <a href={address} target="_blank" rel="noreferrer">
-                    <LocationOnSharpIcon />
-                  </a>
-                </IconButton>
-                <IconButton>
-                  <TimeToLeaveSharpIcon />
-                </IconButton>
-              </ListItem>
-            );
-          })}
+                return (
+                  <ListItem key={id} divider>
+                    <ListItemButton
+                      role={undefined}
+                      dense
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        textAlign: "center",
+                      }}
+                    >
+                      <ListItemText
+                        id={labelId}
+                        primary={`${name}`}
+                        sx={{ flex: "1", textAlign: "left" }}
+                      />
+                    </ListItemButton>
+                    <IconButton>
+                      <a href={address} target="_blank" rel="noreferrer">
+                        <LocationOnSharpIcon />
+                      </a>
+                    </IconButton>
+                    <IconButton>
+                      <TimeToLeaveSharpIcon />
+                    </IconButton>
+                  </ListItem>
+                );
+              })}
         </List>
       </Box>
       <ToastContainer />
