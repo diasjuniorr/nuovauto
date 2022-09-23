@@ -75,21 +75,25 @@ const PericiaCreation = () => {
         ...car,
       });
 
-      if (insertCarRes) {
-        updateCar(insertCarRes);
-        const insertPericiaRes = await insertPericia({
-          date,
-          car: insertCarRes,
-          pricePerHour,
-          finished,
-          costumer,
-          totalHours: totalHours,
-          totalPrice: totalPrice,
-          carParts: carParts,
-        });
-        resetPericia();
-        return navigate(`/pericia/${insertPericiaRes}?operation=creation`);
+      if (insertCarRes.error) {
+        console.log(insertCarRes.error);
+        toast.error("Erro ao cadastrar carro");
+        return;
       }
+
+      updateCar(insertCarRes.data);
+      const insertPericiaRes = await insertPericia({
+        date,
+        car: insertCarRes.data,
+        pricePerHour,
+        finished,
+        costumer,
+        totalHours: totalHours,
+        totalPrice: totalPrice,
+        carParts: carParts,
+      });
+      resetPericia();
+      return navigate(`/pericia/${insertPericiaRes}?operation=creation`);
     } catch (err) {
       setIsLoading(false);
       toast.error("Erro ao salvar pericia!");
@@ -100,8 +104,14 @@ const PericiaCreation = () => {
   useEffect(() => {
     //TODO put costumers in a hook
     const fetchCostumers = async () => {
-      const costumers = await getCostumers();
-      setCostumers(costumers);
+      const res = await getCostumers();
+      if (res.error) {
+        console.log(res.error);
+        toast.error("Erro ao buscar clientes!");
+        return;
+      }
+
+      setCostumers(res.data);
     };
     fetchCostumers();
   }, []);

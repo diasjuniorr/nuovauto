@@ -13,10 +13,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { toast, ToastContainer } from "react-toastify";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getCostumers } from "../../../utils/supabase/supabase.utils";
 import { Costumer } from "../../../shared/interfaces/pericia.interface";
-import { ListItemIcon } from "@material-ui/core";
 
 const CostumersList = () => {
   const [costumers, setCostumers] = useState([] as Costumer[]);
@@ -30,9 +30,15 @@ const CostumersList = () => {
 
   useEffect(() => {
     const fetchCostumers = async () => {
-      const data = await getCostumers();
-      setCostumers(data);
-      setCostumersFiltered(data);
+      const res = await getCostumers();
+      if (res.error) {
+        console.log(res.error);
+        toast.error("Erro ao buscar clientes");
+        return;
+      }
+
+      setCostumers(res.data);
+      setCostumersFiltered(res.data);
     };
     fetchCostumers();
   }, []);
@@ -104,6 +110,7 @@ const CostumersList = () => {
           })}
         </List>
       </Box>
+      <ToastContainer />
     </Container>
   );
 };

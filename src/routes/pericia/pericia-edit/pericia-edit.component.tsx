@@ -100,20 +100,33 @@ const PericiaEditComponent = () => {
   // };
 
   useEffect(() => {
-    //TODO put it in a function
+    if (!periciaID) {
+      return;
+    }
+
     const fetchPericia = async () => {
-      const res = await getPericiaById(periciaID as string);
-      if (res) {
-        const pericia = periciaToUpdateObject(res);
-        updatePericia(pericia);
+      const res = await getPericiaById(periciaID);
+      if (res.error) {
+        console.log(res.error);
+        toast.error("Erro ao buscar pericia!");
+        return;
       }
+
+      const pericia = periciaToUpdateObject(res.data);
+      updatePericia(pericia);
     };
 
     //TODO put fetchCostumer in a context
     fetchPericia();
     const fetchCostumers = async () => {
-      const costumers = await getCostumers();
-      setCostumers(costumers);
+      const res = await getCostumers();
+      if (res.error) {
+        console.log(res.error);
+        toast.error("Erro ao buscar clientes!");
+        return;
+      }
+
+      setCostumers(res.data);
     };
     fetchCostumers();
   }, []);

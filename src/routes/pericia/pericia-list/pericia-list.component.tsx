@@ -1,4 +1,5 @@
 import * as React from "react";
+import { toast, ToastContainer } from "react-toastify";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -50,9 +51,15 @@ const PericiaList = () => {
 
   useEffect(() => {
     const fetchPericias = async () => {
-      const data = await getPericias();
-      setPericias(data);
-      setPericiasFiltered(data);
+      const res = await getPericias();
+      if (res.error) {
+        console.log(res.error);
+        toast.error("Erro ao buscar perícias");
+        return;
+      }
+
+      setPericias(res.data);
+      setPericiasFiltered(res.data);
     };
     fetchPericias();
   }, []);
@@ -150,6 +157,7 @@ const PericiaList = () => {
           })}
         </List>
       </Box>
+      <ToastContainer />
     </Container>
   );
 };

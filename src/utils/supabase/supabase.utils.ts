@@ -17,21 +17,20 @@ export const getCostumers = async () => {
     .from<Costumer>("costumers")
     .select("*");
   if (error) {
-    console.log(error);
-    return [];
+    return { data: null, error };
   }
 
-  return data;
+  return { data, error: null };
 };
 
 export const insertCar = async (car: Car) => {
   try {
     const { data, error } = await supabase.from<Car>("cars").insert(car);
     if (error) {
-      throw error;
+      return { data: null, error };
     }
 
-    return data[0];
+    return { data: data[0], error: null };
   } catch (err) {
     console.log(err);
     throw err;
@@ -46,10 +45,10 @@ export const insertPericia = async (pericia: PericiaToInsert) => {
       .from("pericias")
       .insert(periciaToInsert);
     if (error) {
-      throw error;
+      return { data: null, error };
     }
 
-    return data[0].id;
+    return { data: data[0].id, error: null };
   } catch (err) {
     console.log(err);
     throw err;
@@ -101,11 +100,13 @@ export const getPericiaById = async (id: string) => {
       .select(getPericiaByIdSelect)
       .eq("id", id);
     if (error) {
-      console.log(error);
-      return null;
+      return {
+        data: null,
+        error,
+      };
     }
 
-    return data[0];
+    return { data: data[0], error: null };
   } catch (err) {
     console.log(err);
     throw err;
@@ -129,10 +130,10 @@ export const createCostumer = async (costumer: CostumerToInsert) => {
       .from<CostumerToInsert>("costumers")
       .insert(costumer);
     if (error) {
-      throw error;
+      return { data: null, error };
     }
 
-    return data[0];
+    return { data: data[0], error: null };
   } catch (err) {
     console.log(err);
     throw err;
@@ -153,10 +154,10 @@ export const getPericias = async () => {
       .from<PericiaWithCarAndCostumer>("pericias")
       .select(getPericiasSelect);
     if (error) {
-      throw error;
+      return { data: null, error };
     }
 
-    return data;
+    return { data, error: null };
   } catch (err) {
     console.log(err);
     throw err;
