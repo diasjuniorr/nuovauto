@@ -1,8 +1,4 @@
-import {
-  Pericia,
-  PericiaToInsert,
-  PericiaToUpdate,
-} from "../../shared/interfaces/pericia.interface";
+import { PericiaToInsert } from "../../shared/interfaces/pericia.interface";
 import { PericiaByID } from "../supabase/supabase.utils";
 
 export interface CarPartsMap {

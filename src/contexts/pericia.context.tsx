@@ -5,7 +5,6 @@ import { SMASH_WORKING_HOURS } from "../shared/constants/car-parts.constants";
 import {
   Car,
   Costumer,
-  Pericia,
   PericiaToUpdate,
 } from "../shared/interfaces/pericia.interface";
 

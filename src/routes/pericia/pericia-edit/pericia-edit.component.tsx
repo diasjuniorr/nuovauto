@@ -112,8 +112,7 @@ const PericiaEditComponent = () => {
         return;
       }
 
-      const pericia = periciaToUpdateObject(res.data);
-      updatePericia(pericia);
+      updatePericia(periciaToUpdateObject(res.data));
     };
 
     //TODO put fetchCostumer in a context
