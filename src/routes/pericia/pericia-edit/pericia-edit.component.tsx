@@ -20,6 +20,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Car, Costumer } from "../../../shared/interfaces/pericia.interface";
 import { useParams } from "react-router-dom";
+import { periciaToUpdateObject } from "../../../utils/pericia/pericia.utils";
 
 const validateFields = (car: Car, costumer: Costumer) => {
   if (car.brand && car.model && car.plate && costumer.id) {
@@ -99,43 +100,12 @@ const PericiaEditComponent = () => {
   // };
 
   useEffect(() => {
-    const capitalizeFirstLetter = (string: string) => {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    };
     //TODO put it in a function
     const fetchPericia = async () => {
       const res = await getPericiaById(periciaID as string);
       if (res) {
-        console.log("shwoind res", res);
-        const {
-          id,
-          id_car,
-          id_costumer,
-          finished,
-          price_per_working_hour,
-          date,
-          cars,
-          costumers,
-          ...rest
-        } = res;
-
-        const carParts = Object.entries(rest).map(([key, value]) => {
-          return {
-            name: capitalizeFirstLetter(key),
-            ...value,
-            workingHours: 0,
-          };
-        });
-
-        updatePericia({
-          id,
-          car: cars,
-          date: new Date(date),
-          pricePerHour: price_per_working_hour,
-          finished,
-          carParts,
-          costumer: costumers,
-        });
+        const pericia = periciaToUpdateObject(res);
+        updatePericia(pericia);
       }
     };
 

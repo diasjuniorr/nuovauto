@@ -2,9 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import {
   Car,
   Costumer,
-  Pericia,
   PericiaToInsert,
-  PericiaToUpdate,
 } from "../../shared/interfaces/pericia.interface";
 import { periciaToInsertObject } from "../pericia/pericia.utils";
 
@@ -58,7 +56,7 @@ export const insertPericia = async (pericia: PericiaToInsert) => {
   }
 };
 
-interface PericiaByID {
+export interface PericiaByID {
   id: string;
   id_car: string;
   id_costumer: string;

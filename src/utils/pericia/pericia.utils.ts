@@ -3,6 +3,7 @@ import {
   PericiaToInsert,
   PericiaToUpdate,
 } from "../../shared/interfaces/pericia.interface";
+import { PericiaByID } from "../supabase/supabase.utils";
 
 export interface CarPartsMap {
   [key: string]: {
@@ -76,4 +77,40 @@ export const periciaToInsertObject = (pericia: PericiaToInsert) => {
     porta_ps: carPartsMap["Porta_ps"],
     parafango_ps: carPartsMap["Parafango_ps"],
   };
+};
+
+export const periciaToUpdateObject = (pericia: PericiaByID) => {
+  const {
+    id,
+    id_car,
+    id_costumer,
+    finished,
+    price_per_working_hour,
+    date,
+    cars,
+    costumers,
+    ...rest
+  } = pericia;
+
+  const carParts = Object.entries(rest).map(([key, value]) => {
+    return {
+      name: capitalizeFirstLetter(key),
+      ...value,
+      workingHours: 0,
+    };
+  });
+
+  return {
+    id,
+    car: cars,
+    date: new Date(date),
+    pricePerHour: price_per_working_hour,
+    finished,
+    carParts,
+    costumer: costumers,
+  };
+};
+
+const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
