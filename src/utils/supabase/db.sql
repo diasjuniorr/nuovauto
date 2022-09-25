@@ -73,6 +73,8 @@ CREATE TABLE pericias (
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now(),
   done boolean NOT NULL DEFAULT false,
+  unmount boolean NOT NULL DEFAULT false,
+  unmount_price numeric NOT NULL DEFAULT 0,
 
 constraint fk_pericias_car
     foreign key (id_car)

@@ -42,9 +42,11 @@ const PericiaCreation = () => {
     totalHours,
     totalPrice,
     carParts,
+    unmount,
     updateFinished,
     updateCar,
     updatePricePerHour,
+    updateUnmount,
     resetPericia,
   } = periciaContext;
 
@@ -61,6 +63,15 @@ const PericiaCreation = () => {
   const handleFinishedChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
     updateFinished(checked);
+  };
+
+  const handleUnmount = (e: ChangeEvent<HTMLInputElement>) => {
+    updateUnmount(!unmount.shouldUnmount, unmount.price);
+  };
+
+  const handleUnmountPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    updateUnmount(unmount.shouldUnmount, Number(value));
   };
 
   const handleSavePericia = async () => {
@@ -203,6 +214,36 @@ const PericiaCreation = () => {
                 variant="standard"
                 value={date.toLocaleDateString("pt-BR")}
                 disabled
+              />
+            </Grid>
+            <Grid item xs={6} sm={6}>
+              <FormGroup>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      onChange={handleUnmount}
+                      checked={unmount.shouldUnmount}
+                    />
+                  }
+                  label="Desmontar"
+                />
+              </FormGroup>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              sm={6}
+              display={unmount.shouldUnmount ? "block" : "none"}
+            >
+              <TextField
+                required
+                fullWidth
+                name="unmount"
+                label="Preço desmontagem"
+                id="unmount"
+                variant="standard"
+                value={unmount.price}
+                onChange={handleUnmountPriceChange}
               />
             </Grid>
           </Grid>

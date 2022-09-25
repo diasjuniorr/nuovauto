@@ -12,6 +12,11 @@ interface Props {
   children: React.ReactNode;
 }
 
+interface Unmount {
+  shouldUnmount: boolean;
+  price: number;
+}
+
 export interface PericiaContextProps {
   id: string;
   costumer: Costumer;
@@ -22,6 +27,7 @@ export interface PericiaContextProps {
   pricePerHour: number;
   date: Date;
   finished: boolean;
+  unmount: Unmount;
   updatePericia: (pericia: PericiaToUpdate) => void;
   updateCostumer: (costumer: Costumer) => void;
   updateFinished: (finished: boolean) => void;
@@ -29,6 +35,7 @@ export interface PericiaContextProps {
   updateCarPart: (carPart: CarPart) => void;
   updateCar: (car: Car) => void;
   findCarPart: (name: string) => CarPart;
+  updateUnmount: (shouldUnmount: boolean, price: number) => void;
   resetPericia: () => void;
 }
 
@@ -44,6 +51,11 @@ const carDefaultValue: Car = {
   plate: "",
 };
 
+const unmountDefaultValue: Unmount = {
+  shouldUnmount: false,
+  price: 0,
+};
+
 export const PericiaContext = createContext<PericiaContextProps>({
   id: "",
   costumer: costumerDefaultValue,
@@ -54,12 +66,14 @@ export const PericiaContext = createContext<PericiaContextProps>({
   pricePerHour: 70,
   date: new Date(),
   finished: false,
+  unmount: unmountDefaultValue,
   updatePericia: (pericia: PericiaToUpdate) => {},
   updateCostumer: (costumer: Costumer) => {},
   updateFinished: (finished: boolean) => {},
   updatePricePerHour: (pricePerHour: number) => {},
   updateCar: (car: Car) => {},
   updateCarPart: (carPart: CarPart) => {},
+  updateUnmount: (shouldUnmount: boolean, price: number) => {},
   resetPericia: () => {},
   findCarPart: (name: string) => {
     return {
@@ -89,6 +103,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   const [pricePerHour, setPricePerHour] = useState(70);
   const [date, setDate] = useState(new Date());
   const [finished, setFinished] = useState(false);
+  const [unmount, setUnmount] = useState(unmountDefaultValue);
 
   const updateCarPart = (carPart: CarPart) => {
     setCarParts((prev) => {
@@ -103,7 +118,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
       newCarParts[index].note = generateNotes(carPart);
 
       setTotalHours(getTotalHours(newCarParts));
-      setTotalPrice(getTotalPrice(newCarParts));
+      setTotalPrice(getTotalPrice(newCarParts, unmount.price));
 
       return newCarParts;
     });
@@ -160,6 +175,14 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     setFinished(pericia.finished);
   };
 
+  const updateUnmount = (shouldUnmount: boolean, price: number) => {
+    if (!shouldUnmount) {
+      return setUnmount({ shouldUnmount, price: 0 });
+    }
+
+    setUnmount({ shouldUnmount, price });
+  };
+
   const resetPericia = () => {
     setId("");
     setCostumer(costumerDefaultValue);
@@ -173,8 +196,12 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    setTotalPrice(getTotalPrice(carParts));
+    setTotalPrice(getTotalPrice(carParts, unmount.price));
   }, [carParts]);
+
+  useEffect(() => {
+    setTotalPrice(getTotalPrice(carParts, unmount.price));
+  }, [unmount]);
 
   return (
     <PericiaContext.Provider
@@ -188,6 +215,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         pricePerHour,
         date,
         finished,
+        unmount,
         updatePericia,
         updateCostumer,
         updateFinished,
@@ -195,6 +223,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         updateCar,
         updateCarPart,
         findCarPart,
+        updateUnmount,
         resetPericia,
       }}
     >
@@ -203,8 +232,8 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   );
 };
 
-const getTotalPrice = (carParts: CarPart[]) => {
-  return carParts.reduce((acc, curr) => acc + curr.price, 0);
+const getTotalPrice = (carParts: CarPart[], unmountPrice: number) => {
+  return carParts.reduce((acc, curr) => acc + curr.price, 0) + unmountPrice;
 };
 
 const getTotalHours = (carParts: CarPart[]) => {
