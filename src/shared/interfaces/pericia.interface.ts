@@ -1,3 +1,4 @@
+import { Unmount } from "../../utils/pericia/pericia.utils";
 import { CarPart } from "./car-part.interface";
 
 export interface Pericia {
@@ -27,8 +28,9 @@ export interface PericiaToUpdate {
 export interface PericiaToInsert {
   costumer: Costumer;
   carParts: CarPart[];
-  finished: boolean;
   car: Car;
+  unmount: Unmount;
+  finished: boolean;
   pricePerHour: number;
   date: Date;
   totalHours: number;

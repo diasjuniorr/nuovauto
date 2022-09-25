@@ -102,6 +102,7 @@ const PericiaCreation = () => {
         totalHours: totalHours,
         totalPrice: totalPrice,
         carParts: carParts,
+        unmount,
       });
       resetPericia();
       return navigate(`/pericia/${insertPericiaRes}?operation=creation`);

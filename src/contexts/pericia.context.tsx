@@ -7,14 +7,10 @@ import {
   Costumer,
   PericiaToUpdate,
 } from "../shared/interfaces/pericia.interface";
+import { Unmount } from "../utils/pericia/pericia.utils";
 
 interface Props {
   children: React.ReactNode;
-}
-
-interface Unmount {
-  shouldUnmount: boolean;
-  price: number;
 }
 
 export interface PericiaContextProps {

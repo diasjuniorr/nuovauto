@@ -16,7 +16,8 @@ export interface CarPartsMap {
 }
 
 export const periciaToInsertObject = (pericia: PericiaToInsert) => {
-  const { car, costumer, carParts, pricePerHour, date, finished } = pericia;
+  const { car, costumer, carParts, pricePerHour, date, finished, unmount } =
+    pericia;
 
   const carPartsMap = carParts
     .map((carPart) => {
@@ -72,6 +73,8 @@ export const periciaToInsertObject = (pericia: PericiaToInsert) => {
     porta_as: carPartsMap["Porta_as"],
     porta_ps: carPartsMap["Porta_ps"],
     parafango_ps: carPartsMap["Parafango_ps"],
+    unmount: unmount.shouldUnmount,
+    unmount_pirce: unmount.price,
   };
 };
 
@@ -110,3 +113,8 @@ export const periciaToUpdateObject = (pericia: PericiaByID) => {
 const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
+
+export interface Unmount {
+  shouldUnmount: boolean;
+  price: number;
+}
