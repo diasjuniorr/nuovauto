@@ -45,10 +45,10 @@ const PDFGenerator: React.FC = () => {
       context.font = "26px Arial";
       context.fillStyle = "black";
       context.fillText(`Cliente: ${CostumerName}`, 10, 40);
-      context.fillText(`Marca: ${brand}`, 430, 40);
-      context.fillText(`Modelo: ${model}`, 590, 40);
-      context.fillText(`Placa: ${plate}`, 790, 40);
-      context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 40);
+      context.fillText(`Marca: ${brand}`, 760, 40);
+      context.fillText(`Modelo: ${model}`, 760, 70);
+      context.fillText(`Placa: ${plate}`, 980, 40);
+      context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 70);
       if (finished) {
         context.fillStyle = "red";
         context.fillText(`Liquidado`, 10, 70);
