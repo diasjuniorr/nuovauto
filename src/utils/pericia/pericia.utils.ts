@@ -74,7 +74,7 @@ export const periciaToInsertObject = (pericia: PericiaToInsert) => {
     porta_ps: carPartsMap["Porta_ps"],
     parafango_ps: carPartsMap["Parafango_ps"],
     unmount: unmount.shouldUnmount,
-    unmount_pirce: unmount.price,
+    unmount_price: unmount.price,
   };
 };
 
