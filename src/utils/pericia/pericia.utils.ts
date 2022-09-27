@@ -88,6 +88,8 @@ export const periciaToUpdateObject = (pericia: PericiaByID) => {
     date,
     cars,
     costumers,
+    unmount,
+    unmount_price,
     ...rest
   } = pericia;
 
@@ -107,6 +109,8 @@ export const periciaToUpdateObject = (pericia: PericiaByID) => {
     finished,
     carParts,
     costumer: costumers,
+    unmount: unmount,
+    unmountPrice: unmount_price,
   };
 };
 

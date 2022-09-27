@@ -153,9 +153,10 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   };
 
   const updatePericia = (pericia: PericiaToUpdate) => {
-    setId(pericia.id as string);
-    setCostumer(pericia.costumer as Costumer);
-    setCar(pericia.car as Car);
+    setId(pericia.id);
+    setCostumer(pericia.costumer);
+    setCar(pericia.car);
+    setUnmount({ shouldUnmount: pericia.unmount, price: pericia.unmountPrice });
     setCarParts((prev) => {
       const newCarParts = pericia.carParts.map((cp) => {
         cp.note = generateNotes(cp);

@@ -23,6 +23,8 @@ export interface PericiaToUpdate {
   pricePerHour: number;
   date: Date;
   finished: boolean;
+  unmount: boolean;
+  unmountPrice: number;
 }
 
 export interface PericiaToInsert {
