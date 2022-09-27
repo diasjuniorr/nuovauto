@@ -303,7 +303,7 @@ const generateNotes = (carPart: CarPart) => {
   }
 
   if (shouldPaint) {
-    paintNotes = "p";
+    paintNotes = "v";
   }
 
   if (isAluminum) {
