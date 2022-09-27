@@ -38,7 +38,7 @@ const PDFGenerator: React.FC = () => {
           CAR_PARTS_CANVAS_COORDINATES[
             part.name as keyof typeof CAR_PARTS_CANVAS_COORDINATES
           ];
-        context.fillText(part.note, x, y);
+        context.fillText(part.note.toUpperCase(), x, y);
       });
 
       //draw identification
@@ -46,12 +46,12 @@ const PDFGenerator: React.FC = () => {
       context.fillStyle = "black";
       context.fillText(`Cliente: ${CostumerName}`, 10, 40);
       context.fillText(`Marca: ${brand}`, 760, 40);
-      context.fillText(`Modelo: ${model}`, 760, 70);
-      context.fillText(`Placa: ${plate}`, 980, 40);
+      context.fillText(`Modello: ${model}`, 760, 70);
+      context.fillText(`Targa: ${plate}`, 980, 40);
       context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 70);
       if (finished) {
         context.fillStyle = "red";
-        context.fillText(`Liquidado`, 10, 70);
+        context.fillText(`Liquidata`, 10, 70);
       }
 
       //draw border
