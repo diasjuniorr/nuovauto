@@ -105,7 +105,14 @@ const PericiaCreation = () => {
         unmount,
       });
       resetPericia();
-      return navigate(`/pericia/${insertPericiaRes}?operation=creation`);
+
+      if (insertPericiaRes.error) {
+        console.log(insertPericiaRes.error);
+        toast.error("Erro ao cadastrar perícia");
+        return;
+      }
+
+      return navigate(`/pericia/${insertPericiaRes.data}?operation=creation`);
     } catch (err) {
       setIsLoading(false);
       toast.error("Erro ao salvar pericia!");
