@@ -190,6 +190,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     setFinished(false);
     setTotalHours(0);
     setTotalPrice(0);
+    setUnmount(unmountDefaultValue);
   };
 
   useEffect(() => {
