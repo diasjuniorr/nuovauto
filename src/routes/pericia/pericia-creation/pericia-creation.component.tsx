@@ -171,6 +171,7 @@ const PericiaCreation = () => {
                 variant="standard"
                 onChange={handleCarChange}
                 disabled={isLoading}
+                inputProps={{ style: { textTransform: "uppercase" } }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
