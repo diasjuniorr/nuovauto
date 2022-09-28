@@ -45,8 +45,8 @@ const PDFGenerator: React.FC = () => {
       context.font = "26px Arial";
       context.fillStyle = "black";
       context.fillText(`Cliente: ${CostumerName}`, 10, 40);
-      context.fillText(`Marca: ${brand}`, 760, 40);
-      context.fillText(`Modello: ${model}`, 760, 70);
+      context.fillText(`Marca: ${brand}`, 680, 40);
+      context.fillText(`Modello: ${model}`, 680, 70);
       context.fillText(`Targa: ${plate}`, 980, 40);
       context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 70);
       if (finished) {
