@@ -97,7 +97,10 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
 
   return (
     <div style={{ position: "absolute", top: `${top}px`, left: `${left}px` }}>
-      <Button onClick={handleClickOpen} style={{ zIndex: "10" }}>
+      <Button
+        onClick={handleClickOpen}
+        style={{ zIndex: "10", transform: "rotate(0deg)" }}
+      >
         {getFormattedNotes()}
       </Button>
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
