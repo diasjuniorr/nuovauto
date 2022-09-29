@@ -137,7 +137,7 @@ const PericiaCreation = () => {
 
   useEffect(() => {
     return resetPericia();
-  }, []);
+  });
 
   return (
     <Container component="main" maxWidth="md">
