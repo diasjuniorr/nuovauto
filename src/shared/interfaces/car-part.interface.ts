@@ -8,7 +8,12 @@ export interface CarPart {
   smallSmashWorkingHours: number;
   smash: number | string;
   smashWorkingHours: number;
-  note: string;
+  note: CarPartNote;
   workingHours: number;
   price: number;
+}
+
+interface CarPartNote {
+  smashes: string;
+  details: string;
 }

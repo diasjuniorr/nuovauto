@@ -66,19 +66,32 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
   };
 
   const getFormattedNotes = () => {
-    if (carPart.note.length === 0) {
+    const firstNotesLenght = carPart.note.smashes.length;
+    const secondNotesLenght = carPart.note.details.length;
+    console.log("caiu", carPart.note, firstNotesLenght);
+
+    if (firstNotesLenght + secondNotesLenght === 0) {
       return (
         <Typography variant="h5" component="span" fontSize={22}>
           0
         </Typography>
       );
     }
+
+    if (firstNotesLenght === 0) {
+      return (
+        <Typography variant="h5" component="div" fontSize={22}>
+          {carPart.note.details}
+        </Typography>
+      );
+    }
+
     return (
-      <Typography variant="h5" component="span" fontSize={22}>
-        {carPart.note.split("\n").slice(0, 1)}
-        {<br />}
-        {carPart.note.split("\n").slice(1, 2)}
-      </Typography>
+      <>
+        <Typography variant="h5" component="div" fontSize={22}>
+          {carPart.note.smashes} <br></br> {carPart.note.details}
+        </Typography>
+      </>
     );
   };
 

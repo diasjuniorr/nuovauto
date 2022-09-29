@@ -38,7 +38,7 @@ const PDFGenerator: React.FC = () => {
           CAR_PARTS_CANVAS_COORDINATES[
             part.name as keyof typeof CAR_PARTS_CANVAS_COORDINATES
           ];
-        context.fillText(part.note.toUpperCase(), x, y);
+        context.fillText(part.note.smashes, x, y);
       });
 
       //draw identification

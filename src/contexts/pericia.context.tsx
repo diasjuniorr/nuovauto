@@ -52,6 +52,11 @@ const unmountDefaultValue: Unmount = {
   price: 0,
 };
 
+const carPartNoteDefaultValue = {
+  smashes: "",
+  details: "",
+};
+
 export const PericiaContext = createContext<PericiaContextProps>({
   id: "",
   costumer: costumerDefaultValue,
@@ -82,7 +87,7 @@ export const PericiaContext = createContext<PericiaContextProps>({
       shouldPaint: false,
       shouldReplace: false,
       shouldGlue: false,
-      note: "",
+      note: carPartNoteDefaultValue,
       workingHours: 0,
       price: 0,
     };
@@ -297,38 +302,60 @@ const generateNotes = (carPart: CarPart) => {
   let shouldGlueNotes = "";
 
   if (+smallSmash >= 610 || +smash >= 610 || +smallSmash + +smash >= 610) {
-    smashNotes = "max";
+    smashNotes = "MAX";
   } else {
     smallSmashNotes = smallSmash ? String(smallSmash) : "";
     smashNotes = smash ? `${String(smash)}>` : "";
   }
 
   if (shouldPaint) {
-    paintNotes = "v";
+    paintNotes = "V";
   }
 
   if (isAluminum) {
-    isAluminumNotes = "al";
+    isAluminumNotes = "AL";
   }
 
   if (shouldReplace) {
-    shouldReplaceNotes = "x";
+    shouldReplaceNotes = "X";
   }
 
   if (shouldGlue) {
-    shouldGlueNotes = "c";
+    shouldGlueNotes = "C";
   }
 
-  if (
-    !smashNotes &&
-    !smallSmashNotes &&
-    !paintNotes &&
-    !isAluminumNotes &&
-    !shouldReplaceNotes &&
-    !shouldGlueNotes
-  ) {
+  return {
+    smashes: smashesNotes(smallSmashNotes, smashNotes),
+    details: detailsNotes(
+      paintNotes,
+      isAluminumNotes,
+      shouldReplaceNotes,
+      shouldGlueNotes
+    ),
+  };
+};
+
+function smashesNotes(first: string, second: string) {
+  if (!first && !second) {
     return "";
   }
 
-  return `${smallSmashNotes} ${smashNotes} \n ${paintNotes} ${isAluminumNotes} ${shouldReplaceNotes} ${shouldGlueNotes}`;
-};
+  if (first && second) {
+    return `${first} ${second}`;
+  }
+
+  return first || second;
+}
+
+function detailsNotes(
+  first: string,
+  second: string,
+  third: string,
+  fourth: string
+) {
+  if (!first && !second && !third && !fourth) {
+    return "";
+  }
+
+  return `${first} ${second} ${third} ${fourth}`;
+}
