@@ -9,7 +9,6 @@ import { CAR_PARTS_CANVAS_COORDINATES } from "../../shared/constants/car-parts.c
 import { Button } from "@mui/material";
 import { CarPart } from "../../shared/interfaces/car-part.interface";
 import { Car, Costumer } from "../../shared/interfaces/pericia.interface";
-import { date } from "yup/lib/locale";
 
 const carroImg = require("../../assets/pericia.jpg");
 
@@ -17,7 +16,7 @@ const PDFGenerator: React.FC = () => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const { carParts, costumer, car, date, finished } = periciaContext;
   const { name: CostumerName } = costumer;
-  const { brand, plate, model } = car;
+  const { plate } = car;
 
   const canvas = document.getElementById("pdf-canvas") as HTMLCanvasElement;
 
@@ -25,14 +24,9 @@ const PDFGenerator: React.FC = () => {
     const img = new Image();
     img.src = carroImg;
     img.onload = () => {
-      //set background color
-      context.fillStyle = "white";
-      context.fillRect(0, 0, canvas.width, canvas.height);
+      setBackgroundColor(context, canvas.width, canvas.height);
 
-      //draw image
-      // context.drawImage(img, 0, 30, 1200, 800);
       context.drawImage(img, 20, 80, 1150, 1100);
-
       drawCarParts(context, carParts);
       drawIdentification(context, costumer, car, finished, date);
       drawBorder(context, canvas.width, canvas.height);
@@ -64,17 +58,51 @@ const PDFGenerator: React.FC = () => {
   );
 };
 
+function setBackgroundColor(context: any, width: number, height: number) {
+  context.fillStyle = "white";
+  context.fillRect(0, 0, width, height);
+}
+
 function drawCarParts(context: any, carParts: CarPart[]) {
   context.font = "26px Arial";
   context.fillStyle = "blue";
 
   carParts.forEach((part) => {
-    const { x, y } =
+    const { x, y, relocate } =
       CAR_PARTS_CANVAS_COORDINATES[
         part.name as keyof typeof CAR_PARTS_CANVAS_COORDINATES
       ];
-    context.fillText(part.note.smashes, x, y);
+
+    if (relocate) {
+      drawArrow(context, part, x, y);
+      drawRelocatedText(context, part, x, y);
+    } else {
+      drawText(context, part, x, y);
+    }
   });
+}
+
+function drawText(context: any, carPart: CarPart, x: number, y: number) {
+  if (carPart.note.smashes.length > 0) {
+    context.fillText(carPart.note.smashes, x, y);
+    context.fillText(carPart.note.details.trim(), x + 5, y + 30);
+  } else {
+    context.fillText(carPart.note.details.trim(), x, y);
+  }
+}
+
+function drawRelocatedText(
+  context: any,
+  carPart: CarPart,
+  x: number,
+  y: number
+) {
+  if (carPart.note.smashes.length > 0) {
+    context.fillText(carPart.note.smashes, x - 15, y + 240);
+    context.fillText(carPart.note.details.trim(), x - 10, y + 270);
+  } else {
+    context.fillText(carPart.note.details.trim(), x - 15, y + 240);
+  }
 }
 
 function drawIdentification(
@@ -90,8 +118,8 @@ function drawIdentification(
   context.font = "26px Arial";
   context.fillStyle = "black";
   context.fillText(`Cliente: ${name}`, 10, 40);
-  context.fillText(`Marca: ${brand}`, 600, 40);
-  context.fillText(`Modello: ${model}`, 600, 70);
+  context.fillText(`Marca: ${brand}`, 500, 40);
+  context.fillText(`Modello: ${model}`, 500, 70);
   context.fillText(`Targa: ${plate}`, 980, 40);
   context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 70);
   if (finished) {
@@ -111,5 +139,39 @@ function drawBorder(context: any, width: number, height: number) {
 const removeWhiteSpaces = (str: string) => {
   return str.replace(/\s/g, "_");
 };
+
+function drawArrow(context: any, part: CarPart, x: number, y: number) {
+  const { note } = part;
+  if (note.smashes.length > 0 || note.details.length > 0) {
+    context.strokeStyle = "blue";
+    context.beginPath();
+    canvas_arrow(context, x, y, x, y + 200);
+    context.stroke();
+  }
+}
+
+function canvas_arrow(
+  context: any,
+  fromx: number,
+  fromy: number,
+  tox: number,
+  toy: number
+) {
+  var headlen = 10; // length of head in pixels
+  var dx = tox - fromx;
+  var dy = toy - fromy;
+  var angle = Math.atan2(dy, dx);
+  context.moveTo(fromx, fromy);
+  context.lineTo(tox, toy);
+  context.lineTo(
+    tox - headlen * Math.cos(angle - Math.PI / 6),
+    toy - headlen * Math.sin(angle - Math.PI / 6)
+  );
+  context.moveTo(tox, toy);
+  context.lineTo(
+    tox - headlen * Math.cos(angle + Math.PI / 6),
+    toy - headlen * Math.sin(angle + Math.PI / 6)
+  );
+}
 
 export default PDFGenerator;

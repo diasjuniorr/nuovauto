@@ -38,20 +38,20 @@ export const CAR_PARTS_LIST: CarPart[] = Object.keys(CAR_PARTS).map((key) => {
 });
 
 export const CAR_PARTS_CANVAS_COORDINATES = {
-  Parafango_ad: { x: 330, y: 285 },
-  Porta_ad: { x: 510, y: 285 },
-  Porta_pd: { x: 689, y: 285 },
-  Parafango_pd: { x: 860, y: 285 },
-  Cofano: { x: 220, y: 630 },
-  Tetto: { x: 660, y: 630 },
-  Piantone_d: { x: 800, y: 520 },
-  Piantone_s: { x: 800, y: 725 },
-  Sportello_s: { x: 940, y: 630 },
-  Sportello_i: { x: 1065, y: 630 },
-  Parafango_as: { x: 330, y: 985 },
-  Porta_as: { x: 510, y: 985 },
-  Porta_ps: { x: 689, y: 985 },
-  Parafango_ps: { x: 860, y: 985 },
+  Parafango_ad: { x: 310, y: 280, relocate: false },
+  Porta_ad: { x: 510, y: 270, relocate: false },
+  Porta_pd: { x: 689, y: 270, relocate: false },
+  Parafango_pd: { x: 860, y: 285, relocate: false },
+  Cofano: { x: 265, y: 630, relocate: false },
+  Tetto: { x: 660, y: 630, relocate: false },
+  Piantone_d: { x: 785, y: 482, relocate: false },
+  Piantone_s: { x: 785, y: 755, relocate: false },
+  Sportello_s: { x: 960, y: 630, relocate: true },
+  Sportello_i: { x: 1075, y: 630, relocate: true },
+  Parafango_as: { x: 310, y: 995, relocate: false },
+  Porta_as: { x: 510, y: 985, relocate: false },
+  Porta_ps: { x: 689, y: 985, relocate: false },
+  Parafango_ps: { x: 860, y: 975, relocate: false },
 };
 
 export const SMASH_WORKING_HOURS = {
