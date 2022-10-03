@@ -302,7 +302,7 @@ const generateNotes = (carPart: CarPart) => {
   let shouldGlueNotes = "";
 
   if (+smallSmash >= 610 || +smash >= 610 || +smallSmash + +smash >= 610) {
-    smashNotes = "MAX";
+    smashNotes = "MASSIMO";
   } else {
     smallSmashNotes = smallSmash ? String(smallSmash) : "";
     smashNotes = smash ? `${String(smash)}>` : "";
