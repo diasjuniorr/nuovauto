@@ -14,6 +14,7 @@ import {
   PericiaContext,
   PericiaContextProps,
 } from "../../../contexts/pericia.context";
+import { CAR_PARTS } from "../../../shared/constants/car-parts.constants";
 
 interface DialogComponentProps {
   partName: string;
@@ -29,6 +30,7 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
   const [open, setOpen] = useState(false);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const { updateCarPart, findCarPart } = periciaContext;
+  const { PARAFANGO_AD, PARAFANGO_AS } = CAR_PARTS;
 
   //TODO - Refactor this because its being called twice
   let carPart = findCarPart(partName);
@@ -41,7 +43,6 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
     smallSmash,
     smash,
   } = carPart;
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let { name, value, checked } = e.target;
 
@@ -81,6 +82,14 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
       return (
         <Typography variant="h5" component="div" fontSize={18}>
           {carPart.note.details}
+        </Typography>
+      );
+    }
+
+    if (partName === PARAFANGO_AD || partName === PARAFANGO_AS) {
+      return (
+        <Typography variant="h5" component="div" fontSize={18}>
+          {carPart.note.smashes} {carPart.note.details}
         </Typography>
       );
     }
