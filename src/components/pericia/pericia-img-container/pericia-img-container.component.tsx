@@ -32,18 +32,18 @@ const PericiaImgContainer: React.FC<PericiaImgContainerProps> = ({
         return "600px";
       case "md":
         return "800px";
-      case "lg":
-        return "960px";
       default:
-        return "1280px";
+        return "900px";
     }
   };
 
   return (
     <div
       style={{
+        backgroundColor: "pink",
         marginTop: "64px",
         maxWidth: `${getWidth(width)}`,
+        // maxWidth: `500px`,
         overflowX: "auto",
         whiteSpace: "nowrap",
       }}
@@ -54,8 +54,9 @@ const PericiaImgContainer: React.FC<PericiaImgContainerProps> = ({
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          minHeight: "800px",
-          minWidth: "1200px",
+          minHeight: "580px",
+          // minWidth: "1200px",
+          minWidth: "800px",
           position: "relative",
         }}
       >
@@ -66,3 +67,40 @@ const PericiaImgContainer: React.FC<PericiaImgContainerProps> = ({
 };
 
 export default PericiaImgContainer;
+
+// const width = useWidth();
+// const getWidth = (width: Breakpoint) => {
+//   switch (width) {
+//     case "xs":
+//       return "400px";
+//     case "sm":
+//       return "600px";
+//     case "md":
+//       return "800px";
+//     case "lg":
+//       return "960px";
+//     default:
+//       return "1280px";
+//   }
+// };
+
+// return (
+//   <div
+//     style={{
+//       marginTop: "64px",
+//       maxWidth: `${getWidth(width)}`,
+//       overflowX: "auto",
+//       whiteSpace: "nowrap",
+//     }}
+//   >
+//     <div
+//       style={{
+//         backgroundImage: `url(${periciaIMG})`,
+//         backgroundSize: "cover",
+//         backgroundPosition: "center",
+//         backgroundRepeat: "no-repeat",
+//         minHeight: "800px",
+//         minWidth: "1200px",
+//         position: "relative",
+//       }}
+//     >

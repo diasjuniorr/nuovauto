@@ -72,7 +72,7 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
 
     if (firstNotesLenght + secondNotesLenght === 0) {
       return (
-        <Typography variant="h5" component="span" fontSize={22}>
+        <Typography variant="h5" component="span" fontSize={18}>
           0
         </Typography>
       );
@@ -80,7 +80,7 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
 
     if (firstNotesLenght === 0) {
       return (
-        <Typography variant="h5" component="div" fontSize={22}>
+        <Typography variant="h5" component="div" fontSize={18}>
           {carPart.note.details}
         </Typography>
       );
@@ -88,7 +88,7 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
 
     return (
       <>
-        <Typography variant="h5" component="div" fontSize={22}>
+        <Typography variant="h5" component="div" fontSize={18}>
           {carPart.note.smashes} <br></br> {carPart.note.details}
         </Typography>
       </>
