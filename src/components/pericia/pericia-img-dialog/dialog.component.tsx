@@ -15,6 +15,8 @@ import {
   PericiaContextProps,
 } from "../../../contexts/pericia.context";
 import { CAR_PARTS } from "../../../shared/constants/car-parts.constants";
+const { PARAFANGO_AD, PARAFANGO_AS } = CAR_PARTS;
+const notesInLine = [PARAFANGO_AD, PARAFANGO_AS];
 
 interface DialogComponentProps {
   partName: string;
@@ -30,7 +32,6 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
   const [open, setOpen] = useState(false);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const { updateCarPart, findCarPart } = periciaContext;
-  const { PARAFANGO_AD, PARAFANGO_AS } = CAR_PARTS;
 
   //TODO - Refactor this because its being called twice
   let carPart = findCarPart(partName);
@@ -86,7 +87,7 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
       );
     }
 
-    if (partName === PARAFANGO_AD || partName === PARAFANGO_AS) {
+    if (notesInLine.includes(partName)) {
       return (
         <Typography variant="h5" component="div" fontSize={18}>
           {carPart.note.smashes} {carPart.note.details}
