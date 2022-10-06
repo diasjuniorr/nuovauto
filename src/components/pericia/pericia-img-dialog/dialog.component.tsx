@@ -68,7 +68,6 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
   const getFormattedNotes = () => {
     const firstNotesLenght = carPart.note.smashes.length;
     const secondNotesLenght = carPart.note.details.length;
-    console.log("caiu", carPart.note, firstNotesLenght);
 
     if (firstNotesLenght + secondNotesLenght === 0) {
       return (
