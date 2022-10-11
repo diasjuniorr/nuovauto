@@ -88,8 +88,7 @@ function drawCarParts(context: any, carParts: CarPart[]) {
 }
 
 function drawZeroText(context: any, part: CarPart, x: number, y: number) {
-  context.fillText("0", x, y);
-  context.fillText(part.name, x, y);
+  context.fillText("0", x - 10, y);
 }
 
 function drawText(context: any, carPart: CarPart, x: number, y: number) {
