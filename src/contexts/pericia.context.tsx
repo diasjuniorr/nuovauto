@@ -317,7 +317,7 @@ const generateNotes = (carPart: CarPart) => {
   }
 
   if (shouldReplace) {
-    shouldReplaceNotes = "X";
+    shouldReplaceNotes = "Sost";
   }
 
   if (shouldGlue) {
