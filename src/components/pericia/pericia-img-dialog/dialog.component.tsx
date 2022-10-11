@@ -14,6 +14,9 @@ import {
   PericiaContext,
   PericiaContextProps,
 } from "../../../contexts/pericia.context";
+import { CAR_PARTS } from "../../../shared/constants/car-parts.constants";
+const { PARAFANGO_AD, PARAFANGO_AS } = CAR_PARTS;
+const notesInLine = [PARAFANGO_AD, PARAFANGO_AS];
 
 interface DialogComponentProps {
   partName: string;
@@ -41,7 +44,6 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
     smallSmash,
     smash,
   } = carPart;
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let { name, value, checked } = e.target;
 
@@ -68,7 +70,6 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
   const getFormattedNotes = () => {
     const firstNotesLenght = carPart.note.smashes.length;
     const secondNotesLenght = carPart.note.details.length;
-    console.log("caiu", carPart.note, firstNotesLenght);
 
     if (firstNotesLenght + secondNotesLenght === 0) {
       return (
@@ -82,6 +83,14 @@ const DialogSelect: React.FC<DialogComponentProps> = ({
       return (
         <Typography variant="h5" component="div" fontSize={18}>
           {carPart.note.details}
+        </Typography>
+      );
+    }
+
+    if (notesInLine.includes(partName)) {
+      return (
+        <Typography variant="h5" component="div" fontSize={18}>
+          {carPart.note.smashes} {carPart.note.details}
         </Typography>
       );
     }

@@ -73,6 +73,11 @@ function drawCarParts(context: any, carParts: CarPart[]) {
         part.name as keyof typeof CAR_PARTS_CANVAS_COORDINATES
       ];
 
+    if (part.note.smashes.length === 0 && part.note.details.length === 0) {
+      drawZeroText(context, part, x, y);
+      return;
+    }
+
     if (relocate) {
       drawArrow(context, part, x, y);
       drawRelocatedText(context, part, x, y);
@@ -80,6 +85,10 @@ function drawCarParts(context: any, carParts: CarPart[]) {
       drawText(context, part, x, y);
     }
   });
+}
+
+function drawZeroText(context: any, part: CarPart, x: number, y: number) {
+  context.fillText("0", x - 10, y);
 }
 
 function drawText(context: any, carPart: CarPart, x: number, y: number) {
