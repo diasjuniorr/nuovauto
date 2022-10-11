@@ -50,6 +50,7 @@ const PericiaCreation = () => {
     resetPericia,
   } = periciaContext;
 
+  //TODO refact
   const handleCarPlateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log("cara", value.toUpperCase());
