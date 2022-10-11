@@ -50,6 +50,12 @@ const PericiaCreation = () => {
     resetPericia,
   } = periciaContext;
 
+  const handleCarPlateChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log("cara", value.toUpperCase());
+    setCar({ ...car, [name]: value.toUpperCase() });
+  };
+
   const handleCarChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCar({ ...car, [name]: value });
@@ -169,9 +175,9 @@ const PericiaCreation = () => {
                 label="Placa"
                 name="plate"
                 variant="standard"
-                onChange={handleCarChange}
+                onChange={handleCarPlateChange}
+                value={car.plate || ""}
                 disabled={isLoading}
-                inputProps={{ style: { textTransform: "uppercase" } }}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
