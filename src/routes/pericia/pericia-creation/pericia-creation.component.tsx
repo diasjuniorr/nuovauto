@@ -53,7 +53,6 @@ const PericiaCreation = () => {
   //TODO refact
   const handleCarPlateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("cara", value.toUpperCase());
     setCar({ ...car, [name]: value.toUpperCase() });
   };
 
@@ -209,6 +208,7 @@ const PericiaCreation = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                type={"number"}
                 required
                 fullWidth
                 name="pricePerHour"
