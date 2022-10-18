@@ -36,6 +36,7 @@ const PDFGenerator: React.FC = () => {
 
       context.drawImage(img, 20, 80, 1150, 1100);
       drawIdentification(context, pdfInfo);
+      drawPDFLegend(context);
       drawCarParts(context, carParts);
       drawBorder(context, canvas.width, canvas.height);
     };
@@ -143,6 +144,15 @@ function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
     context.fillStyle = "red";
     context.fillText(`Smontaggio`, 10, 100);
   }
+}
+
+function drawPDFLegend(context: any) {
+  context.font = "26px Arial";
+  context.fillStyle = "black";
+  context.fillText(`V: Verniciare`, 10, 1100);
+  context.fillText(`AL: Alumnino`, 10, 1130);
+  context.fillText(`C: Cola`, 10, 1160);
+  context.fillText(`SOST: Sostituire`, 10, 1190);
 }
 
 function drawBorder(context: any, width: number, height: number) {
