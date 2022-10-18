@@ -16,7 +16,7 @@ import {
 } from "../../../contexts/pericia.context";
 import { CAR_PARTS } from "../../../shared/constants/car-parts.constants";
 const { PARAFANGO_AD, PARAFANGO_AS } = CAR_PARTS;
-const notesInLine = [PARAFANGO_AD, PARAFANGO_AS];
+const notesInLine = [PARAFANGO_AD.value, PARAFANGO_AS.value];
 
 interface DialogComponentProps {
   partName: string;

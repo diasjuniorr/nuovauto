@@ -1,25 +1,33 @@
 import { CarPart } from "../interfaces/car-part.interface";
 
 export const CAR_PARTS = {
-  PARAFANGO_AD: "Parafango_ad",
-  PORTA_AD: "Porta_ad",
-  PORTA_PD: "Porta_pd",
-  PARAFANGO_PD: "Parafango_pd",
-  COFANO: "Cofano",
-  TETTO: "Tetto",
-  PIANTONE_D: "Piantone_d",
-  PIANTONE_S: "Piantone_s",
-  SPORTELLO_S: "Sportello_s",
-  SPORTELLO_I: "Sportello_i",
-  PARAFANGO_AS: "Parafango_as",
-  PORTA_AS: "Porta_as",
-  PORTA_PS: "Porta_ps",
-  PARAFANGO_PS: "Parafango_ps",
+  COFANO: { text: "Cofano", value: "Cofano", id: 1 },
+  TETTO: { text: "Tetto", value: "Tetto", id: 2 },
+  SPORTELLO_S: { text: "Sportello Superiore", value: "Sportello_s", id: 3 },
+  SPORTELLO_I: { text: "Sportello Inferiore", value: "Sportello_i", id: 4 },
+  PARAFANGO_AS: { text: "Parafango Sinistro", value: "Parafango_as", id: 5 },
+  PORTA_AS: { text: "Porta Sinistra", value: "Porta_as", id: 6 },
+  PORTA_PS: { text: "Porta Post Sinistra", value: "Porta_ps", id: 7 },
+  PARAFANGO_PS: {
+    text: "Parafango Post Sinistro",
+    value: "Parafango_ps",
+    id: 8,
+  },
+  PIANTONE_S: { text: "Piantone Sinistro", value: "Piantone_s", id: 9 },
+  PARAFANGO_AD: { text: "Parafango Destro", value: "Parafango_ad", id: 10 },
+  PORTA_AD: { text: "Porta Destra", value: "Porta_ad", id: 11 },
+  PORTA_PD: { text: "Porta Post Destra", value: "Porta_pd", id: 12 },
+  PARAFANGO_PD: {
+    text: "Parafango Post Destro",
+    value: "Parafango_pd",
+    id: 13,
+  },
+  PIANTONE_D: { text: "Piantone Destro", value: "Piantone_d", id: 14 },
 };
 
 export const CAR_PARTS_LIST: CarPart[] = Object.keys(CAR_PARTS).map((key) => {
   return {
-    name: CAR_PARTS[key as keyof typeof CAR_PARTS],
+    name: CAR_PARTS[key as keyof typeof CAR_PARTS].value,
     isAluminum: false,
     shouldPaint: false,
     shouldReplace: false,

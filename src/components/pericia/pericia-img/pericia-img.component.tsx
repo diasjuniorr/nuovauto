@@ -22,20 +22,20 @@ const PericiaImg = () => {
 
   return (
     <PericiaImgContainer>
-      <Dialog top={80} left={170} partName={PARAFANGO_AD} />
-      <Dialog top={65} left={310} partName={PORTA_AD} />
-      <Dialog top={65} left={450} partName={PORTA_PD} />
-      <Dialog top={75} left={580} partName={PARAFANGO_PD} />
-      <Dialog top={270} left={150} partName={COFANO} />
-      <Dialog top={270} left={440} partName={TETTO} />
-      <Dialog top={190} left={530} partName={PIANTONE_D} />
-      <Dialog top={345} left={530} partName={PIANTONE_S} />
-      <Dialog top={270} left={635} partName={SPORTELLO_S} />
-      <Dialog top={270} left={713} partName={SPORTELLO_I} />
-      <Dialog top={460} left={170} partName={PARAFANGO_AS} />
-      <Dialog top={460} left={310} partName={PORTA_AS} />
-      <Dialog top={460} left={450} partName={PORTA_PS} />
-      <Dialog top={440} left={590} partName={PARAFANGO_PS} />
+      <Dialog top={80} left={170} partName={PARAFANGO_AD.value} />
+      <Dialog top={65} left={310} partName={PORTA_AD.value} />
+      <Dialog top={65} left={450} partName={PORTA_PD.value} />
+      <Dialog top={75} left={580} partName={PARAFANGO_PD.value} />
+      <Dialog top={270} left={150} partName={COFANO.value} />
+      <Dialog top={270} left={440} partName={TETTO.value} />
+      <Dialog top={190} left={530} partName={PIANTONE_D.value} />
+      <Dialog top={345} left={530} partName={PIANTONE_S.value} />
+      <Dialog top={270} left={635} partName={SPORTELLO_S.value} />
+      <Dialog top={270} left={713} partName={SPORTELLO_I.value} />
+      <Dialog top={460} left={170} partName={PARAFANGO_AS.value} />
+      <Dialog top={460} left={310} partName={PORTA_AS.value} />
+      <Dialog top={460} left={450} partName={PORTA_PS.value} />
+      <Dialog top={440} left={590} partName={PARAFANGO_PS.value} />
     </PericiaImgContainer>
   );
 };
