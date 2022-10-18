@@ -182,7 +182,6 @@ const PericiaCreation = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
-                autoComplete="off"
                 required
                 fullWidth
                 id="brand"
@@ -195,7 +194,6 @@ const PericiaCreation = () => {
             </Grid>
             <Grid item xs={12} sm={4}>
               <TextField
-                autoComplete="off"
                 required
                 fullWidth
                 name="model"
