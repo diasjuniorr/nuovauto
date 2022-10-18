@@ -14,7 +14,7 @@ const carroImg = require("../../assets/pericia.jpg");
 
 const PDFGenerator: React.FC = () => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { carParts, costumer, car, date, finished } = periciaContext;
+  const { carParts, costumer, car, date, finished, unmount } = periciaContext;
   const { name: CostumerName } = costumer;
   const { plate } = car;
 
@@ -26,9 +26,17 @@ const PDFGenerator: React.FC = () => {
     img.onload = () => {
       setBackgroundColor(context, canvas.width, canvas.height);
 
+      const pdfInfo = makePDFInfoObject(
+        costumer,
+        car,
+        finished,
+        date,
+        unmount.shouldUnmount
+      );
+
       context.drawImage(img, 20, 80, 1150, 1100);
+      drawIdentification(context, pdfInfo);
       drawCarParts(context, carParts);
-      drawIdentification(context, costumer, car, finished, date);
       drawBorder(context, canvas.width, canvas.height);
     };
   };
@@ -114,15 +122,10 @@ function drawRelocatedText(
   }
 }
 
-function drawIdentification(
-  context: any,
-  costuner: Costumer,
-  car: Car,
-  finished: boolean,
-  date: Date
-) {
+function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
+  const { costumer, car, finished, date, unmount } = pdfInfoObject;
   const { brand, model, plate } = car;
-  const { name } = costuner;
+  const { name } = costumer;
 
   context.font = "26px Arial";
   context.fillStyle = "black";
@@ -134,6 +137,11 @@ function drawIdentification(
   if (finished) {
     context.fillStyle = "red";
     context.fillText(`Liquidata`, 10, 70);
+  }
+
+  if (unmount) {
+    context.fillStyle = "red";
+    context.fillText(`Smontaggio`, 10, 100);
   }
 }
 
@@ -181,6 +189,24 @@ function canvas_arrow(
     tox - headlen * Math.cos(angle + Math.PI / 6),
     toy - headlen * Math.sin(angle + Math.PI / 6)
   );
+}
+
+interface PDFInfoObject {
+  costumer: Costumer;
+  car: Car;
+  finished: boolean;
+  date: Date;
+  unmount: boolean;
+}
+
+function makePDFInfoObject(
+  costumer: Costumer,
+  car: Car,
+  finished: boolean,
+  date: Date,
+  unmount: boolean
+) {
+  return { costumer, car, finished, date, unmount };
 }
 
 export default PDFGenerator;
