@@ -149,8 +149,8 @@ function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
 function drawPDFLegend(context: any) {
   context.font = "26px Arial";
   context.fillStyle = "black";
-  context.fillText(`V: Verniciare`, 10, 1100);
-  context.fillText(`C: Cola`, 10, 1130);
+  context.fillText(`C: Cola`, 10, 1100);
+  context.fillText(`V: Verniciare`, 10, 1130);
   context.fillText(`AL: Alumnino`, 10, 1160);
   context.fillText(`SOST: Sostituire`, 10, 1190);
 }
