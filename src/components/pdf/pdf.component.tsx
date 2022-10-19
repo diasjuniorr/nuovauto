@@ -151,7 +151,7 @@ function drawPDFLegend(context: any) {
   context.fillStyle = "black";
   context.fillText(`C: Cola`, 10, 1100);
   context.fillText(`V: Verniciare`, 10, 1130);
-  context.fillText(`AL: Alumnino`, 10, 1160);
+  context.fillText(`AL: Allumnino`, 10, 1160);
   context.fillText(`SOST: Sostituire`, 10, 1190);
 }
 
