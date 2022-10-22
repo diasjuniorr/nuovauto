@@ -1,4 +1,4 @@
-import { CarPart } from "../interfaces/car-part.interface";
+import { CarPart } from "../interfaces/pericia.interface";
 
 export const CAR_PARTS = {
   COFANO: { text: "Cofano", value: "Cofano", id: 1 },

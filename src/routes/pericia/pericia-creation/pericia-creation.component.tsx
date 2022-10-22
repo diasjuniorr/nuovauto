@@ -42,7 +42,8 @@ const PericiaCreation = () => {
     totalHours,
     totalPrice,
     carParts,
-    unmount,
+    shouldUnmount,
+    unmountPrice,
     updateFinished,
     updateCar,
     updatePricePerHour,
@@ -72,12 +73,12 @@ const PericiaCreation = () => {
   };
 
   const handleUnmount = (e: ChangeEvent<HTMLInputElement>) => {
-    updateUnmount(!unmount.shouldUnmount, unmount.price);
+    updateUnmount(!shouldUnmount, unmountPrice);
   };
 
   const handleUnmountPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    updateUnmount(unmount.shouldUnmount, Number(value));
+    updateUnmount(shouldUnmount, Number(value));
   };
 
   const handleSavePericia = async () => {
@@ -108,9 +109,9 @@ const PericiaCreation = () => {
         totalHours: totalHours,
         totalPrice: totalPrice,
         carParts: carParts,
-        unmount,
+        shouldUnmount,
+        unmountPrice,
       });
-      resetPericia();
 
       if (insertPericiaRes.error) {
         console.log(insertPericiaRes.error);
@@ -118,6 +119,7 @@ const PericiaCreation = () => {
         return;
       }
 
+      resetPericia();
       return navigate(`/pericia/${insertPericiaRes.data}?operation=creation`);
     } catch (err) {
       setIsLoading(false);
@@ -236,19 +238,14 @@ const PericiaCreation = () => {
                   control={
                     <Checkbox
                       onChange={handleUnmount}
-                      checked={unmount.shouldUnmount}
+                      checked={shouldUnmount}
                     />
                   }
                   label="Desmontar"
                 />
               </FormGroup>
             </Grid>
-            <Grid
-              item
-              xs={6}
-              sm={6}
-              display={unmount.shouldUnmount ? "block" : "none"}
-            >
+            <Grid item xs={6} sm={6} display={shouldUnmount ? "block" : "none"}>
               <TextField
                 required
                 fullWidth
@@ -256,7 +253,7 @@ const PericiaCreation = () => {
                 label="Preço desmontagem"
                 id="unmount"
                 variant="standard"
-                value={unmount.price}
+                value={unmountPrice}
                 onChange={handleUnmountPriceChange}
               />
             </Grid>

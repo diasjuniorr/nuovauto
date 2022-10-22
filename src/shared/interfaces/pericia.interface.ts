@@ -1,11 +1,7 @@
-import { Unmount } from "../../utils/pericia/pericia.utils";
-import { CarPart } from "./car-part.interface";
-
 export interface Pericia {
   id: string;
   car: Car;
-  costumer?: Costumer;
-  cardID?: string;
+  costumer: Costumer;
   carParts: CarPart[];
   totalHours: number;
   totalPrice: number;
@@ -13,30 +9,8 @@ export interface Pericia {
   date: Date;
   finished: boolean;
   done: boolean;
-}
-
-export interface PericiaToUpdate {
-  id: string;
-  costumer: Costumer;
-  car: Car;
-  carParts: CarPart[];
-  pricePerHour: number;
-  date: Date;
-  finished: boolean;
-  unmount: boolean;
+  shouldUnmount: boolean;
   unmountPrice: number;
-}
-
-export interface PericiaToInsert {
-  costumer: Costumer;
-  carParts: CarPart[];
-  car: Car;
-  unmount: Unmount;
-  finished: boolean;
-  pricePerHour: number;
-  date: Date;
-  totalHours: number;
-  totalPrice: number;
 }
 
 export interface Costumer {
@@ -54,3 +28,37 @@ export interface Car {
   brand: string;
   model: string;
 }
+
+export interface CarPart {
+  name: string;
+  isAluminum: boolean;
+  shouldPaint: boolean;
+  shouldReplace: boolean;
+  shouldGlue: boolean;
+  smallSmash: number | string;
+  smallSmashWorkingHours: number;
+  smash: number | string;
+  smashWorkingHours: number;
+  note: CarPartNote;
+  workingHours: number;
+  price: number;
+}
+
+interface CarPartNote {
+  smashes: string;
+  details: string;
+}
+
+export type PericiaToUpdate = {
+  id: string;
+  costumer: Costumer;
+  car: Car;
+  carParts: PericiaToUpdateCarPart[];
+  pricePerHour: number;
+  date: Date;
+  finished: boolean;
+  shouldUnmount: boolean;
+  unmountPrice: number;
+};
+
+type PericiaToUpdateCarPart = Omit<CarPart, "note">;

@@ -1,7 +1,6 @@
-import { PericiaToInsert } from "../../shared/interfaces/pericia.interface";
-import { PericiaByID } from "../supabase/supabase.utils";
+import { PericiaByID, PericiaToInsert } from "../supabase/supabase.utils";
 
-export interface CarPartsMap {
+interface CarPartsMap {
   [key: string]: {
     isAluminum: boolean;
     shouldPaint: boolean;
@@ -16,8 +15,16 @@ export interface CarPartsMap {
 }
 
 export const periciaToInsertObject = (pericia: PericiaToInsert) => {
-  const { car, costumer, carParts, pricePerHour, date, finished, unmount } =
-    pericia;
+  const {
+    car,
+    costumer,
+    carParts,
+    pricePerHour,
+    date,
+    finished,
+    shouldUnmount,
+    unmountPrice,
+  } = pericia;
 
   const carPartsMap = carParts
     .map((carPart) => {
@@ -73,8 +80,8 @@ export const periciaToInsertObject = (pericia: PericiaToInsert) => {
     porta_as: carPartsMap["Porta_as"],
     porta_ps: carPartsMap["Porta_ps"],
     parafango_ps: carPartsMap["Parafango_ps"],
-    unmount: unmount.shouldUnmount,
-    unmount_price: unmount.price,
+    unmount: shouldUnmount,
+    unmount_price: unmountPrice,
   };
 };
 
@@ -84,6 +91,7 @@ export const periciaToUpdateObject = (pericia: PericiaByID) => {
     id_car,
     id_costumer,
     finished,
+    done,
     price_per_working_hour,
     date,
     cars,
@@ -98,18 +106,20 @@ export const periciaToUpdateObject = (pericia: PericiaByID) => {
       name: capitalizeFirstLetter(key),
       ...value,
       workingHours: 0,
+      note: { smashes: "", details: "" },
     };
   });
 
   return {
     id,
+    done,
+    finished,
     car: cars,
+    carParts,
     date: new Date(date),
     pricePerHour: price_per_working_hour,
-    finished,
-    carParts,
     costumer: costumers,
-    unmount: unmount,
+    shouldUnmount: unmount,
     unmountPrice: unmount_price,
   };
 };
@@ -117,8 +127,3 @@ export const periciaToUpdateObject = (pericia: PericiaByID) => {
 const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
-
-export interface Unmount {
-  shouldUnmount: boolean;
-  price: number;
-}

@@ -39,7 +39,8 @@ const PericiaEditComponent = () => {
     pricePerHour,
     finished,
     car,
-    unmount,
+    shouldUnmount,
+    unmountPrice,
     updateUnmount,
     updatePericia,
     updateFinished,
@@ -53,12 +54,12 @@ const PericiaEditComponent = () => {
   const calledOnce = useRef(false);
 
   const handleUnmount = (e: ChangeEvent<HTMLInputElement>) => {
-    updateUnmount(!unmount.shouldUnmount, unmount.price);
+    updateUnmount(!shouldUnmount, unmountPrice);
   };
 
   const handleUnmountPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    updateUnmount(unmount.shouldUnmount, Number(value));
+    updateUnmount(shouldUnmount, Number(value));
   };
 
   const handleCarChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -251,19 +252,14 @@ const PericiaEditComponent = () => {
                   control={
                     <Checkbox
                       onChange={handleUnmount}
-                      checked={unmount.shouldUnmount}
+                      checked={shouldUnmount}
                     />
                   }
                   label="Desmontar"
                 />
               </FormGroup>
             </Grid>
-            <Grid
-              item
-              xs={6}
-              sm={6}
-              display={unmount.shouldUnmount ? "block" : "none"}
-            >
+            <Grid item xs={6} sm={6} display={shouldUnmount ? "block" : "none"}>
               <TextField
                 required
                 fullWidth
@@ -271,7 +267,7 @@ const PericiaEditComponent = () => {
                 label="Preço desmontagem"
                 id="unmount"
                 variant="standard"
-                value={unmount.price}
+                value={unmountPrice}
                 onChange={handleUnmountPriceChange}
               />
             </Grid>

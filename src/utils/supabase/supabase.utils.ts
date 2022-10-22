@@ -2,9 +2,9 @@ import { createClient } from "@supabase/supabase-js";
 import {
   Car,
   Costumer,
-  PericiaToInsert,
+  Pericia,
 } from "../../shared/interfaces/pericia.interface";
-import { periciaToInsertObject, Unmount } from "../pericia/pericia.utils";
+import { periciaToInsertObject } from "../pericia/pericia.utils";
 
 const supabaseUrl = process.env.REACT_APP_PUBLIC_SUPABASE_URL || "";
 const supabaseKey = process.env.REACT_APP_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -37,6 +37,8 @@ export const insertCar = async (car: Car) => {
   }
 };
 
+export type PericiaToInsert = Omit<Pericia, "id" | "done">;
+
 export const insertPericia = async (pericia: PericiaToInsert) => {
   const periciaToInsert = periciaToInsertObject(pericia);
 
@@ -62,6 +64,7 @@ export interface PericiaByID {
   price_per_working_hour: number;
   date: Date;
   finished: boolean;
+  done: boolean;
   unmount: boolean;
   unmount_price: number;
   cars: Car;
@@ -92,7 +95,7 @@ interface PericiaByIDCarPart {
   smash: number | string;
   smashWorkingHours: number;
   price: number;
-  note: "string";
+  note?: string;
 }
 
 export const getPericiaById = async (id: string) => {
@@ -115,7 +118,7 @@ export const getPericiaById = async (id: string) => {
   }
 };
 
-const getPericiaByIdSelect = `id,finished, price_per_working_hour, date, unmount, unmount_price, cofano, tetto, parafango_ad, parafango_as, parafango_pd, 
+const getPericiaByIdSelect = `id,finished, done, price_per_working_hour, date, unmount, unmount_price, cofano, tetto, parafango_ad, parafango_as, parafango_pd, 
   parafango_ps, piantone_d, piantone_s, porta_ad, porta_as, porta_pd, porta_ps, sportello_i, sportello_s, cars (id, brand, model, plate), costumers (id, name)`;
 
 interface CostumerToInsert {

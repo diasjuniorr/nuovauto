@@ -7,14 +7,15 @@ import {
 import Canvas from "./canvas.component";
 import { CAR_PARTS_CANVAS_COORDINATES } from "../../shared/constants/car-parts.constants";
 import { Button } from "@mui/material";
-import { CarPart } from "../../shared/interfaces/car-part.interface";
+import { CarPart } from "../../shared/interfaces/pericia.interface";
 import { Car, Costumer } from "../../shared/interfaces/pericia.interface";
 
 const carroImg = require("../../assets/pericia.jpg");
 
 const PDFGenerator: React.FC = () => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { carParts, costumer, car, date, finished, unmount } = periciaContext;
+  const { carParts, costumer, car, date, finished, shouldUnmount } =
+    periciaContext;
   const { name: CostumerName } = costumer;
   const { plate } = car;
 
@@ -31,7 +32,7 @@ const PDFGenerator: React.FC = () => {
         car,
         finished,
         date,
-        unmount.shouldUnmount
+        shouldUnmount
       );
 
       context.drawImage(img, 20, 80, 1150, 1100);
