@@ -14,6 +14,10 @@ import {
 import {
   getCostumers,
   getPericiaById,
+  insertCar,
+  insertPericia,
+  upsertCar,
+  upsertPericia,
 } from "../../../utils/supabase/supabase.utils";
 import CostumerAutocomplete from "../../../components/pericia/costumer-autocomplete/costumer-autocomplete.component";
 import { toast, ToastContainer } from "react-toastify";
@@ -21,6 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Car, Costumer } from "../../../shared/interfaces/pericia.interface";
 import { useParams } from "react-router-dom";
 import { periciaToUpdateObject } from "../../../utils/pericia/pericia.utils";
+import { useNavigate } from "react-router-dom";
 
 const validateFields = (car: Car, costumer: Costumer) => {
   if (car.brand && car.model && car.plate && costumer.id) {
@@ -35,18 +40,23 @@ const PericiaEditComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const {
+    id,
     date,
     pricePerHour,
     finished,
     car,
     shouldUnmount,
     unmountPrice,
+    carParts,
+    totalHours,
+    costumer,
     updateUnmount,
     updatePericia,
     updateFinished,
     updateCar,
     updatePricePerHour,
   } = periciaContext;
+  const navigate = useNavigate();
   const { plate, model, brand } = car;
 
   //TODO use skeleton loading
@@ -77,39 +87,54 @@ const PericiaEditComponent = () => {
     updateFinished(checked);
   };
 
-  // const handleSavePericia = async () => {
-  //   if (!validateFields(car, costumer)) {
-  //     toast.error("Preencha os campos obrigatórios!");
-  //     return;
-  //   }
+  const handleSavePericia = async () => {
+    // if (!validateFields(car, costumer)) {
+    //   toast.error("Preencha os campos obrigatórios!");
+    //   return;
+    // }
 
-  //   setIsLoading(true);
-  //   try {
-  //     const insertCarRes = await insertCar({
-  //       ...car,
-  //     });
+    setIsLoading(true);
+    try {
+      const upsertCarRes = await upsertCar({
+        ...car,
+      });
 
-  //     if (insertCarRes) {
-  //       updateCar(insertCarRes);
-  //       const insertPericiaRes = await insertPericia({
-  //         date,
-  //         car: insertCarRes,
-  //         pricePerHour,
-  //         finished,
-  //         costumer: costumer,
-  //         totalHours: totalHours,
-  //         totalPrice: totalPrice,
-  //         carParts: carParts,
-  //       });
-  //     }
-  //     setIsLoading(false);
-  //     toast.success("Pericia salva com sucesso!");
-  //   } catch (err) {
-  //     setIsLoading(false);
-  //     toast.error("Erro ao salvar pericia!");
-  //     console.log(err);
-  //   }
-  // };
+      if (upsertCarRes.error) {
+        console.log(upsertCarRes.error);
+        toast.error("Erro ao atualizar carro");
+        return;
+      }
+
+      if (upsertCarRes.data) {
+        updateCar(upsertCarRes.data);
+        const upsertPericiaRes = await upsertPericia({
+          id,
+          date,
+          shouldUnmount,
+          unmountPrice,
+          car: upsertCarRes.data,
+          pricePerHour,
+          finished,
+          costumer,
+          carParts: carParts,
+          done: false,
+        });
+
+        if (upsertPericiaRes.error) {
+          console.log(upsertPericiaRes.error);
+          toast.error("Erro ao atualizar perícia");
+          return;
+        }
+
+        setIsLoading(false);
+        return toast.info("Perícia atualizada com sucesso!");
+      }
+    } catch (err) {
+      setIsLoading(false);
+      toast.error("Erro ao atualizar pericia!");
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     if (!periciaID) {
@@ -302,13 +327,12 @@ const PericiaEditComponent = () => {
           Tabela
         </Typography>
         <PericiaTable />
-        <PDFGenerator />
+        <PDFGenerator disabled={isLoading} />
         <LoadingButton
           fullWidth
           variant="contained"
-          // onClick={handleSavePericia}
+          onClick={handleSavePericia}
           loading={isLoading}
-          disabled={true}
         >
           Atualizar Pericia
         </LoadingButton>

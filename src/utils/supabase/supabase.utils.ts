@@ -4,7 +4,10 @@ import {
   Costumer,
   Pericia,
 } from "../../shared/interfaces/pericia.interface";
-import { periciaToInsertObject } from "../pericia/pericia.utils";
+import {
+  periciaToInsertObject,
+  periciaToUpsertObject,
+} from "../pericia/pericia.utils";
 
 const supabaseUrl = process.env.REACT_APP_PUBLIC_SUPABASE_URL || "";
 const supabaseKey = process.env.REACT_APP_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -163,6 +166,44 @@ export const getPericias = async () => {
     }
 
     return { data, error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const upsertCar = async (car: Car) => {
+  try {
+    const { data, error } = await supabase
+      .from<Car>("cars")
+      .update(car)
+      .eq("id", car.id);
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data[0], error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export type PericiaToUpsert = Omit<Pericia, "totalPrice" | "totalHours">;
+
+export const upsertPericia = async (pericia: PericiaToUpsert) => {
+  const periciaToUpsert = periciaToUpsertObject(pericia);
+
+  try {
+    const { data, error } = await supabase
+      .from<Pericia>("pericias")
+      .update(periciaToUpsert)
+      .eq("id", pericia.id);
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data[0].id, error: null };
   } catch (err) {
     console.log(err);
     throw err;
