@@ -1,3 +1,4 @@
+export type PericiaToUpdate = Omit<Pericia, "totalHours" | "totalPrice">;
 export interface Pericia {
   id: string;
   car: Car;
@@ -49,16 +50,16 @@ interface CarPartNote {
   details: string;
 }
 
-export type PericiaToUpdate = {
-  id: string;
-  costumer: Costumer;
-  car: Car;
-  carParts: PericiaToUpdateCarPart[];
-  pricePerHour: number;
-  date: Date;
-  finished: boolean;
-  shouldUnmount: boolean;
-  unmountPrice: number;
-};
+// export type PericiaToUpdate = {
+//   id: string;
+//   costumer: Costumer;
+//   car: Car;
+//   carParts: PericiaToUpdateCarPart[];
+//   pricePerHour: number;
+//   date: Date;
+//   finished: boolean;
+//   shouldUnmount: boolean;
+//   unmountPrice: number;
+// };
 
-type PericiaToUpdateCarPart = Omit<CarPart, "note">;
+// type PericiaToUpdateCarPart = Omit<CarPart, "note">;

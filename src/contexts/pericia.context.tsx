@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { CAR_PARTS_LIST } from "../shared/constants/car-parts.constants";
 import { SMASH_WORKING_HOURS } from "../shared/constants/car-parts.constants";
 import {
-  Pericia,
+  PericiaToUpdate,
   Car,
   Costumer,
   CarPart,
@@ -361,5 +361,3 @@ function detailsNotes(
 
   return `${first} ${second} ${third} ${fourth}`;
 }
-
-type PericiaToUpdate = Omit<Pericia, "totalHours" | "totalPrice">;
