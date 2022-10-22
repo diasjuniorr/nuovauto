@@ -14,8 +14,6 @@ import {
 import {
   getCostumers,
   getPericiaById,
-  insertCar,
-  insertPericia,
   upsertCar,
   upsertPericia,
 } from "../../../utils/supabase/supabase.utils";
@@ -25,7 +23,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { Car, Costumer } from "../../../shared/interfaces/pericia.interface";
 import { useParams } from "react-router-dom";
 import { periciaToUpdateObject } from "../../../utils/pericia/pericia.utils";
-import { useNavigate } from "react-router-dom";
 
 const validateFields = (car: Car, costumer: Costumer) => {
   if (car.brand && car.model && car.plate && costumer.id) {
@@ -56,7 +53,6 @@ const PericiaEditComponent = () => {
     updateCar,
     updatePricePerHour,
   } = periciaContext;
-  const navigate = useNavigate();
   const { plate, model, brand } = car;
 
   //TODO use skeleton loading
@@ -88,10 +84,10 @@ const PericiaEditComponent = () => {
   };
 
   const handleSavePericia = async () => {
-    // if (!validateFields(car, costumer)) {
-    //   toast.error("Preencha os campos obrigatórios!");
-    //   return;
-    // }
+    if (!validateFields(car, costumer)) {
+      toast.error("Preencha os campos obrigatórios!");
+      return;
+    }
 
     setIsLoading(true);
     try {
