@@ -201,11 +201,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     setTotalPrice(getTotalPrice(carParts, unmountPrice));
-  }, [carParts]);
-
-  useEffect(() => {
-    setTotalPrice(getTotalPrice(carParts, unmountPrice));
-  }, [shouldUnmount]);
+  }, [carParts, unmountPrice]);
 
   return (
     <PericiaContext.Provider
@@ -238,6 +234,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
 };
 
 const getTotalPrice = (carParts: CarPart[], unmountPrice: number) => {
+  console.log("preco", unmountPrice);
   return carParts.reduce((acc, curr) => acc + curr.price, 0) + unmountPrice;
 };
 

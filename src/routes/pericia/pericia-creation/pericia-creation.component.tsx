@@ -247,6 +247,7 @@ const PericiaCreation = () => {
             </Grid>
             <Grid item xs={6} sm={6} display={shouldUnmount ? "block" : "none"}>
               <TextField
+                type={"number"}
                 required
                 fullWidth
                 name="unmount"
