@@ -125,7 +125,7 @@ const PericiaList = () => {
                 />
               ))
             : periciasFiltered.map(
-                ({ cars, costumers, done, id, finished }) => {
+                ({ cars, costumers, done, id, finished, date }) => {
                   const labelId = `checkbox-list-label-${id}`;
                   const status = getStatus(done, finished);
 
@@ -163,6 +163,13 @@ const PericiaList = () => {
                           primary={status.text}
                           sx={{
                             color: status.color,
+                            flex: "1",
+                          }}
+                        />
+                        <ListItemText
+                          id={labelId}
+                          primary={new Date(date).toLocaleDateString()}
+                          sx={{
                             flex: "1",
                           }}
                         />
