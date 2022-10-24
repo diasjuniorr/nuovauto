@@ -215,7 +215,7 @@ const PericiaCreation = () => {
                 label="CHF/Ora"
                 id="pricePerHour"
                 variant="standard"
-                value={pricePerHour}
+                value={pricePerHour.toString()}
                 onChange={handlePricePerHourChange}
                 disabled={isLoading}
               />
@@ -254,7 +254,7 @@ const PericiaCreation = () => {
                 label="Preço desmontagem"
                 id="unmount"
                 variant="standard"
-                value={unmountPrice}
+                value={unmountPrice.toString()}
                 onChange={handleUnmountPriceChange}
               />
             </Grid>
