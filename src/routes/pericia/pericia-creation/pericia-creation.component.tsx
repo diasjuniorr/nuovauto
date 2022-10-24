@@ -41,6 +41,8 @@ const PericiaCreation = () => {
     costumer,
     totalHours,
     totalPrice,
+    insuranceHours,
+    insurancePrice,
     carParts,
     shouldUnmount,
     unmountPrice,
@@ -49,6 +51,7 @@ const PericiaCreation = () => {
     updatePricePerHour,
     updateUnmount,
     resetPericia,
+    updateInsuranceHours,
   } = periciaContext;
 
   //TODO refact
@@ -65,6 +68,11 @@ const PericiaCreation = () => {
   const handlePricePerHourChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     updatePricePerHour(Number(value));
+  };
+
+  const handleInsuranceHoursChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    updateInsuranceHours(Number(value));
   };
 
   const handleFinishedChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -289,6 +297,34 @@ const PericiaCreation = () => {
           Tabela
         </Typography>
         <PericiaTable />
+        <Grid container spacing={2} sx={{ mt: 5, mb: 5 }}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              type={"number"}
+              autoComplete="off"
+              fullWidth
+              id="insuranceTotalHours"
+              label="Total de horas do seguro"
+              name="insuranceTotalHours"
+              variant="standard"
+              onChange={handleInsuranceHoursChange}
+              value={insuranceHours.toString()}
+              disabled={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              autoComplete="off"
+              fullWidth
+              id="insuranceTotalPrice"
+              label="Preço total do seguro/CHF"
+              name="insuranceTotalPrice"
+              variant="standard"
+              value={insurancePrice.toFixed(2)}
+              disabled
+            />
+          </Grid>
+        </Grid>
         <LoadingButton
           fullWidth
           variant="contained"
