@@ -14,8 +14,14 @@ import {
 
 const PericiaTable = () => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { carParts, totalHours, totalPrice, pricePerHour, unmountPrice } =
-    periciaContext;
+  const {
+    carParts,
+    totalHours,
+    totalPrice,
+    pricePerHour,
+    unmountPrice,
+    unmountTotalPrice,
+  } = periciaContext;
 
   return (
     <TableContainer component={Paper}>
@@ -61,6 +67,16 @@ const PericiaTable = () => {
           ))}
           <TableRow>
             <TableCell colSpan={6} />
+            <TableCell>Subtotal</TableCell>
+            <TableCell align="right" colSpan={2}>
+              {totalHours && `${totalHours}`}
+            </TableCell>
+            <TableCell align="right" colSpan={2}>
+              {totalPrice && `${totalPrice.toFixed(2)} CHF`}
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={6} />
             <TableCell>Desmontar</TableCell>
             <TableCell align="right" colSpan={6}>
               {unmountPrice && `${unmountPrice.toFixed(2)} CHF`}
@@ -68,12 +84,9 @@ const PericiaTable = () => {
           </TableRow>
           <TableRow>
             <TableCell colSpan={6} />
-            <TableCell>Subtotal</TableCell>
-            <TableCell align="right" colSpan={2}>
-              {totalHours && `${totalHours}`}
-            </TableCell>
-            <TableCell align="right" colSpan={2}>
-              {totalPrice && `${totalPrice.toFixed(2)} CHF`}
+            <TableCell>Total</TableCell>
+            <TableCell align="right" colSpan={6}>
+              {unmountTotalPrice && `${unmountTotalPrice.toFixed(2)} CHF`}
             </TableCell>
           </TableRow>
         </TableBody>
