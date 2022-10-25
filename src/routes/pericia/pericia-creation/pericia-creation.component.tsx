@@ -45,6 +45,7 @@ const PericiaCreation = () => {
     carParts,
     shouldUnmount,
     unmountPrice,
+    insuranceHours,
     updateFinished,
     updateCar,
     updatePricePerHour,
@@ -112,6 +113,7 @@ const PericiaCreation = () => {
         carParts: carParts,
         shouldUnmount,
         unmountPrice,
+        insuranceHours,
       });
 
       if (insertPericiaRes.error) {

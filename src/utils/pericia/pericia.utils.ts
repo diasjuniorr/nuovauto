@@ -29,6 +29,7 @@ export const periciaToInsertObject = (pericia: PericiaToInsert) => {
     finished,
     shouldUnmount,
     unmountPrice,
+    insuranceHours,
   } = pericia;
 
   const carPartsMap = mapCarParts(carParts);
@@ -55,6 +56,7 @@ export const periciaToInsertObject = (pericia: PericiaToInsert) => {
     parafango_ps: carPartsMap["Parafango_ps"],
     unmount: shouldUnmount,
     unmount_price: unmountPrice,
+    insurance_hours: insuranceHours,
   };
 };
 export const periciaToUpsertObject = (pericia: PericiaToUpsert) => {
@@ -68,6 +70,7 @@ export const periciaToUpsertObject = (pericia: PericiaToUpsert) => {
     finished,
     shouldUnmount,
     unmountPrice,
+    insuranceHours,
   } = pericia;
 
   const carPartsMap = mapCarParts(carParts);
@@ -95,6 +98,7 @@ export const periciaToUpsertObject = (pericia: PericiaToUpsert) => {
     parafango_ps: carPartsMap["Parafango_ps"],
     unmount: shouldUnmount,
     unmount_price: unmountPrice,
+    insurance_hours: insuranceHours,
   };
 };
 
@@ -111,6 +115,7 @@ export const periciaToUpdateObject = (pericia: PericiaByID) => {
     costumers,
     unmount,
     unmount_price,
+    insurance_hours,
     ...rest
   } = pericia;
 
@@ -134,6 +139,7 @@ export const periciaToUpdateObject = (pericia: PericiaByID) => {
     costumer: costumers,
     shouldUnmount: unmount,
     unmountPrice: unmount_price,
+    insuranceHours: insurance_hours,
   };
 };
 

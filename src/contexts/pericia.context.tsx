@@ -166,7 +166,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   };
 
   const updatePericia = (pericia: PericiaToUpdate) => {
-    const { shouldUnmount, unmountPrice } = pericia;
+    const { shouldUnmount, unmountPrice, insuranceHours } = pericia;
 
     setId(pericia.id);
     setCostumer(pericia.costumer);
@@ -185,6 +185,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     setPricePerHour(pericia.pricePerHour);
     setDate(pericia.date);
     setFinished(pericia.finished);
+    setInsuranceHours(insuranceHours);
   };
 
   const updateUnmount = (shouldUnmount: boolean, price = 0) => {

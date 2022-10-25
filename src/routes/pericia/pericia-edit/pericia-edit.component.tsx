@@ -48,6 +48,7 @@ const PericiaEditComponent = () => {
     carParts,
     totalHours,
     costumer,
+    insuranceHours,
     updateUnmount,
     updatePericia,
     updateFinished,
@@ -115,6 +116,7 @@ const PericiaEditComponent = () => {
           costumer,
           carParts: carParts,
           done: false,
+          insuranceHours,
         });
 
         if (upsertPericiaRes.error) {
