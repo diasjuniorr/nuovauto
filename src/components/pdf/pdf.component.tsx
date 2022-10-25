@@ -5,7 +5,10 @@ import {
   PericiaContextProps,
 } from "../../contexts/pericia.context";
 import Canvas from "./canvas.component";
-import { CAR_PARTS_CANVAS_COORDINATES } from "../../shared/constants/car-parts.constants";
+import {
+  CAR_PARTS,
+  CAR_PARTS_CANVAS_COORDINATES,
+} from "../../shared/constants/car-parts.constants";
 import { Button } from "@mui/material";
 import { CarPart } from "../../shared/interfaces/pericia.interface";
 import { Car, Costumer } from "../../shared/interfaces/pericia.interface";
@@ -15,6 +18,9 @@ interface Props {
 }
 
 const carroImg = require("../../assets/pericia.jpg");
+
+const { PARAFANGO_AD, PARAFANGO_AS } = CAR_PARTS;
+const notesInLine = [PARAFANGO_AD.value, PARAFANGO_AS.value];
 
 const PDFGenerator: React.FC<Props> = ({ disabled }) => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
@@ -93,6 +99,11 @@ function drawCarParts(context: any, carParts: CarPart[]) {
       return;
     }
 
+    if (notesInLine.includes(part.name)) {
+      drawTextInLine(context, part, x, y);
+      return;
+    }
+
     if (relocate) {
       drawArrow(context, part, x, y);
       drawRelocatedText(context, part, x, y);
@@ -104,6 +115,10 @@ function drawCarParts(context: any, carParts: CarPart[]) {
 
 function drawZeroText(context: any, part: CarPart, x: number, y: number) {
   context.fillText("0", x - 10, y);
+}
+
+function drawTextInLine(context: any, part: CarPart, x: number, y: number) {
+  context.fillText(`${part.note.smashes} ${part.note.details.trim()}`, x, y);
 }
 
 function drawText(context: any, carPart: CarPart, x: number, y: number) {
