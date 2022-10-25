@@ -95,7 +95,7 @@ function drawCarParts(context: any, carParts: CarPart[]) {
       ];
 
     if (part.note.smashes.length === 0 && part.note.details.length === 0) {
-      drawZeroText(context, part, x, y);
+      drawZeroText(context, x, y);
       return;
     }
 
@@ -113,7 +113,7 @@ function drawCarParts(context: any, carParts: CarPart[]) {
   });
 }
 
-function drawZeroText(context: any, part: CarPart, x: number, y: number) {
+function drawZeroText(context: any, x: number, y: number) {
   context.fillText("0", x - 10, y);
 }
 
