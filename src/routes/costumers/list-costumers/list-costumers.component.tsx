@@ -18,6 +18,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getCostumers } from "../../../utils/supabase/supabase.utils";
 import { Costumer } from "../../../shared/interfaces/pericia.interface";
+import { useNavigate } from "react-router-dom";
 
 const skeletons = Array.from(new Array(9));
 
@@ -25,6 +26,7 @@ const CostumersList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [costumers, setCostumers] = useState([] as Costumer[]);
   const [costumersFiltered, setCostumersFiltered] = useState([] as Costumer[]);
+  const navigate = useNavigate();
 
   const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -97,6 +99,7 @@ const CostumersList = () => {
                     <ListItemButton
                       role={undefined}
                       dense
+                      onClick={() => navigate(`/costumers/${id}`)}
                       sx={{
                         display: "flex",
                         flexDirection: "row",

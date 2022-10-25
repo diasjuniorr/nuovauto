@@ -213,3 +213,37 @@ export const upsertPericia = async (pericia: PericiaToUpsert) => {
 };
 
 const getPericiasSelect = `id, done, finished, cars (id, brand, model, plate), costumers (id, name), date`;
+
+export const getCostumerById = async (id: string) => {
+  try {
+    const { data, error } = await supabase
+      .from<Costumer>("costumers")
+      .select()
+      .eq("id", id);
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data[0], error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const upsertCostumer = async (costumer: Costumer) => {
+  try {
+    const { data, error } = await supabase
+      .from<Costumer>("costumers")
+      .update(costumer)
+      .eq("id", costumer.id);
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data[0], error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};

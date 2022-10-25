@@ -136,9 +136,7 @@ const PericiaEditComponent = () => {
   };
 
   useEffect(() => {
-    if (!periciaID) {
-      return;
-    }
+    if (!periciaID) return;
 
     const fetchPericia = async () => {
       const res = await getPericiaById(periciaID);
