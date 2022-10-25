@@ -75,6 +75,7 @@ CREATE TABLE pericias (
   done boolean NOT NULL DEFAULT false,
   unmount boolean NOT NULL DEFAULT false,
   unmount_price numeric NOT NULL DEFAULT 0,
+  insurance_hours numeric NOT NULL DEFAULT 0,
 
 constraint fk_pericias_car
     foreign key (id_car)
