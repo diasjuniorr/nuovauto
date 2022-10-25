@@ -23,7 +23,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Car, Costumer } from "../../../shared/interfaces/pericia.interface";
 import { useParams } from "react-router-dom";
 import { periciaToUpdateObject } from "../../../utils/pericia/pericia.utils";
-import { InsuranceFormComponent } from "../../../components/pericia/form/insurance-form-component";
+import { InsuranceFormComponent } from "../../../components/pericia/forms/insurance/insurance-form-component";
 
 const validateFields = (car: Car, costumer: Costumer) => {
   if (car.brand && car.model && car.plate && costumer.id) {

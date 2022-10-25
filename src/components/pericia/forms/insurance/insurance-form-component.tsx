@@ -3,7 +3,7 @@ import { ChangeEvent, useContext } from "react";
 import {
   PericiaContext,
   PericiaContextProps,
-} from "../../../contexts/pericia.context";
+} from "../../../../contexts/pericia.context";
 
 interface InsuranceFormProps {
   isLoading: boolean;

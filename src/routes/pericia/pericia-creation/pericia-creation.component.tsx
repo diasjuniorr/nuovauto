@@ -1,26 +1,24 @@
 import PericiaImg from "../../../components/pericia/pericia-img/pericia-img.component";
-import { Box, Container, Grid, TextField, Typography } from "@mui/material";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import { Box, Container, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PericiaTable from "../../../components/table/table.component";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   PericiaContext,
   PericiaContextProps,
 } from "../../../contexts/pericia.context";
 import {
-  getCostumers,
   insertCar,
   insertPericia,
 } from "../../../utils/supabase/supabase.utils";
-import CostumerAutocomplete from "../../../components/pericia/costumer-autocomplete/costumer-autocomplete.component";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Car, Costumer } from "../../../shared/interfaces/pericia.interface";
 import { useNavigate } from "react-router-dom";
-import { InsuranceFormComponent } from "../../../components/pericia/form/insurance-form-component";
+import { InsuranceFormComponent } from "../../../components/pericia/forms/insurance/insurance-form-component";
+import { HeaderFormComponent } from "../../../components/pericia/forms/header/header-form-component";
+import { FinishedFormComponent } from "../../../components/pericia/forms/finished/finished-form-component";
+import { DividerComponent } from "../../../components/pericia/divider/divider-component";
 
 const validateFields = (car: Car, costumer: Costumer) => {
   if (car.brand && car.model && car.plate && costumer.id) {
@@ -31,9 +29,8 @@ const validateFields = (car: Car, costumer: Costumer) => {
 
 const PericiaCreation = () => {
   const navigate = useNavigate();
-  const [costumers, setCostumers] = useState<Costumer[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [car, setCar] = useState<Car>({} as Car);
+  const [isLoading, setIsLoading] = useState(false);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
   const {
     date,
@@ -46,42 +43,11 @@ const PericiaCreation = () => {
     shouldUnmount,
     unmountPrice,
     insuranceHours,
-    updateFinished,
     updateCar,
-    updatePricePerHour,
-    updateUnmount,
     resetPericia,
   } = periciaContext;
 
   //TODO refact
-  const handleCarPlateChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCar({ ...car, [name]: value.toUpperCase() });
-  };
-
-  const handleCarChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCar({ ...car, [name]: value });
-  };
-
-  const handlePricePerHourChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    updatePricePerHour(Number(value));
-  };
-
-  const handleFinishedChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { checked } = e.target;
-    updateFinished(checked);
-  };
-
-  const handleUnmount = (e: ChangeEvent<HTMLInputElement>) => {
-    updateUnmount(!shouldUnmount, unmountPrice);
-  };
-
-  const handleUnmountPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    updateUnmount(shouldUnmount, Number(value));
-  };
 
   const handleSavePericia = async () => {
     if (!validateFields(car, costumer)) {
@@ -132,21 +98,6 @@ const PericiaCreation = () => {
   };
 
   useEffect(() => {
-    //TODO put costumers in a hook
-    const fetchCostumers = async () => {
-      const res = await getCostumers();
-      if (res.error) {
-        console.log(res.error);
-        toast.error("Erro ao buscar clientes!");
-        return;
-      }
-
-      setCostumers(res.data);
-    };
-    fetchCostumers();
-  }, []);
-
-  useEffect(() => {
     return resetPericia();
   }, []);
 
@@ -163,131 +114,13 @@ const PericiaCreation = () => {
         <Typography component="h1" variant="h5">
           Cadastro de Pericia
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 3, mb: 5 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
-              <CostumerAutocomplete
-                costumers={costumers}
-                isLoading={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                autoComplete="off"
-                required
-                fullWidth
-                id="placa"
-                label="Placa"
-                name="plate"
-                variant="standard"
-                onChange={handleCarPlateChange}
-                value={car.plate || ""}
-                disabled={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                required
-                fullWidth
-                id="brand"
-                label="Marca"
-                name="brand"
-                variant="standard"
-                onChange={handleCarChange}
-                disabled={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                required
-                fullWidth
-                name="model"
-                label="Modelo"
-                id="model"
-                variant="standard"
-                onChange={handleCarChange}
-                disabled={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                type={"number"}
-                required
-                fullWidth
-                name="pricePerHour"
-                label="CHF/Ora"
-                id="pricePerHour"
-                variant="standard"
-                value={pricePerHour.toString()}
-                onChange={handlePricePerHourChange}
-                disabled={isLoading}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                name="date"
-                label="Data"
-                id="date"
-                variant="standard"
-                value={date.toLocaleDateString("pt-BR")}
-                disabled
-              />
-            </Grid>
-            <Grid item xs={6} sm={6}>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      onChange={handleUnmount}
-                      checked={shouldUnmount}
-                    />
-                  }
-                  label="Desmontar"
-                />
-              </FormGroup>
-            </Grid>
-            <Grid item xs={6} sm={6} display={shouldUnmount ? "block" : "none"}>
-              <TextField
-                type={"number"}
-                required
-                fullWidth
-                name="unmount"
-                label="Preço desmontagem"
-                id="unmount"
-                variant="standard"
-                value={unmountPrice.toString()}
-                onChange={handleUnmountPriceChange}
-              />
-            </Grid>
-          </Grid>
-        </Box>
+        <HeaderFormComponent isLoading={isLoading} car={car} setCar={setCar} />
         <Typography component="h1" variant="h5">
           Pericia
         </Typography>
         <PericiaImg />
-        <FormGroup sx={{ width: "100%", mt: 3 }}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                onChange={handleFinishedChange}
-                checked={finished}
-                disabled={isLoading}
-              />
-            }
-            label="Liquidado"
-          />
-        </FormGroup>
-        <hr
-          style={{
-            height: "1px",
-            backgroundColor: "lightgray",
-            border: "none",
-            width: "100%",
-            marginTop: "32px",
-          }}
-        />
+        <FinishedFormComponent isLoading={isLoading} />
+        <DividerComponent />
         <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 3 }}>
           Tabela
         </Typography>
