@@ -122,9 +122,9 @@ export const getPericiaById = async (id: string) => {
   }
 };
 
-const getPericiaByIdSelect = `id,finished, done, price_per_working_hour, date, unmount, unmount_price, insurance_hours, cofano, tetto, parafango_ad, parafango_as, parafango_pd, 
-  parafango_ps, piantone_d, piantone_s, porta_ad, porta_as, porta_pd, porta_ps, sportello_i, sportello_s, cars (id, brand, model, plate), costumers (id, name)`;
-
+const getPericiaByIdSelect = `id,finished, done, price_per_working_hour, date, unmount, unmount_price, insurance_hours, cofano, tetto, sportello_s, 
+  sportello_i, parafango_as, porta_as, porta_ps, parafango_ps, piantone_s, parafango_ad, porta_ad, porta_pd, parafango_pd, piantone_d, cars (id, brand, model, plate),
+  costumers (id, name)`;
 interface CostumerToInsert {
   name: string;
   phone: string;
