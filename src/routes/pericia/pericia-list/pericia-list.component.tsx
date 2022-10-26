@@ -195,7 +195,8 @@ const filterPericias = (
     .filter((pericia) => {
       return (
         pericia.costumers.name.toLowerCase().includes(term.toLowerCase()) ||
-        pericia.cars.plate.toLowerCase().includes(term.toLowerCase())
+        pericia.cars.plate.toLowerCase().includes(term.toLowerCase()) ||
+        pericia.cars.model.toLowerCase().includes(term.toLowerCase())
       );
     })
     .filter((pericia) => {
