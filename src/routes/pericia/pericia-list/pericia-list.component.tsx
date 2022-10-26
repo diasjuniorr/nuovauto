@@ -168,7 +168,7 @@ const PericiaList = () => {
                         />
                         <ListItemText
                           id={labelId}
-                          primary={new Date(date).toLocaleDateString()}
+                          primary={new Date(date).toLocaleDateString("pt-BR")}
                           sx={{
                             flex: "1",
                           }}
