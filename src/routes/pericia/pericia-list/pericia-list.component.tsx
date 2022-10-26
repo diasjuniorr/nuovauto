@@ -132,7 +132,7 @@ const PericiaList = () => {
                   return (
                     <ListItem key={id} divider>
                       <ListItemButton
-                        onClick={() => navigate(`/pericia/${id}`)}
+                        onClick={() => navigate(`/pericias/${id}`)}
                         role={undefined}
                         dense
                         sx={{

@@ -11,7 +11,8 @@ function App() {
       <Route path="/" element={<Navigation />}>
         <Route index element={<PericiaCreation />} />
         <Route path="costumers/*" element={<Costumers />} />
-        <Route path="pericia/*" element={<Pericia />} />
+        <Route path="pericias/*" element={<Pericia />} />
+        <Route path="users/*" element={<Pericia />} />
       </Route>
     </Routes>
   );

@@ -13,7 +13,7 @@ import { useState } from "react";
 
 const pages = [
   { name: "Home", path: "/" },
-  { name: "Perícias", path: "/pericia/list" },
+  { name: "Perícias", path: "/pericias/list" },
   { name: "Clientes", path: "/costumers/list" },
   { name: "Add Clientes", path: "/costumers/add" },
 ];
