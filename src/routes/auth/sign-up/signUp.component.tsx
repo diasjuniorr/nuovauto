@@ -3,33 +3,20 @@ import { object, string } from "yup";
 import { LoadingButton } from "@mui/lab";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
-import {
-  createUser,
-  signUpWithEmail,
-} from "../../../utils/supabase/supabase.utils";
+import { signUpWithEmail } from "../../../utils/supabase/supabase.utils";
 import { FormTextField } from "../../../components/form/form-input/form-input.component";
 import { useEffect } from "react";
 
 let costumerSchema = object({
   name: string().required("Nome é obrigatório"),
   phone: string().required("Telefone é obrigatório"),
-  email: string()
-    .email("Este email não é válido")
-    .required("Email é obrigatório"),
   nationality: string().nullable(),
   password: string().required("Senha é obrigatória"),
 });
 
-const genRand = (len: number) => {
-  return Math.random()
-    .toString(36)
-    .substring(2, len + 2);
-};
-
 interface FormValues {
   name: string;
   phone: string;
-  email: string;
   nationality: string;
   password: string;
 }
@@ -37,9 +24,8 @@ interface FormValues {
 const initialValues: FormValues = {
   name: "",
   phone: "",
-  email: "",
   nationality: "",
-  password: genRand(8),
+  password: "",
 };
 
 const SignUP = () => {
@@ -96,16 +82,6 @@ const SignUP = () => {
                     component={FormTextField}
                   />
                 </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Field
-                    fullWidth
-                    required
-                    name="email"
-                    label="Email"
-                    size="small"
-                    component={FormTextField}
-                  />
-                </Grid>
                 <Grid item xs={12} md={6}>
                   <Field
                     required
@@ -128,7 +104,6 @@ const SignUP = () => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <Field
-                    disabled
                     fullWidth
                     name="password"
                     label="Senha"
