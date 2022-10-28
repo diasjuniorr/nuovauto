@@ -56,6 +56,7 @@ const AddCostumer = () => {
           ) => {
             const formkiCreateCostumer = async () => {
               try {
+                //TODO handle error
                 await createCostumer(values);
                 formikHelpers.setSubmitting(false);
                 toast.success("Cliente adicionado com sucesso!");

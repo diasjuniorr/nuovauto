@@ -4,6 +4,7 @@ import Costumers from "./routes/costumers/costumers.component";
 import Navigation from "./routes/navigation/navigation.component";
 import PericiaCreation from "./routes/pericia/pericia-creation/pericia-creation.component";
 import Pericia from "./routes/pericia/pericia.component";
+import Users from "./routes/users/users.component";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
         <Route index element={<PericiaCreation />} />
         <Route path="costumers/*" element={<Costumers />} />
         <Route path="pericias/*" element={<Pericia />} />
-        <Route path="users/*" element={<Pericia />} />
+        <Route path="users/*" element={<Users />} />
       </Route>
     </Routes>
   );

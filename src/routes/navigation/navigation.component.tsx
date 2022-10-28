@@ -15,7 +15,8 @@ const pages = [
   { name: "Home", path: "/" },
   { name: "Perícias", path: "/pericias/list" },
   { name: "Clientes", path: "/costumers/list" },
-  { name: "Add Clientes", path: "/costumers/add" },
+  { name: "Add Cliente", path: "/costumers/add" },
+  { name: "Add Usuário", path: "/users/add" },
 ];
 
 const Navigation = () => {
