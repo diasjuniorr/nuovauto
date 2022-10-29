@@ -268,6 +268,7 @@ export const inviteUserByEmail = async (email: string) => {
     return { data, error: null };
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
@@ -294,6 +295,6 @@ export const signUpWithEmail = async (user: NewUser) => {
     return { data, error: null };
   } catch (err) {
     console.log(err);
-    return { data: null, error: err };
+    throw err;
   }
 };
