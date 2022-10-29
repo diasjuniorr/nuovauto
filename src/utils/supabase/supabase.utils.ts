@@ -255,42 +255,6 @@ interface NewUser {
   nationality?: string;
 }
 
-// export const createUser = async (newUser: NewUser) => {
-//   try {
-//     const { user, session, error } = await supabase.auth.signUp(
-//       {
-//         email: newUser.email,
-//         password: newUser.password,
-//       },
-//       {
-//         data: {
-//           phone: newUser.phone,
-//           name: newUser.name,
-//           nationality: newUser.nationality || "",
-//         },
-//       }
-//     );
-
-//     if (error) {
-//       return { data: null, error };
-//     }
-
-//     const { data, error: resetPassErr } =
-//       await supabase.auth.api.resetPasswordForEmail(newUser.email, {
-//         redirectTo: "http://localhost:3000",
-//       });
-
-//     if (resetPassErr) {
-//       return { data: null, error: resetPassErr };
-//     }
-
-//     console.log("success", data);
-//     return { data: { user, session }, error: null };
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 export const inviteUserByEmail = async (email: string) => {
   try {
     const { data, error } = await supabase.functions.invoke("invite-user", {
@@ -311,20 +275,24 @@ export const signUpWithEmail = async (user: NewUser) => {
   try {
     const { password, name, nationality, phone } = user;
 
-    const { data, error } = await supabase.auth.update({
-      password: password,
-      data: {
-        name,
-        nationality,
-        phone,
-      },
-    });
+    const session = await supabase.auth.session();
+    console.log("debug", session);
 
-    if (error) {
-      return { data: null, error };
-    }
+    // const { data, error } = await supabase.auth.update({
+    //   password: password,
+    //   data: {
+    //     name,
+    //     nationality,
+    //     phone,
+    //   },
+    // });
 
-    return { data, error: null };
+    // if (error) {
+    //   return { data: null, error };
+    // }
+    return { data: session, error: null };
+
+    // return { data, error: null };
   } catch (err) {
     console.log(err);
   }

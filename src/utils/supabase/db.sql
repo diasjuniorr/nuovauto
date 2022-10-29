@@ -35,9 +35,6 @@ create policy "cars are inserted by admin" on cars for insert with check (auth.j
 -- Create a table for users
 CREATE TABLE users (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  is_admin boolean NOT NULL DEFAULT false,
-  email text NOT NULL,
-  password text NOT NULL,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
   updated_at timestamp with time zone NOT NULL DEFAULT now()
 );

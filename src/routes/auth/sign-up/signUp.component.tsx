@@ -5,7 +5,6 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
 import { signUpWithEmail } from "../../../utils/supabase/supabase.utils";
 import { FormTextField } from "../../../components/form/form-input/form-input.component";
-import { useEffect } from "react";
 
 let costumerSchema = object({
   name: string().required("Nome é obrigatório"),
@@ -56,7 +55,7 @@ const SignUP = () => {
                 const res = await signUpWithEmail(values);
                 if (res?.error) {
                   formikHelpers.setSubmitting(false);
-                  return toast.error(res.error.message);
+                  // return toast.error(res.error.message);
                 }
 
                 formikHelpers.setSubmitting(false);
