@@ -277,6 +277,9 @@ export const signUpWithEmail = async (user: NewUser) => {
 
     const session = await supabase.auth.session();
     console.log("debug", session);
+    console.log("debug", session?.user?.user_metadata);
+    console.log("debug", session?.user?.user_metadata === undefined);
+    console.log("debug", session?.user?.user_metadata === null);
 
     // const { data, error } = await supabase.auth.update({
     //   password: password,
