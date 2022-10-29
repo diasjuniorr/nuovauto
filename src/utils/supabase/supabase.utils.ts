@@ -277,25 +277,21 @@ export const signUpWithEmail = async (user: NewUser) => {
 
     const session = await supabase.auth.session();
     console.log("debug", session);
-    console.log("debug", session?.user?.user_metadata);
-    console.log("debug", session?.user?.user_metadata === undefined);
-    console.log("debug", session?.user?.user_metadata === null);
 
-    // const { data, error } = await supabase.auth.update({
-    //   password: password,
-    //   data: {
-    //     name,
-    //     nationality,
-    //     phone,
-    //   },
-    // });
+    const { data, error } = await supabase.auth.update({
+      password: password,
+      data: {
+        name,
+        nationality,
+        phone,
+      },
+    });
 
-    // if (error) {
-    //   return { data: null, error };
-    // }
-    return { data: session, error: null };
+    if (error) {
+      return { data: null, error };
+    }
 
-    // return { data, error: null };
+    return { data, error: null };
   } catch (err) {
     console.log(err);
   }
