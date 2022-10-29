@@ -309,8 +309,6 @@ export const inviteUserByEmail = async (email: string) => {
 
 export const signUpWithEmail = async (user: NewUser) => {
   try {
-    // supabase.auth.onAuthStateChange(async (event, session) => {
-    // if (event == "PASSWORD_RECOVERY") {
     const { password, name, nationality, phone } = user;
 
     const { data, error } = await supabase.auth.update({
@@ -327,9 +325,6 @@ export const signUpWithEmail = async (user: NewUser) => {
     }
 
     return { data, error: null };
-    // }
-    // }
-    // );
   } catch (err) {
     console.log(err);
   }
