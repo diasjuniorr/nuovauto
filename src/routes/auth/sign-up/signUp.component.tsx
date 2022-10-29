@@ -3,7 +3,10 @@ import { object, ref, string } from "yup";
 import { LoadingButton } from "@mui/lab";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
-import { signUpWithEmail } from "../../../utils/supabase/supabase.utils";
+import {
+  signOut,
+  signUpWithEmail,
+} from "../../../utils/supabase/supabase.utils";
 import { FormTextField } from "../../../components/form/form-input/form-input.component";
 
 let costumerSchema = object({
@@ -66,11 +69,16 @@ const SignUP = () => {
                   return toast.error(res.error.message);
                 }
 
-                // formikHelpers.setSubmitting(false);
-                toast.success("Técnico adicionado com sucesso!");
-                // formikHelpers.resetForm();
+                toast.success("Senha alterada com sucesso!");
+                formikHelpers.setSubmitting(false);
+                formikHelpers.resetForm();
+
+                const err = signOut();
+                if (err) {
+                  console.log(err);
+                }
               } catch (err) {
-                toast.error("Erro ao adicionar Técnico");
+                toast.error("Erro ao alterar senha");
               }
             };
             formkiCreateUser();
