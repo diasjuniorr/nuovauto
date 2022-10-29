@@ -294,5 +294,6 @@ export const signUpWithEmail = async (user: NewUser) => {
     return { data, error: null };
   } catch (err) {
     console.log(err);
+    return { data: null, error: err };
   }
 };
