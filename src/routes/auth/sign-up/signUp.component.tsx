@@ -1,5 +1,5 @@
 import { Formik, FormikHelpers, FormikProps, Form, Field } from "formik";
-import { object, string } from "yup";
+import { object, ref, string } from "yup";
 import { LoadingButton } from "@mui/lab";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
@@ -10,7 +10,13 @@ let costumerSchema = object({
   name: string().required("Nome é obrigatório"),
   phone: string().required("Telefone é obrigatório"),
   nationality: string().nullable(),
-  password: string().required("Senha é obrigatória"),
+  password: string()
+    .required("Senha é obrigatória")
+    .min(6, "Mínimo 6 caracteres"),
+  confirmPassword: string()
+    .required("Confirmação de senha é obrigatória")
+    .min(6, "Mínimo 6 caracteres")
+    .oneOf([ref("password"), null], "Senhas não conferem"),
 });
 
 interface FormValues {
@@ -18,6 +24,7 @@ interface FormValues {
   phone: string;
   nationality: string;
   password: string;
+  confirmPassowrd: string;
 }
 
 const initialValues: FormValues = {
@@ -25,6 +32,7 @@ const initialValues: FormValues = {
   phone: "",
   nationality: "",
   password: "",
+  confirmPassowrd: "",
 };
 
 const SignUP = () => {
@@ -55,12 +63,12 @@ const SignUP = () => {
                 const res = await signUpWithEmail(values);
                 if (res?.error) {
                   formikHelpers.setSubmitting(false);
-                  // return toast.error(res.error.message);
+                  return toast.error(res.error.message);
                 }
 
-                formikHelpers.setSubmitting(false);
+                // formikHelpers.setSubmitting(false);
                 toast.success("Técnico adicionado com sucesso!");
-                formikHelpers.resetForm();
+                // formikHelpers.resetForm();
               } catch (err) {
                 toast.error("Erro ao adicionar Técnico");
               }
@@ -103,9 +111,20 @@ const SignUP = () => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <Field
+                    type="password"
                     fullWidth
                     name="password"
                     label="Senha"
+                    size="small"
+                    component={FormTextField}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                  <Field
+                    type="password"
+                    fullWidth
+                    name="confirmPassword"
+                    label="Confirmar senha"
                     size="small"
                     component={FormTextField}
                   />

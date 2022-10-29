@@ -261,13 +261,17 @@ export const inviteUserByEmail = async (email: string) => {
       body: JSON.stringify({ email }),
     });
 
+    if (data.status) {
+      return { data: null, error: { message: "Oops...something went wrong" } };
+    }
+
     if (error) {
       return { data: null, error };
     }
 
     return { data, error: null };
   } catch (err) {
-    console.log(err);
+    console.log("err", err);
     throw err;
   }
 };
@@ -275,9 +279,6 @@ export const inviteUserByEmail = async (email: string) => {
 export const signUpWithEmail = async (user: NewUser) => {
   try {
     const { password, name, nationality, phone } = user;
-
-    const session = await supabase.auth.session();
-    console.log("debug", session);
 
     const { data, error } = await supabase.auth.update({
       password: password,
@@ -293,6 +294,21 @@ export const signUpWithEmail = async (user: NewUser) => {
     }
 
     return { data, error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const signOut = async () => {
+  try {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      return { error };
+    }
+
+    return { error: null };
   } catch (err) {
     console.log(err);
     throw err;
