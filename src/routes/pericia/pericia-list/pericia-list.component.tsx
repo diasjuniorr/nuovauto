@@ -15,24 +15,18 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import {
   getPericias,
   PericiaWithCarAndCostumer,
 } from "../../../utils/supabase/supabase.utils";
 import { useNavigate } from "react-router-dom";
+import {
+  PericiasFilterContext,
+  PericiasFilterContextProps,
+} from "../../../contexts/pericia/pericias-filter.context";
 
 const skeletons = Array.from(new Array(9));
-
-interface filterProps {
-  term: string;
-  done: boolean;
-}
-
-const initialFilterProps: filterProps = {
-  term: "",
-  done: false,
-};
 
 const PericiaList = () => {
   const navigate = useNavigate();
@@ -41,7 +35,7 @@ const PericiaList = () => {
   const [periciasFiltered, setPericiasFiltered] = useState(
     [] as PericiaWithCarAndCostumer[]
   );
-  const [filter, setFilter] = useState(initialFilterProps);
+  const [filter, setFilter] = useState({ term: "", done: false });
 
   const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -73,7 +67,7 @@ const PericiaList = () => {
     const { term, done } = filter;
     const filteredPericias = filterPericias(pericias, term, done);
     setPericiasFiltered(filteredPericias);
-  }, [filter]);
+  }, [filter, pericias]);
 
   return (
     <Container component="main" maxWidth="md">
@@ -92,6 +86,7 @@ const PericiaList = () => {
         <Grid container spacing={2} mb={5}>
           <Grid item xs={12} sm={12}>
             <TextField
+              // value={filter.term || ""}
               fullWidth
               id="filter"
               label="Filtro"
