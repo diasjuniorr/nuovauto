@@ -57,6 +57,7 @@ const AddUser = () => {
                 formikHelpers.resetForm();
               } catch (err) {
                 toast.error("Erro ao adicionar Técnico");
+                formikHelpers.setSubmitting(false);
               }
             };
             formkiCreateUser();

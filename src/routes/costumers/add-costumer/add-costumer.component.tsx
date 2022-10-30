@@ -56,13 +56,19 @@ const AddCostumer = () => {
           ) => {
             const formkiCreateCostumer = async () => {
               try {
-                //TODO handle error
-                await createCostumer(values);
+                const res = await createCostumer(values);
+
+                if (res?.error) {
+                  formikHelpers.setSubmitting(false);
+                  return toast.error(res.error.message);
+                }
+
                 formikHelpers.setSubmitting(false);
                 toast.success("Cliente adicionado com sucesso!");
                 formikHelpers.resetForm();
               } catch (err) {
                 toast.error("Erro ao adicionar cliente");
+                formikHelpers.setSubmitting(false);
               }
             };
             formkiCreateCostumer();
