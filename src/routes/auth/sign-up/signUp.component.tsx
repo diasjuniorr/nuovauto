@@ -51,7 +51,7 @@ const SignUP = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Adicionar técnico
+          Cadastro de técnico
         </Typography>
         <Formik
           initialValues={initialValues}
@@ -145,7 +145,7 @@ const SignUP = () => {
                     loading={formikProps.isSubmitting}
                     disabled={formikProps.isSubmitting}
                   >
-                    Adicionar técnico
+                    Atualizar cadastro
                   </LoadingButton>
                 </Grid>
               </Grid>
