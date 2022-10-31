@@ -89,7 +89,7 @@ const PericiaCreation = () => {
       }
 
       resetPericia();
-      return navigate(`/pericia/${insertPericiaRes.data}?operation=creation`);
+      return navigate(`/pericias/${insertPericiaRes.data}?operation=creation`);
     } catch (err) {
       setIsLoading(false);
       toast.error("Erro ao salvar pericia!");
