@@ -35,7 +35,11 @@ const PericiaList = () => {
   const [periciasFiltered, setPericiasFiltered] = useState(
     [] as PericiaWithCarAndCostumer[]
   );
-  const [filter, setFilter] = useState({ term: "", done: false });
+  const periciasFilterContext = useContext(
+    PericiasFilterContext
+  ) as PericiasFilterContextProps;
+
+  const { filter, setFilter } = periciasFilterContext;
 
   const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -86,7 +90,7 @@ const PericiaList = () => {
         <Grid container spacing={2} mb={5}>
           <Grid item xs={12} sm={12}>
             <TextField
-              // value={filter.term || ""}
+              value={filter.term || ""}
               fullWidth
               id="filter"
               label="Filtro"
