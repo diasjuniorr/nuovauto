@@ -194,7 +194,7 @@ const PericiaList = () => {
         </List>
         <Stack spacing={2} mt={5}>
           <Pagination
-            count={Math.ceil(periciasLength / 10)}
+            count={Math.ceil(periciasLength / 20)}
             size="large"
             onChange={handlePageChange}
           />
