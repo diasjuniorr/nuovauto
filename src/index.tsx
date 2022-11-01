@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { PericiaProvider } from "./contexts/pericia.context";
+import { PericiasFilterProvider } from "./contexts/pericia/pericias-filter.context";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <PericiaProvider>
-        <App />
+        <PericiasFilterProvider>
+          <App />
+        </PericiasFilterProvider>
       </PericiaProvider>
     </BrowserRouter>
   </React.StrictMode>
