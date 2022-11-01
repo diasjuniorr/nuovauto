@@ -174,6 +174,22 @@ export const getPericias = async () => {
   }
 };
 
+export const getPericiasList = async () => {
+  try {
+    const { data, error } = await supabase
+      .from<PericiaWithCarAndCostumer>("pericias")
+      .select(getPericiasSelect);
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data, error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 export const upsertCar = async (car: Car) => {
   try {
     const { data, error } = await supabase

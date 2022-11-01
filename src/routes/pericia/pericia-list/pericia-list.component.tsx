@@ -4,6 +4,8 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 import {
   Box,
   Checkbox,
@@ -41,7 +43,16 @@ const PericiaList = () => {
   const [periciasFiltered, setPericiasFiltered] = useState(
     [] as PericiaWithCarAndCostumer[]
   );
+  const [page, setPage] = useState(1);
+  const [periciasLength, setPericiasLength] = useState(0);
   const [filter, setFilter] = useState(initialFilterProps);
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+  };
 
   const handleFilter = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -63,6 +74,7 @@ const PericiaList = () => {
       }
 
       setPericias(res.data);
+      setPericiasLength(res.data.length);
       setPericiasFiltered(res.data);
       setIsLoading(false);
     };
@@ -72,6 +84,7 @@ const PericiaList = () => {
   useEffect(() => {
     const { term, done } = filter;
     const filteredPericias = filterPericias(pericias, term, done);
+    setPage(1);
     setPericiasFiltered(filteredPericias);
   }, [filter]);
 
@@ -124,8 +137,9 @@ const PericiaList = () => {
                   sx={{ mt: 2 }}
                 />
               ))
-            : periciasFiltered.map(
-                ({ cars, costumers, done, id, finished, date }) => {
+            : periciasFiltered
+                .slice(firstIndex(page), lastIndex(page))
+                .map(({ cars, costumers, done, id, finished, date }) => {
                   const labelId = `checkbox-list-label-${id}`;
                   const status = getStatus(done, finished);
 
@@ -176,14 +190,28 @@ const PericiaList = () => {
                       </ListItemButton>
                     </ListItem>
                   );
-                }
-              )}
+                })}
           {}
         </List>
+        <Stack spacing={2} mt={5}>
+          <Pagination
+            count={Math.ceil(periciasLength / 10)}
+            size="large"
+            onChange={handlePageChange}
+          />
+        </Stack>
       </Box>
       <ToastContainer />
     </Container>
   );
+};
+
+const firstIndex = (page: number) => {
+  return 20 * (page - 1);
+};
+
+const lastIndex = (page: number) => {
+  return 20 * page;
 };
 
 const filterPericias = (
