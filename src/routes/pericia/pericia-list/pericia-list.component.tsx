@@ -38,7 +38,6 @@ const PericiaList = () => {
     [] as PericiaWithCarAndCostumer[]
   );
   const [page, setPage] = useState(1);
-  const [periciasLength, setPericiasLength] = useState(0);
   const periciasFilterContext = useContext(
     PericiasFilterContext
   ) as PericiasFilterContextProps;
@@ -72,7 +71,6 @@ const PericiaList = () => {
       }
 
       setPericias(res.data);
-      setPericiasLength(res.data.length);
       setPericiasFiltered(res.data);
       setIsLoading(false);
     };
@@ -194,9 +192,10 @@ const PericiaList = () => {
         </List>
         <Stack spacing={2} mt={5}>
           <Pagination
-            count={Math.ceil(periciasLength / 20)}
+            count={Math.ceil(periciasFiltered.length / 20)}
             size="large"
             onChange={handlePageChange}
+            page={page}
           />
         </Stack>
       </Box>
