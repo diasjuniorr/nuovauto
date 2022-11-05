@@ -1,15 +1,9 @@
+import { User } from "@supabase/supabase-js";
 import { createContext, useEffect, useReducer } from "react";
 import supabase from "../../utils/supabase/supabase.utils";
 
 interface Props {
   children: React.ReactNode;
-}
-
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  token: string;
 }
 
 enum UserActionTypes {
@@ -57,8 +51,13 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN") console.log("debug: signed in", session);
+      if (event === "SIGNED_IN") setUser(session?.user as User);
     });
+  }, []);
+
+  useEffect(() => {
+    const session = supabase.auth.session();
+    setUser(session?.user as User);
   }, []);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

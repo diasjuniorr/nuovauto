@@ -8,6 +8,9 @@ import {
   signOut,
 } from "../../../utils/supabase/supabase.utils";
 import { FormTextField } from "../../../components/form/form-input/form-input.component";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/user/user.context";
 
 let costumerSchema = object({
   email: string().required("Email é obrigatório").email("Email inválido"),
@@ -27,6 +30,11 @@ const initialValues: FormValues = {
 };
 
 const SignIn = () => {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  if (user) return <Navigate to="/pericias/add" />;
+
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -57,13 +65,9 @@ const SignIn = () => {
                   formikHelpers.setSubmitting(false);
                   return toast.error(res.error.message);
                 }
-                toast.success("Senha alterada com sucesso!");
                 formikHelpers.setSubmitting(false);
                 formikHelpers.resetForm();
-                const err = signOut();
-                if (err) {
-                  console.log(err);
-                }
+                navigate("/pericias/add");
               } catch (err) {
                 toast.error("Erro ao alterar senha");
               }

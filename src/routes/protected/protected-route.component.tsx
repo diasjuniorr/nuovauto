@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { UserContext } from "../../contexts/user/user.context";
 
 interface ProptectedRouteProps {
   redirectPath?: string;
@@ -10,7 +11,7 @@ const ProtectedRoute: React.FC<ProptectedRouteProps> = ({
   children,
   redirectPath = "/auth/sign-in",
 }) => {
-  const [user, setUser] = useState(null);
+  const { user, setUser } = useContext(UserContext);
 
   if (!user) {
     return <Navigate to={redirectPath} />;
