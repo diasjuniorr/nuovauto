@@ -1,12 +1,10 @@
 import { Formik, FormikHelpers, FormikProps, Form, Field } from "formik";
-import { object, ref, string } from "yup";
+import { object, string } from "yup";
 import { LoadingButton } from "@mui/lab";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Container, Grid, Typography } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
-import {
-  signInWithPassword,
-  signOut,
-} from "../../../utils/supabase/supabase.utils";
+import { signInWithPassword } from "../../../utils/supabase/supabase.utils";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { FormTextField } from "../../../components/form/form-input/form-input.component";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -44,9 +42,14 @@ const SignIn = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          algignContent: "center",
+          justifyContent: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5" mb={2}>
           Sign in
         </Typography>
         <Formik
