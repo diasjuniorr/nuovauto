@@ -30,10 +30,11 @@ const AddUser = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Typography component="h1" variant="h5">
-          Adicionar técnico
+          Cadastro de técnico
         </Typography>
         <Formik
           style={{ alignSelf: "center" }}
@@ -53,7 +54,7 @@ const AddUser = () => {
                   return toast.error(res.error.message);
                 }
                 formikHelpers.setSubmitting(false);
-                toast.success("Técnico adicionado com sucesso!");
+                toast.success("Email enviado com sucesso!");
                 formikHelpers.resetForm();
               } catch (err) {
                 toast.error("Erro ao adicionar Técnico");
@@ -88,7 +89,7 @@ const AddUser = () => {
                     loading={formikProps.isSubmitting}
                     disabled={formikProps.isSubmitting}
                   >
-                    Adicionar técnico
+                    Cadastrar técnico
                   </LoadingButton>
                 </Grid>
               </Grid>
