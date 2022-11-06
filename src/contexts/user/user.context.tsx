@@ -53,7 +53,7 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_IN") setUser(session?.user as User);
+      if (event === "SIGNED_IN") return setUser(session?.user as User);
       if (event === "SIGNED_OUT") {
         setUser(null);
         return navigate("/auth/sign-in");
