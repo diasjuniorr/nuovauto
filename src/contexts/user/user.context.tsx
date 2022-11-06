@@ -1,5 +1,6 @@
 import { User } from "@supabase/supabase-js";
 import { createContext, useEffect, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 import supabase from "../../utils/supabase/supabase.utils";
 
 interface Props {
@@ -42,6 +43,7 @@ export const UserContext = createContext<UserContextProps>({
 
 export const UserProvider: React.FC<Props> = ({ children }) => {
   const [{ user }, dispatch] = useReducer(userReducer, { user: null });
+  const navigate = useNavigate();
 
   const setUser = (user: User | null) => {
     dispatch({ type: UserActionTypes.SET_USER, payload: user });
@@ -52,7 +54,10 @@ export const UserProvider: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") setUser(session?.user as User);
-      if (event === "SIGNED_OUT") setUser(null);
+      if (event === "SIGNED_OUT") {
+        setUser(null);
+        return navigate("/auth/sign-in");
+      }
     });
   }, []);
 
