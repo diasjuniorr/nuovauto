@@ -1,26 +1,38 @@
 import { Formik, FormikHelpers, FormikProps, Form, Field } from "formik";
 import { object, string } from "yup";
 import { LoadingButton } from "@mui/lab";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Container, Grid, Typography } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
-import { inviteUserByEmail } from "../../../utils/supabase/supabase.utils";
+import { signInWithPassword } from "../../../utils/supabase/supabase.utils";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { FormTextField } from "../../../components/form/form-input/form-input.component";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../../contexts/user/user.context";
 
 let costumerSchema = object({
-  email: string()
-    .email("Este email não é válido")
-    .required("Email é obrigatório"),
+  email: string().required("Email é obrigatório").email("Email inválido"),
+  password: string()
+    .required("Senha é obrigatória")
+    .min(6, "Mínimo 6 caracteres"),
 });
 
 interface FormValues {
   email: string;
+  password: string;
 }
 
 const initialValues: FormValues = {
   email: "",
+  password: "",
 };
 
-const AddUser = () => {
+const SignIn = () => {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  if (user) return <Navigate to="/pericias/add" />;
+
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -30,14 +42,17 @@ const AddUser = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          algignContent: "center",
           justifyContent: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
-          Cadastro de técnico
+        <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5" mb={2}>
+          Sign in
         </Typography>
         <Formik
-          style={{ alignSelf: "center" }}
           initialValues={initialValues}
           validationSchema={costumerSchema}
           enableReinitialize
@@ -47,31 +62,26 @@ const AddUser = () => {
           ) => {
             const formkiCreateUser = async () => {
               try {
-                const { email } = values;
-                const res = await inviteUserByEmail(email);
+                const { email, password } = values;
+                const res = await signInWithPassword(email, password);
                 if (res?.error) {
                   formikHelpers.setSubmitting(false);
                   return toast.error(res.error.message);
                 }
                 formikHelpers.setSubmitting(false);
-                toast.success("Email enviado com sucesso!");
                 formikHelpers.resetForm();
+                navigate("/pericias/add");
               } catch (err) {
-                toast.error("Erro ao adicionar Técnico");
-                formikHelpers.setSubmitting(false);
+                toast.error("Erro ao alterar senha");
               }
             };
             formkiCreateUser();
           }}
         >
           {(formikProps: FormikProps<FormValues>) => (
-            <Form
-              noValidate
-              autoComplete="off"
-              style={{ width: "100%", padding: "0 16px" }}
-            >
-              <Grid container spacing={2} mt="5">
-                <Grid item xs={12} md={8} mt={5}>
+            <Form noValidate autoComplete="off">
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={12}>
                   <Field
                     name="email"
                     label="Email"
@@ -81,7 +91,18 @@ const AddUser = () => {
                     component={FormTextField}
                   />
                 </Grid>
-                <Grid item xs={12} md={4} mt={6}>
+                <Grid item xs={12} sm={12}>
+                  <Field
+                    type="password"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Senha"
+                    size="small"
+                    component={FormTextField}
+                  />
+                </Grid>
+                <Grid item xs={12} mt={3}>
                   <LoadingButton
                     type="submit"
                     fullWidth
@@ -89,7 +110,7 @@ const AddUser = () => {
                     loading={formikProps.isSubmitting}
                     disabled={formikProps.isSubmitting}
                   >
-                    Cadastrar técnico
+                    SIGN IN
                   </LoadingButton>
                 </Grid>
               </Grid>
@@ -102,4 +123,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default SignIn;

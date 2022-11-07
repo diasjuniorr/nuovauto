@@ -9,7 +9,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../../contexts/user/user.context";
+import { Button } from "@mui/material";
+import { signOut } from "../../utils/supabase/supabase.utils";
 
 const pages = [
   { name: "Home", path: "/" },
@@ -20,12 +23,14 @@ const pages = [
 ];
 
 const Navigation = () => {
+  const { user } = useContext(UserContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+    user && setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -71,7 +76,11 @@ const Navigation = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Nuovauto
             </Typography>
-            {/* <Button color="inherit">Login</Button> */}
+            {user && (
+              <Button color="inherit" onClick={signOut}>
+                Log out
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </Box>
