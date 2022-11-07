@@ -48,10 +48,11 @@ const SignUP = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
         }}
       >
         <Typography component="h1" variant="h5">
-          Cadastro de técnico
+          Cadastro
         </Typography>
         <Formik
           initialValues={initialValues}
@@ -111,6 +112,7 @@ const SignUP = () => {
                 <Grid item xs={12} sm={6}>
                   <Field
                     fullWidth
+                    autoComplete={"off"}
                     name="nationality"
                     label="Nacionalidade"
                     size="small"
@@ -145,7 +147,7 @@ const SignUP = () => {
                     loading={formikProps.isSubmitting}
                     disabled={formikProps.isSubmitting}
                   >
-                    Atualizar cadastro
+                    Finalizar cadastro
                   </LoadingButton>
                 </Grid>
               </Grid>
