@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 import { CAR_PARTS_LIST } from "../shared/constants/car-parts.constants";
 import { SMASH_WORKING_HOURS } from "../shared/constants/car-parts.constants";
 import {
@@ -61,12 +61,7 @@ const initialState: PericiaState = {
 };
 
 enum PericiaReducerActionTypes {
-  UPDATE_CAR_PART = "UPDATE_CAR_PART",
-  UPDATE_COSTUMER = "UPDATE_COSTUMER",
-  UPDATE_CAR = "UPDATE_CAR",
   UPDATE_PERICIA = "UPDATE_PERICIA",
-  UPDATE_UNMOUNT = "UPDATE_UNMOUNT",
-  UPDATE_PRICE_PER_HOUR = "UPDATE_PRICE_PER_HOUR",
   TOGGLE_FINISHED = "TOGGLE_FINISHED",
 }
 
@@ -93,7 +88,7 @@ const periciaReducer = (state: PericiaState, action: PericiaReducerAction) => {
   const { finished } = state;
 
   switch (type) {
-    case PericiaReducerActionTypes.UPDATE_UNMOUNT:
+    case PericiaReducerActionTypes.UPDATE_PERICIA:
       return {
         ...state,
         ...payload,
@@ -103,12 +98,6 @@ const periciaReducer = (state: PericiaState, action: PericiaReducerAction) => {
       return {
         ...state,
         finished: !finished,
-      };
-
-    case PericiaReducerActionTypes.UPDATE_CAR_PART:
-      return {
-        ...state,
-        ...payload,
       };
 
     default:
@@ -190,49 +179,80 @@ export const PericiaContext = createContext<PericiaContextProps>({
 });
 
 export const PericiaProvider: React.FC<Props> = ({ children }) => {
-  const [id, setId] = useState("");
-  const [carParts, setCarParts] = useState(CAR_PARTS_LIST);
-  const [totalHours, setTotalHours] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [costumer, setCostumer] = useState(costumerDefaultValue);
-  const [car, setCar] = useState(carDefaultValue);
-  const [pricePerHour, setPricePerHour] = useState(70);
-  const [date, setDate] = useState(new Date());
-  const [finished, setFinished] = useState(false);
-  const [shouldUnmount, setShouldUnmount] = useState(false);
-  const [unmountPrice, setUnmountPrice] = useState(0);
-  const [insuranceHours, setInsuranceHours] = useState(0);
-  const [insurancePrice, setInsurancePrice] = useState(0);
-  const [unmountTotalPrice, setUnmountTotalPrice] = useState(0);
-
   const [pericia, dispatch] = useReducer(periciaReducer, initialState);
+  const {
+    id,
+    car,
+    costumer,
+    date,
+    finished,
+    insuranceHours,
+    insurancePrice,
+    shouldUnmount,
+    totalHours,
+    totalPrice,
+    unmountPrice,
+    unmountTotalPrice,
+    carParts,
+    pricePerHour,
+  } = pericia;
+
+  const updatePericiaReducer = (pericia: PericiaToUpdate) => {
+    const totalPrice =
+      (pericia.pricePerHour / 10) * getTotalHours(pericia.carParts);
+    dispatch(
+      createAction(PericiaReducerActionTypes.UPDATE_PERICIA, {
+        ...pericia,
+        totalPrice,
+        insurancePrice: (pericia.pricePerHour / 10) * pericia.insuranceHours,
+        totalHours: getTotalHours(pericia.carParts),
+        unmountTotalPrice: pericia.unmountPrice + totalPrice,
+      })
+    );
+  };
 
   const updateCarPartsReducer = (carParts: CarPart[]) => {
+    const totalHours = getTotalHours(carParts);
+    const totalPrice = getTotalPrice(carParts);
     dispatch(
-      createAction(PericiaReducerActionTypes.UPDATE_CAR_PART, {
+      createAction(PericiaReducerActionTypes.UPDATE_PERICIA, {
         carParts,
-        totalHours: getTotalHours(carParts),
-        totalPrice: getTotalPrice(carParts),
+        totalHours,
+        totalPrice,
+        unmountTotalPrice: unmountPrice + totalPrice,
+      })
+    );
+  };
+
+  const updateInsuranceHours = (hours: number) => {
+    dispatch(
+      createAction(PericiaReducerActionTypes.UPDATE_PERICIA, {
+        insuranceHours: hours,
+        insurancePrice: (pricePerHour / 10) * hours,
       })
     );
   };
 
   const updateCostumer = (costumer: Costumer) => {
     dispatch(
-      createAction(PericiaReducerActionTypes.UPDATE_COSTUMER, { costumer })
+      createAction(PericiaReducerActionTypes.UPDATE_PERICIA, { costumer })
     );
   };
 
   const updateCar = (car: Car) => {
-    dispatch(createAction(PericiaReducerActionTypes.UPDATE_CAR, { car }));
+    dispatch(createAction(PericiaReducerActionTypes.UPDATE_PERICIA, { car }));
   };
 
   const updatePricePerHour = (pricePerHour: number) => {
+    const newCarParts = updateCarPartsPrice(carParts, pricePerHour);
+    const totalPrice = getTotalPrice(newCarParts);
     dispatch(
-      createAction(PericiaReducerActionTypes.UPDATE_PRICE_PER_HOUR, {
+      createAction(PericiaReducerActionTypes.UPDATE_PERICIA, {
         pricePerHour,
-        carParts: updateCarPartsPrice(carParts, pricePerHour),
-        insurancePrice: (pricePerHour / 10) * pericia.insuranceHours,
+        carParts: newCarParts,
+        insurancePrice: (pricePerHour / 10) * insuranceHours,
+        totalPrice,
+        unmountTotalPrice: unmountPrice + totalPrice,
       })
     );
   };
@@ -243,23 +263,23 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
 
   const updateUnmountReducer = (shouldUnmount: boolean, price: number) => {
     dispatch(
-      createAction(PericiaReducerActionTypes.UPDATE_UNMOUNT, {
+      createAction(PericiaReducerActionTypes.UPDATE_PERICIA, {
         shouldUnmount,
         unmountPrice: price,
-        unmountTotalPrice: price * pericia.totalHours,
+        unmountTotalPrice: price + totalPrice,
       })
     );
   };
 
   const updateCarPart = (carPart: CarPart) => {
-    const carParts = [...pericia.carParts];
+    const newCarParts = [...carParts];
     const index = carParts.findIndex((cp) => cp.name === carPart.name);
-    carParts[index] = carPart;
-    carParts[index].smallSmashWorkingHours = smallSmashWorkingHours(carPart);
-    carParts[index].smashWorkingHours = smashWorkingHours(carPart);
-    carParts[index].workingHours = workingHours(carPart);
-    carParts[index].price = price(carPart, pricePerHour);
-    carParts[index].note = generateNotes(carPart);
+    newCarParts[index] = carPart;
+    newCarParts[index].smallSmashWorkingHours = smallSmashWorkingHours(carPart);
+    newCarParts[index].smashWorkingHours = smashWorkingHours(carPart);
+    newCarParts[index].workingHours = workingHours(carPart);
+    newCarParts[index].price = price(carPart, pricePerHour);
+    newCarParts[index].note = generateNotes(carPart);
     updateCarPartsReducer(carParts);
   };
 
@@ -274,29 +294,6 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
-  const updatePericia = (pericia: PericiaToUpdate) => {
-    const { shouldUnmount, unmountPrice, insuranceHours } = pericia;
-
-    setId(pericia.id);
-    setCostumer(pericia.costumer);
-    setCar(pericia.car);
-    updateUnmount(shouldUnmount, unmountPrice);
-    setCarParts((prev) => {
-      const newCarParts = pericia.carParts.map((cp) => {
-        cp.note = generateNotes(cp);
-        cp.workingHours = workingHours(cp);
-        return cp;
-      });
-
-      setTotalHours(getTotalHours(newCarParts));
-      return newCarParts;
-    });
-    setPricePerHour(pericia.pricePerHour);
-    setDate(pericia.date);
-    setFinished(pericia.finished);
-    setInsuranceHours(insuranceHours);
-  };
-
   const updateUnmount = (shouldUnmount: boolean, price = 0) => {
     if (!shouldUnmount) {
       return updateUnmountReducer(shouldUnmount, 0);
@@ -304,35 +301,34 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     return updateUnmountReducer(shouldUnmount, price);
   };
 
-  const updateInsuranceHours = (hours: number) => {
-    setInsuranceHours(hours);
+  const updatePericia = (pericia: PericiaToUpdate) => {
+    const periciaToUpdate: PericiaToUpdate = {
+      ...pericia,
+      carParts: pericia.carParts.map((cp) => {
+        cp.note = generateNotes(cp);
+        cp.workingHours = workingHours(cp);
+        return cp;
+      }),
+    };
+    return updatePericiaReducer(periciaToUpdate);
   };
 
   const resetPericia = () => {
-    setId("");
-    setCostumer(costumerDefaultValue);
-    setCar(carDefaultValue);
-    setCarParts(CAR_PARTS_LIST);
-    setPricePerHour(70);
-    setDate(new Date());
-    setFinished(false);
-    setTotalHours(0);
-    setTotalPrice(0);
-    updateUnmount(false);
-    setInsuranceHours(0);
+    const pericia: PericiaToUpdate = {
+      id: "",
+      costumer: costumerDefaultValue,
+      car: carDefaultValue,
+      carParts: CAR_PARTS_LIST,
+      pricePerHour: 70,
+      date: new Date(),
+      finished: false,
+      shouldUnmount: false,
+      unmountPrice: 0,
+      done: false,
+      insuranceHours: 0,
+    };
+    return updatePericiaReducer(pericia);
   };
-
-  useEffect(() => {
-    setTotalPrice(getTotalPrice(carParts));
-  }, [carParts]);
-
-  useEffect(() => {
-    setUnmountTotalPrice(unmountPrice + totalPrice);
-  }, [unmountPrice, totalPrice]);
-
-  useEffect(() => {
-    setInsurancePrice((pricePerHour / 10) * insuranceHours);
-  }, [insuranceHours, pricePerHour]);
 
   return (
     <PericiaContext.Provider
@@ -355,9 +351,9 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         updateCostumer,
         updateFinished,
         updatePricePerHour,
+        updateInsuranceHours,
         updateCar,
         updateCarPart,
-        updateInsuranceHours,
         findCarPart,
         updateUnmount,
         resetPericia,
