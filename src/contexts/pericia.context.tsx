@@ -49,6 +49,8 @@ const carDefaultValue: Car = {
   brand: "",
   model: "",
   plate: "",
+  insurance_name: "",
+  color: "",
 };
 
 const carPartNoteDefaultValue = {

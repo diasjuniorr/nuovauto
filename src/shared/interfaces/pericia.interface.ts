@@ -29,6 +29,8 @@ export interface Car {
   plate: string;
   brand: string;
   model: string;
+  insurance_name?: string;
+  color: string;
 }
 
 export interface CarPart {

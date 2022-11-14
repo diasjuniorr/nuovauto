@@ -26,7 +26,7 @@ import { periciaToUpdateObject } from "../../../utils/pericia/pericia.utils";
 import { InsuranceFormComponent } from "../../../components/pericia/forms/insurance/insurance-form-component";
 
 const validateFields = (car: Car, costumer: Costumer) => {
-  if (car.brand && car.model && car.plate && costumer.id) {
+  if (car.brand && car.model && car.plate && costumer.id && car.color) {
     return true;
   }
   return false;
@@ -46,7 +46,6 @@ const PericiaEditComponent = () => {
     shouldUnmount,
     unmountPrice,
     carParts,
-    totalHours,
     costumer,
     insuranceHours,
     updateUnmount,
@@ -55,7 +54,7 @@ const PericiaEditComponent = () => {
     updateCar,
     updatePricePerHour,
   } = periciaContext;
-  const { plate, model, brand } = car;
+  const { plate, model, brand, insurance_name, color } = car;
 
   //TODO use skeleton loading
 
@@ -100,6 +99,7 @@ const PericiaEditComponent = () => {
       if (upsertCarRes.error) {
         console.log(upsertCarRes.error);
         toast.error("Erro ao atualizar carro");
+        setIsLoading(false);
         return;
       }
 
@@ -240,6 +240,31 @@ const PericiaEditComponent = () => {
                 variant="standard"
                 onChange={handleCarChange}
                 value={model || ""}
+                disabled={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                name="insurance_name"
+                label="Seguro"
+                id="insuranceName"
+                variant="standard"
+                onChange={handleCarChange}
+                value={insurance_name || ""}
+                disabled={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                name="color"
+                label="Cor"
+                id="color"
+                variant="standard"
+                onChange={handleCarChange}
+                value={color || ""}
                 disabled={isLoading}
               />
             </Grid>

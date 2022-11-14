@@ -64,6 +64,7 @@ const PericiaCreation = () => {
       if (insertCarRes.error) {
         console.log(insertCarRes.error);
         toast.error("Erro ao cadastrar carro");
+        setIsLoading(false);
         return;
       }
 

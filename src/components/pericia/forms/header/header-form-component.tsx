@@ -123,6 +123,29 @@ export const HeaderFormComponent: React.FC<HeaderFormComponentProps> = ({
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            fullWidth
+            name="insurance_name"
+            label="Seguro"
+            id="insuranceName"
+            variant="standard"
+            onChange={handleCarChange}
+            disabled={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            fullWidth
+            name="color"
+            label="Cor"
+            id="color"
+            variant="standard"
+            onChange={handleCarChange}
+            disabled={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
             type={"number"}
             required
             fullWidth

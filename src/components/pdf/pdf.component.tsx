@@ -146,7 +146,7 @@ function drawRelocatedText(
 
 function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
   const { costumer, car, finished, date, unmount } = pdfInfoObject;
-  const { brand, model, plate } = car;
+  const { brand, model, plate, insurance_name, color } = car;
   const { name } = costumer;
 
   context.font = "26px Arial";
@@ -154,8 +154,10 @@ function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
   context.fillText(`Cliente: ${name}`, 10, 40);
   context.fillText(`Marca: ${brand}`, 500, 40);
   context.fillText(`Modello: ${model}`, 500, 70);
+  context.fillText(`Seguro: ${insurance_name}`, 500, 100);
   context.fillText(`Targa: ${plate}`, 980, 40);
   context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 70);
+  context.fillText(`Cor: ${color}`, 980, 100);
   if (finished) {
     context.fillStyle = "red";
     context.fillText(`Liquidata`, 10, 70);
