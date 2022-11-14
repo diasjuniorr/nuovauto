@@ -72,7 +72,7 @@ export const HeaderFormComponent: React.FC<HeaderFormComponentProps> = ({
         return;
       }
 
-      setCostumers(res.data);
+      setCostumers(sortAlphabetically(res.data));
     };
     fetchCostumers();
   }, []);
@@ -197,3 +197,7 @@ export const HeaderFormComponent: React.FC<HeaderFormComponentProps> = ({
     </Box>
   );
 };
+
+function sortAlphabetically(arr: Costumer[]) {
+  return arr.sort((a, b) => a.name.localeCompare(b.name));
+}
