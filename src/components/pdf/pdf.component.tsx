@@ -154,10 +154,10 @@ function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
   context.fillText(`Cliente: ${name}`, 10, 40);
   context.fillText(`Marca: ${brand}`, 500, 40);
   context.fillText(`Modello: ${model}`, 500, 70);
-  context.fillText(`Seguro: ${insurance_name}`, 500, 100);
-  context.fillText(`Targa: ${plate}`, 980, 40);
-  context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 70);
-  context.fillText(`Cor: ${color}`, 980, 100);
+  context.fillText(`Targa: ${plate}`, 500, 100);
+  context.fillText(`Colore: ${color}`, 830, 40);
+  context.fillText(`Assicurazione: ${insurance_name}`, 830, 70);
+  context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 830, 100);
   if (finished) {
     context.fillStyle = "red";
     context.fillText(`Liquidata`, 10, 70);
