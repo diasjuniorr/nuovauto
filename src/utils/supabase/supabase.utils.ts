@@ -266,6 +266,8 @@ export const upsertCostumer = async (costumer: Costumer) => {
 
 interface NewUser {
   name: string;
+  lastName: string;
+  displayName: string;
   password: string;
   phone: string;
   nationality?: string;
@@ -294,12 +296,14 @@ export const inviteUserByEmail = async (email: string) => {
 
 export const signUpWithEmail = async (user: NewUser) => {
   try {
-    const { password, name, nationality, phone } = user;
+    const { password, name, lastName, nationality, phone, displayName } = user;
 
     const { data, error } = await supabase.auth.update({
       password: password,
       data: {
         name,
+        lastName,
+        displayName,
         nationality,
         phone,
       },

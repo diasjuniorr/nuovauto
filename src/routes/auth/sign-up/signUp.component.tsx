@@ -11,6 +11,8 @@ import { FormTextField } from "../../../components/form/form-input/form-input.co
 
 let costumerSchema = object({
   name: string().required("Nome é obrigatório"),
+  lastName: string().required("Sobrenome é obrigatório"),
+  displayName: string().required("Nome de exibição é obrigatório"),
   phone: string().required("Telefone é obrigatório"),
   nationality: string().nullable(),
   password: string()
@@ -24,6 +26,8 @@ let costumerSchema = object({
 
 interface FormValues {
   name: string;
+  lastName: string;
+  displayName: string;
   phone: string;
   nationality: string;
   password: string;
@@ -32,6 +36,8 @@ interface FormValues {
 
 const initialValues: FormValues = {
   name: "",
+  lastName: "",
+  displayName: "",
   phone: "",
   nationality: "",
   password: "",
@@ -92,6 +98,26 @@ const SignUP = () => {
                   <Field
                     name="name"
                     label="Nome"
+                    size="small"
+                    required
+                    fullWidth
+                    component={FormTextField}
+                  />
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <Field
+                    name="lastName"
+                    label="Sobrenome"
+                    size="small"
+                    required
+                    fullWidth
+                    component={FormTextField}
+                  />
+                </Grid>
+                <Grid item xs={12} md={12}>
+                  <Field
+                    name="displayName"
+                    label="Nome no aplicativo"
                     size="small"
                     required
                     fullWidth
