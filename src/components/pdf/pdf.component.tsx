@@ -32,6 +32,7 @@ const PDFGenerator: React.FC<Props> = ({ disabled, withCostumerPrice }) => {
     date,
     finished,
     shouldUnmount,
+    unmountPrice,
     costumerPrice,
   } = periciaContext;
   const { name: CostumerName } = costumer;
@@ -60,7 +61,7 @@ const PDFGenerator: React.FC<Props> = ({ disabled, withCostumerPrice }) => {
       drawCarParts(context, carParts);
       drawBorder(context, canvas.width, canvas.height);
       if (withCostumerPrice) {
-        drawCostumerPrice(context, costumerPrice);
+        drawCostumerPrice(context, costumerPrice, unmountPrice);
       }
     };
   };
@@ -68,11 +69,14 @@ const PDFGenerator: React.FC<Props> = ({ disabled, withCostumerPrice }) => {
   const handleGeneratePDF = () => {
     const doc = new jsPDF();
     doc.addImage(canvas, "JPEG", 204, 93, 290, 200, "", "NONE", 90);
-    doc.save(
-      `${removeWhiteSpaces(CostumerName)}-${plate}-${date.toLocaleDateString(
-        "pt-br"
-      )}.pdf`
-    );
+
+    const fileName = `${removeWhiteSpaces(
+      CostumerName
+    )}-${plate}-${date.toLocaleDateString("pt-br")}${
+      withCostumerPrice && "-prezzo"
+    }.pdf`;
+
+    doc.save(fileName);
   };
 
   return (
@@ -185,12 +189,16 @@ function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
   }
 }
 
-function drawCostumerPrice(context: any, costumerPrice: number) {
+function drawCostumerPrice(
+  context: any,
+  costumerPrice: number,
+  unmountPrice: number
+) {
   context.font = "26px Arial";
   context.fillStyle = "red";
-  context.fillText(`Prezzo: ${costumerPrice} CHF`, 940, 1175);
-  let { width } = context.measureText(`Prezzo: ${costumerPrice} CHF`);
-  context.fillRect(940, 1180, width, 2);
+  context.fillText(`Smtgio: ${unmountPrice}`, 1010, 980);
+  context.fillText(`Prezzo: ${costumerPrice}`, 1010, 1010);
+  context.fillText(`Total: ${costumerPrice + unmountPrice}`, 1035, 1040);
 }
 
 function drawPDFLegend(context: any) {
