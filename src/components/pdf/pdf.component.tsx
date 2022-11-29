@@ -69,12 +69,11 @@ const PDFGenerator: React.FC<Props> = ({ disabled, withCostumerPrice }) => {
   const handleGeneratePDF = () => {
     const doc = new jsPDF();
     doc.addImage(canvas, "JPEG", 204, 93, 290, 200, "", "NONE", 90);
+    const fileNameSuffix = withCostumerPrice ? "-with-price" : "";
 
     const fileName = `${removeWhiteSpaces(
       CostumerName
-    )}-${plate}-${date.toLocaleDateString("pt-br")}${
-      withCostumerPrice && "-prezzo"
-    }.pdf`;
+    )}-${plate}-${date.toLocaleDateString("pt-br")}${fileNameSuffix}.pdf`;
 
     doc.save(fileName);
   };
