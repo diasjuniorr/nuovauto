@@ -87,6 +87,7 @@ export interface PericiaByID {
   sportello_i: PericiaByIDCarPart;
   sportello_s: PericiaByIDCarPart;
   insurance_hours: number;
+  costumer_price: number;
 }
 
 interface PericiaByIDCarPart {
@@ -122,7 +123,7 @@ export const getPericiaById = async (id: string) => {
   }
 };
 
-const getPericiaByIdSelect = `id,finished, done, price_per_working_hour, date, unmount, unmount_price, insurance_hours, cofano, tetto, sportello_s, 
+const getPericiaByIdSelect = `id,finished, done, price_per_working_hour, date, unmount, unmount_price, insurance_hours, costumer_price, cofano, tetto, sportello_s, 
   sportello_i, parafango_as, porta_as, porta_ps, parafango_ps, piantone_s, parafango_ad, porta_ad, porta_pd, parafango_pd, piantone_d, cars (id, brand, model, plate, insurance_name, color),
   costumers (id, name)`;
 interface CostumerToInsert {
@@ -217,6 +218,23 @@ export const upsertPericia = async (pericia: PericiaToUpsert) => {
       .from<Pericia>("pericias")
       .update(periciaToUpsert)
       .eq("id", pericia.id);
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data[0].id, error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const saveCostumerPrice = async (id: string, costumer_price: number) => {
+  try {
+    const { data, error } = await supabase
+      .from("pericias")
+      .update({ costumer_price })
+      .eq("id", id);
     if (error) {
       return { data: null, error };
     }

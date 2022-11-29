@@ -13,6 +13,7 @@ export interface Pericia {
   shouldUnmount: boolean;
   unmountPrice: number;
   insuranceHours: number;
+  costumerPrice: number;
 }
 
 export interface Costumer {

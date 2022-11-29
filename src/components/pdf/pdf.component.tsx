@@ -15,6 +15,7 @@ import { Car, Costumer } from "../../shared/interfaces/pericia.interface";
 
 interface Props {
   disabled: boolean;
+  withCostumerPrice: boolean;
 }
 
 const carroImg = require("../../assets/pericia.jpg");
@@ -22,14 +23,22 @@ const carroImg = require("../../assets/pericia.jpg");
 const { PARAFANGO_AD, PARAFANGO_AS } = CAR_PARTS;
 const notesInLine = [PARAFANGO_AD.value, PARAFANGO_AS.value];
 
-const PDFGenerator: React.FC<Props> = ({ disabled }) => {
+const PDFGenerator: React.FC<Props> = ({ disabled, withCostumerPrice }) => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { carParts, costumer, car, date, finished, shouldUnmount } =
-    periciaContext;
+  const {
+    carParts,
+    costumer,
+    car,
+    date,
+    finished,
+    shouldUnmount,
+    costumerPrice,
+  } = periciaContext;
   const { name: CostumerName } = costumer;
   const { plate } = car;
+  const canvasID = withCostumerPrice ? "pdf-canvas-with-price" : "pdf-canvas";
 
-  const canvas = document.getElementById("pdf-canvas") as HTMLCanvasElement;
+  const canvas = document.getElementById(canvasID) as HTMLCanvasElement;
 
   const draw = (context: any) => {
     const img = new Image();
@@ -50,6 +59,9 @@ const PDFGenerator: React.FC<Props> = ({ disabled }) => {
       drawPDFLegend(context);
       drawCarParts(context, carParts);
       drawBorder(context, canvas.width, canvas.height);
+      if (withCostumerPrice) {
+        drawCostumerPrice(context, costumerPrice);
+      }
     };
   };
 
@@ -65,15 +77,15 @@ const PDFGenerator: React.FC<Props> = ({ disabled }) => {
 
   return (
     <>
-      <Canvas draw={draw} height={1200} width={1200} />
+      <Canvas id={canvasID} draw={draw} height={1200} width={1200} />
       <Button
         fullWidth
         variant="contained"
-        sx={{ mt: 5, mb: 1 }}
+        sx={{ mb: 1 }}
         onClick={handleGeneratePDF}
         disabled={disabled}
       >
-        Gerar PDF
+        {withCostumerPrice ? "Gerar PDF com preço" : "Gerar PDF"}
       </Button>
     </>
   );
@@ -171,6 +183,14 @@ function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
     context.fillStyle = "red";
     context.fillText(`Smontaggio`, 10, 100);
   }
+}
+
+function drawCostumerPrice(context: any, costumerPrice: number) {
+  context.font = "26px Arial";
+  context.fillStyle = "red";
+  context.fillText(`Prezzo: ${costumerPrice} CHF`, 940, 1175);
+  let { width } = context.measureText(`Prezzo: ${costumerPrice} CHF`);
+  context.fillRect(940, 1180, width, 2);
 }
 
 function drawPDFLegend(context: any) {

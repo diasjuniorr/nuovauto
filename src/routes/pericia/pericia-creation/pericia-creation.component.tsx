@@ -43,6 +43,7 @@ const PericiaCreation = () => {
     shouldUnmount,
     unmountPrice,
     insuranceHours,
+    costumerPrice,
     updateCar,
     resetPericia,
   } = periciaContext;
@@ -81,6 +82,7 @@ const PericiaCreation = () => {
         shouldUnmount,
         unmountPrice,
         insuranceHours,
+        costumerPrice,
       });
 
       if (insertPericiaRes.error) {

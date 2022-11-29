@@ -14,6 +14,7 @@ import {
 import {
   getCostumers,
   getPericiaById,
+  saveCostumerPrice,
   upsertCar,
   upsertPericia,
 } from "../../../utils/supabase/supabase.utils";
@@ -48,6 +49,9 @@ const PericiaEditComponent = () => {
     carParts,
     costumer,
     insuranceHours,
+    totalPrice,
+    costumerPrice,
+    updateCostumerPrice,
     updateUnmount,
     updatePericia,
     updateFinished,
@@ -84,6 +88,20 @@ const PericiaEditComponent = () => {
     updateFinished(checked);
   };
 
+  const handleCostumerPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    updateCostumerPrice(Number(value));
+  };
+
+  const handleSaveCostumerPrice = async () => {
+    const { error } = await saveCostumerPrice(id, costumerPrice);
+    if (error) {
+      toast.error("Erro ao salvar preço");
+    } else {
+      toast.success("Preço salvo com sucesso");
+    }
+  };
+
   const handleSavePericia = async () => {
     if (!validateFields(car, costumer)) {
       toast.error("Preencha os campos obrigatórios!");
@@ -117,6 +135,7 @@ const PericiaEditComponent = () => {
           carParts: carParts,
           done: false,
           insuranceHours,
+          costumerPrice,
         });
 
         if (upsertPericiaRes.error) {
@@ -350,7 +369,33 @@ const PericiaEditComponent = () => {
         </Typography>
         <PericiaTable />
         <InsuranceFormComponent isLoading={isLoading} />
-        <PDFGenerator disabled={isLoading} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              required
+              fullWidth
+              name="costumerPrice"
+              label="Preço cliente/CHF"
+              id="pricePerHour"
+              variant="standard"
+              value={costumerPrice ? costumerPrice.toString() : "0"}
+              onChange={handleCostumerPriceChange}
+              onBlur={handleSaveCostumerPrice}
+              disabled={isLoading}
+            />
+          </Grid>
+        </Grid>
+        <hr
+          style={{
+            height: "1px",
+            backgroundColor: "lightgray",
+            border: "none",
+            width: "100%",
+            marginTop: "32px",
+          }}
+        />
+        <PDFGenerator disabled={isLoading} withCostumerPrice={false} />
+        <PDFGenerator disabled={isLoading} withCostumerPrice={true} />
         <LoadingButton
           fullWidth
           variant="contained"
