@@ -193,19 +193,20 @@ function drawCostumerPrice(
   costumerPrice: number,
   unmountPrice: number
 ) {
-  context.font = "26px Arial";
-  context.fillText(`Smtgio: ${unmountPrice}`, 1010, 980);
-  context.fillText(`Prezzo: ${costumerPrice}`, 1010, 1010);
-  context.fillText(`Total: ${costumerPrice + unmountPrice}`, 1035, 1040);
+  context.font = "24px Arial";
+  context.fillStyle = "black";
+  context.fillText(`Smtgio: ${unmountPrice} CHF`, 10, 1100);
+  context.fillText(`Prezzo: ${costumerPrice} CHF`, 10, 1130);
+  context.fillText(`Totale: ${costumerPrice + unmountPrice} CHF`, 10, 1160);
 }
 
 function drawPDFLegend(context: any) {
-  context.font = "26px Arial";
+  context.font = "24px Arial";
   context.fillStyle = "black";
-  context.fillText(`C: Cola`, 10, 1100);
-  context.fillText(`V: Verniciare`, 10, 1130);
-  context.fillText(`AL: Allumnino`, 10, 1160);
-  context.fillText(`SOST: Sostituire`, 10, 1190);
+  context.fillText(`C: Cola`, 1010, 1100);
+  context.fillText(`V: Verniciare`, 1010, 1130);
+  context.fillText(`AL: Allumnino`, 1010, 1160);
+  context.fillText(`SOST: Sostituire`, 1010, 1190);
 }
 
 function drawBorder(context: any, width: number, height: number) {
