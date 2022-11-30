@@ -195,9 +195,9 @@ function drawCostumerPrice(
 ) {
   context.font = "24px Arial";
   context.fillStyle = "black";
-  context.fillText(`Smtgio: ${unmountPrice} CHF`, 10, 1100);
-  context.fillText(`Prezzo: ${costumerPrice} CHF`, 10, 1130);
-  context.fillText(`Totale: ${costumerPrice + unmountPrice} CHF`, 10, 1160);
+  context.fillText(`Smontaggio: ${unmountPrice} CHF`, 10, 910);
+  context.fillText(`Prezzo: ${costumerPrice} CHF`, 10, 940);
+  context.fillText(`Totale: ${costumerPrice + unmountPrice} CHF`, 10, 970);
 }
 
 function drawPDFLegend(context: any) {
