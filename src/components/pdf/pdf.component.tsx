@@ -194,7 +194,6 @@ function drawCostumerPrice(
   unmountPrice: number
 ) {
   context.font = "26px Arial";
-  context.fillStyle = "red";
   context.fillText(`Smtgio: ${unmountPrice}`, 1010, 980);
   context.fillText(`Prezzo: ${costumerPrice}`, 1010, 1010);
   context.fillText(`Total: ${costumerPrice + unmountPrice}`, 1035, 1040);

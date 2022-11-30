@@ -226,7 +226,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   };
 
   const updateCostumerPrice = (price: number) => {
-    setCostumerPrice(price);
+    setCostumerPrice(price ? price : 0);
   };
 
   useEffect(() => {
