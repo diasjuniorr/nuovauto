@@ -150,6 +150,28 @@ export const createCostumer = async (costumer: CostumerToInsert) => {
   }
 };
 
+export interface PericiaBilled {
+  id: string;
+  billed: boolean;
+}
+
+export const updatePericiaBilled = async (pericia: PericiaBilled) => {
+  try {
+    const { data, error } = await supabase
+      .from<PericiaBilled>("pericias")
+      .update(pericia)
+      .eq("id", pericia.id);
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data[0], error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 export interface PericiaWithCarAndCostumer {
   id: string;
   cars: Car;
@@ -157,13 +179,15 @@ export interface PericiaWithCarAndCostumer {
   done: boolean;
   finished: boolean;
   date: Date;
+  billed: boolean;
 }
 
 export const getPericias = async () => {
   try {
     const { data, error } = await supabase
       .from<PericiaWithCarAndCostumer>("pericias")
-      .select(getPericiasSelect);
+      .select(getPericiasSelect)
+      .order("date", { ascending: false });
     if (error) {
       return { data: null, error };
     }
@@ -175,11 +199,13 @@ export const getPericias = async () => {
   }
 };
 
+//TODO review this
 export const getPericiasList = async () => {
   try {
     const { data, error } = await supabase
       .from<PericiaWithCarAndCostumer>("pericias")
-      .select(getPericiasSelect);
+      .select(getPericiasSelect)
+      .order("date", { ascending: true });
     if (error) {
       return { data: null, error };
     }
@@ -246,7 +272,7 @@ export const saveCostumerPrice = async (id: string, costumer_price: number) => {
   }
 };
 
-const getPericiasSelect = `id, done, finished, cars (id, brand, model, plate), costumers (id, name), date`;
+const getPericiasSelect = `id, done, finished, cars (id, brand, model, plate), costumers (id, name), date, billed`;
 
 export const getCostumerById = async (id: string) => {
   try {
