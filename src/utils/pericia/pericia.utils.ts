@@ -117,6 +117,7 @@ export const periciaToUpdateObject = (pericia: PericiaByID) => {
     unmount_price,
     insurance_hours,
     costumer_price,
+    billed,
     ...rest
   } = pericia;
 
@@ -137,6 +138,7 @@ export const periciaToUpdateObject = (pericia: PericiaByID) => {
     carParts,
     date: new Date(date),
     pricePerHour: price_per_working_hour,
+    billed,
     costumer: costumers,
     shouldUnmount: unmount,
     unmountPrice: unmount_price,

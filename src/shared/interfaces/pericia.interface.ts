@@ -10,6 +10,7 @@ export interface Pericia {
   date: Date;
   finished: boolean;
   done: boolean;
+  billed: boolean;
   shouldUnmount: boolean;
   unmountPrice: number;
   insuranceHours: number;

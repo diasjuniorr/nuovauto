@@ -70,6 +70,7 @@ export interface PericiaByID {
   done: boolean;
   unmount: boolean;
   unmount_price: number;
+  billed: boolean;
   cars: Car;
   costumers: Costumer;
   cofano: PericiaByIDCarPart;
@@ -123,7 +124,7 @@ export const getPericiaById = async (id: string) => {
   }
 };
 
-const getPericiaByIdSelect = `id,finished, done, price_per_working_hour, date, unmount, unmount_price, insurance_hours, costumer_price, cofano, tetto, sportello_s, 
+const getPericiaByIdSelect = `id,finished, done, price_per_working_hour, date, unmount, unmount_price, insurance_hours, costumer_price, billed, cofano, tetto, sportello_s, 
   sportello_i, parafango_as, porta_as, porta_ps, parafango_ps, piantone_s, parafango_ad, porta_ad, porta_pd, parafango_pd, piantone_d, cars (id, brand, model, plate, insurance_name, color),
   costumers (id, name)`;
 interface CostumerToInsert {
