@@ -27,7 +27,7 @@ export interface PericiaContextProps {
   shouldUnmount: boolean;
   unmountPrice: number;
   unmountTotalPrice: number;
-  costumerPrice: number;
+  costumerPrice: string;
   billed: boolean;
   updatePericia: (pericia: PericiaToUpdate) => void;
   updateCostumer: (costumer: Costumer) => void;
@@ -38,7 +38,7 @@ export interface PericiaContextProps {
   findCarPart: (name: string) => CarPart;
   updateUnmount: (shouldUnmount: boolean, price: number) => void;
   updateInsuranceHours: (hours: number) => void;
-  updateCostumerPrice: (price: number) => void;
+  updateCostumerPrice: (price: string) => void;
   updateBilled: (billed: boolean) => void;
   resetPericia: () => void;
 }
@@ -77,7 +77,7 @@ export const PericiaContext = createContext<PericiaContextProps>({
   shouldUnmount: false,
   unmountPrice: 0,
   unmountTotalPrice: 0,
-  costumerPrice: 0,
+  costumerPrice: "0",
   billed: false,
   updatePericia: (pericia: PericiaToUpdate) => {},
   updateCostumer: (costumer: Costumer) => {},
@@ -87,7 +87,7 @@ export const PericiaContext = createContext<PericiaContextProps>({
   updateCarPart: (carPart: CarPart) => {},
   updateUnmount: (shouldUnmount: boolean, price: number) => {},
   updateInsuranceHours: (hours: number) => {},
-  updateCostumerPrice: (price: number) => {},
+  updateCostumerPrice: (price: string) => {},
   resetPericia: () => {},
   updateBilled: (billed: boolean) => {},
   findCarPart: (name: string) => {
@@ -123,7 +123,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
   const [insuranceHours, setInsuranceHours] = useState(0);
   const [insurancePrice, setInsurancePrice] = useState(0);
   const [unmountTotalPrice, setUnmountTotalPrice] = useState(0);
-  const [costumerPrice, setCostumerPrice] = useState(0);
+  const [costumerPrice, setCostumerPrice] = useState("0");
   const [billed, setBilled] = useState(false);
 
   const updateCarPart = (carPart: CarPart) => {
@@ -236,8 +236,8 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     setInsuranceHours(0);
   };
 
-  const updateCostumerPrice = (price: number) => {
-    setCostumerPrice(price ? price : 0);
+  const updateCostumerPrice = (price: string) => {
+    setCostumerPrice(price ? price : "0");
   };
 
   const updateBilled = (billed: boolean) => {

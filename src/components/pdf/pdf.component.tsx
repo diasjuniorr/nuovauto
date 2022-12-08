@@ -190,7 +190,7 @@ function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
 
 function drawCostumerPrice(
   context: any,
-  costumerPrice: number,
+  costumerPrice: string,
   unmountPrice: number
 ) {
   context.font = "24px Arial";

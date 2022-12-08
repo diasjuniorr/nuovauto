@@ -88,7 +88,7 @@ export interface PericiaByID {
   sportello_i: PericiaByIDCarPart;
   sportello_s: PericiaByIDCarPart;
   insurance_hours: number;
-  costumer_price: number;
+  costumer_price: string;
 }
 
 interface PericiaByIDCarPart {
@@ -256,7 +256,7 @@ export const upsertPericia = async (pericia: PericiaToUpsert) => {
   }
 };
 
-export const saveCostumerPrice = async (id: string, costumer_price: number) => {
+export const saveCostumerPrice = async (id: string, costumer_price: string) => {
   try {
     const { data, error } = await supabase
       .from("pericias")

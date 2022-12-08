@@ -92,7 +92,7 @@ const PericiaEditComponent = () => {
 
   const handleCostumerPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    updateCostumerPrice(Number(value));
+    updateCostumerPrice(value);
   };
 
   const handleSaveCostumerPrice = async () => {
