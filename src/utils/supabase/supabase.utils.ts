@@ -70,6 +70,7 @@ export interface PericiaByID {
   done: boolean;
   unmount: boolean;
   unmount_price: number;
+  billed: boolean;
   cars: Car;
   costumers: Costumer;
   cofano: PericiaByIDCarPart;
@@ -87,6 +88,7 @@ export interface PericiaByID {
   sportello_i: PericiaByIDCarPart;
   sportello_s: PericiaByIDCarPart;
   insurance_hours: number;
+  costumer_price: string;
 }
 
 interface PericiaByIDCarPart {
@@ -122,8 +124,8 @@ export const getPericiaById = async (id: string) => {
   }
 };
 
-const getPericiaByIdSelect = `id,finished, done, price_per_working_hour, date, unmount, unmount_price, insurance_hours, cofano, tetto, sportello_s, 
-  sportello_i, parafango_as, porta_as, porta_ps, parafango_ps, piantone_s, parafango_ad, porta_ad, porta_pd, parafango_pd, piantone_d, cars (id, brand, model, plate),
+const getPericiaByIdSelect = `id,finished, done, price_per_working_hour, date, unmount, unmount_price, insurance_hours, costumer_price, billed, cofano, tetto, sportello_s, 
+  sportello_i, parafango_as, porta_as, porta_ps, parafango_ps, piantone_s, parafango_ad, porta_ad, porta_pd, parafango_pd, piantone_d, cars (id, brand, model, plate, insurance_name, color),
   costumers (id, name)`;
 interface CostumerToInsert {
   name: string;
@@ -149,6 +151,28 @@ export const createCostumer = async (costumer: CostumerToInsert) => {
   }
 };
 
+export interface PericiaBilled {
+  id: string;
+  billed: boolean;
+}
+
+export const updatePericiaBilled = async (pericia: PericiaBilled) => {
+  try {
+    const { data, error } = await supabase
+      .from<PericiaBilled>("pericias")
+      .update(pericia)
+      .eq("id", pericia.id);
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data[0], error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 export interface PericiaWithCarAndCostumer {
   id: string;
   cars: Car;
@@ -156,13 +180,15 @@ export interface PericiaWithCarAndCostumer {
   done: boolean;
   finished: boolean;
   date: Date;
+  billed: boolean;
 }
 
 export const getPericias = async () => {
   try {
     const { data, error } = await supabase
       .from<PericiaWithCarAndCostumer>("pericias")
-      .select(getPericiasSelect);
+      .select(getPericiasSelect)
+      .order("date", { ascending: false });
     if (error) {
       return { data: null, error };
     }
@@ -174,11 +200,13 @@ export const getPericias = async () => {
   }
 };
 
+//TODO review this
 export const getPericiasList = async () => {
   try {
     const { data, error } = await supabase
       .from<PericiaWithCarAndCostumer>("pericias")
-      .select(getPericiasSelect);
+      .select(getPericiasSelect)
+      .order("date", { ascending: true });
     if (error) {
       return { data: null, error };
     }
@@ -228,7 +256,24 @@ export const upsertPericia = async (pericia: PericiaToUpsert) => {
   }
 };
 
-const getPericiasSelect = `id, done, finished, cars (id, brand, model, plate), costumers (id, name), date`;
+export const saveCostumerPrice = async (id: string, costumer_price: string) => {
+  try {
+    const { data, error } = await supabase
+      .from("pericias")
+      .update({ costumer_price })
+      .eq("id", id);
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data[0].id, error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+const getPericiasSelect = `id, done, finished, cars (id, brand, model, plate), costumers (id, name), date, billed`;
 
 export const getCostumerById = async (id: string) => {
   try {
@@ -266,6 +311,8 @@ export const upsertCostumer = async (costumer: Costumer) => {
 
 interface NewUser {
   name: string;
+  lastName: string;
+  displayName: string;
   password: string;
   phone: string;
   nationality?: string;
@@ -294,12 +341,14 @@ export const inviteUserByEmail = async (email: string) => {
 
 export const signUpWithEmail = async (user: NewUser) => {
   try {
-    const { password, name, nationality, phone } = user;
+    const { password, name, lastName, nationality, phone, displayName } = user;
 
     const { data, error } = await supabase.auth.update({
       password: password,
       data: {
         name,
+        lastName,
+        displayName,
         nationality,
         phone,
       },

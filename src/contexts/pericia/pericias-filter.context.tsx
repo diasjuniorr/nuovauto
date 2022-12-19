@@ -12,15 +12,17 @@ export interface PericiasFilterContextProps {
 interface FilterProps {
   term: string;
   done: boolean;
+  billed: boolean;
 }
 
 const initialValues: FilterProps = {
   term: "",
   done: false,
+  billed: false,
 };
 
 export const PericiasFilterContext = createContext<PericiasFilterContextProps>({
-  filter: { term: "", done: false },
+  filter: { term: "", done: false, billed: false },
   setFilter: (filter: FilterProps) => {},
 });
 

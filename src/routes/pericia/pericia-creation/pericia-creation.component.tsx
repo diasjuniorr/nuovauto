@@ -43,6 +43,8 @@ const PericiaCreation = () => {
     shouldUnmount,
     unmountPrice,
     insuranceHours,
+    costumerPrice,
+    billed,
     updateCar,
     resetPericia,
   } = periciaContext;
@@ -64,6 +66,7 @@ const PericiaCreation = () => {
       if (insertCarRes.error) {
         console.log(insertCarRes.error);
         toast.error("Erro ao cadastrar carro");
+        setIsLoading(false);
         return;
       }
 
@@ -80,6 +83,8 @@ const PericiaCreation = () => {
         shouldUnmount,
         unmountPrice,
         insuranceHours,
+        costumerPrice,
+        billed,
       });
 
       if (insertPericiaRes.error) {

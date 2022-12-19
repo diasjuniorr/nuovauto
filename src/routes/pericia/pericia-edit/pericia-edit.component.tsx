@@ -14,6 +14,9 @@ import {
 import {
   getCostumers,
   getPericiaById,
+  PericiaBilled,
+  saveCostumerPrice,
+  updatePericiaBilled,
   upsertCar,
   upsertPericia,
 } from "../../../utils/supabase/supabase.utils";
@@ -26,7 +29,7 @@ import { periciaToUpdateObject } from "../../../utils/pericia/pericia.utils";
 import { InsuranceFormComponent } from "../../../components/pericia/forms/insurance/insurance-form-component";
 
 const validateFields = (car: Car, costumer: Costumer) => {
-  if (car.brand && car.model && car.plate && costumer.id) {
+  if (car.brand && car.model && car.plate && costumer.id && car.color) {
     return true;
   }
   return false;
@@ -46,16 +49,18 @@ const PericiaEditComponent = () => {
     shouldUnmount,
     unmountPrice,
     carParts,
-    totalHours,
     costumer,
     insuranceHours,
+    billed,
+    costumerPrice,
+    updateCostumerPrice,
     updateUnmount,
     updatePericia,
     updateFinished,
     updateCar,
     updatePricePerHour,
   } = periciaContext;
-  const { plate, model, brand } = car;
+  const { plate, model, brand, insurance_name, color } = car;
 
   //TODO use skeleton loading
 
@@ -85,6 +90,20 @@ const PericiaEditComponent = () => {
     updateFinished(checked);
   };
 
+  const handleCostumerPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    updateCostumerPrice(value);
+  };
+
+  const handleSaveCostumerPrice = async () => {
+    const { error } = await saveCostumerPrice(id, costumerPrice);
+    if (error) {
+      toast.error("Erro ao salvar preço");
+    } else {
+      toast.success("Preço salvo com sucesso");
+    }
+  };
+
   const handleSavePericia = async () => {
     if (!validateFields(car, costumer)) {
       toast.error("Preencha os campos obrigatórios!");
@@ -100,6 +119,7 @@ const PericiaEditComponent = () => {
       if (upsertCarRes.error) {
         console.log(upsertCarRes.error);
         toast.error("Erro ao atualizar carro");
+        setIsLoading(false);
         return;
       }
 
@@ -117,6 +137,8 @@ const PericiaEditComponent = () => {
           carParts: carParts,
           done: false,
           insuranceHours,
+          costumerPrice,
+          billed,
         });
 
         if (upsertPericiaRes.error) {
@@ -135,20 +157,38 @@ const PericiaEditComponent = () => {
     }
   };
 
-  useEffect(() => {
-    if (!periciaID) return;
+  const handleUpdateBilled = async (pericia: PericiaBilled) => {
+    setIsLoading(true);
+    try {
+      const { error } = await updatePericiaBilled(pericia);
 
-    const fetchPericia = async () => {
-      const res = await getPericiaById(periciaID);
-      if (res.error) {
-        console.log(res.error);
-        toast.error("Erro ao buscar pericia!");
-        return;
+      if (error) {
+        throw new Error(error.message);
       }
 
-      updatePericia(periciaToUpdateObject(res.data));
-    };
+      toast.success("Perícia atualizada com sucesso!");
+      setIsLoading(false);
+      fetchPericia();
+    } catch (error) {
+      setIsLoading(false);
+      toast.error(error as string);
+    }
+  };
 
+  const fetchPericia = async () => {
+    if (!periciaID) return;
+
+    const res = await getPericiaById(periciaID);
+    if (res.error) {
+      console.log(res.error);
+      toast.error("Erro ao buscar pericia!");
+      return;
+    }
+
+    updatePericia(periciaToUpdateObject(res.data));
+  };
+
+  useEffect(() => {
     //TODO put fetchCostumer in a context
     fetchPericia();
     const fetchCostumers = async () => {
@@ -245,6 +285,31 @@ const PericiaEditComponent = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                fullWidth
+                name="insurance_name"
+                label="Seguro"
+                id="insuranceName"
+                variant="standard"
+                onChange={handleCarChange}
+                value={insurance_name || ""}
+                disabled={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                name="color"
+                label="Cor"
+                id="color"
+                variant="standard"
+                onChange={handleCarChange}
+                value={color || ""}
+                disabled={isLoading}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
                 required
                 fullWidth
                 name="pricePerHour"
@@ -325,7 +390,53 @@ const PericiaEditComponent = () => {
         </Typography>
         <PericiaTable />
         <InsuranceFormComponent isLoading={isLoading} />
-        <PDFGenerator disabled={isLoading} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              required
+              fullWidth
+              name="costumerPrice"
+              label="Preço cliente/CHF"
+              id="pricePerHour"
+              variant="standard"
+              value={costumerPrice ? costumerPrice.toString() : "0"}
+              onChange={handleCostumerPriceChange}
+              onBlur={handleSaveCostumerPrice}
+              disabled={isLoading}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    disabled={isLoading}
+                    onChange={() =>
+                      handleUpdateBilled({
+                        id,
+                        billed: !billed,
+                      })
+                    }
+                    checked={billed}
+                  />
+                }
+                label="Faturado"
+              />
+            </FormGroup>
+          </Grid>
+        </Grid>
+        <hr
+          style={{
+            height: "1px",
+            backgroundColor: "lightgray",
+            border: "none",
+            width: "100%",
+            marginTop: "32px",
+            marginBottom: "32px",
+          }}
+        />
+        <PDFGenerator disabled={isLoading} withCostumerPrice={false} />
+        <PDFGenerator disabled={isLoading} withCostumerPrice={true} />
         <LoadingButton
           fullWidth
           variant="contained"

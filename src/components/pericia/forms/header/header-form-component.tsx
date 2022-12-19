@@ -72,7 +72,7 @@ export const HeaderFormComponent: React.FC<HeaderFormComponentProps> = ({
         return;
       }
 
-      setCostumers(res.data);
+      setCostumers(sortAlphabetically(res.data));
     };
     fetchCostumers();
   }, []);
@@ -116,6 +116,29 @@ export const HeaderFormComponent: React.FC<HeaderFormComponentProps> = ({
             name="model"
             label="Modelo"
             id="model"
+            variant="standard"
+            onChange={handleCarChange}
+            disabled={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            name="insurance_name"
+            label="Seguro"
+            id="insuranceName"
+            variant="standard"
+            onChange={handleCarChange}
+            disabled={isLoading}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            fullWidth
+            name="color"
+            label="Cor"
+            id="color"
             variant="standard"
             onChange={handleCarChange}
             disabled={isLoading}
@@ -174,3 +197,7 @@ export const HeaderFormComponent: React.FC<HeaderFormComponentProps> = ({
     </Box>
   );
 };
+
+function sortAlphabetically(arr: Costumer[]) {
+  return arr.sort((a, b) => a.name.localeCompare(b.name));
+}

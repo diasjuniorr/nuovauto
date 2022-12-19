@@ -20,7 +20,9 @@ import {
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import {
   getPericias,
+  PericiaBilled,
   PericiaWithCarAndCostumer,
+  updatePericiaBilled,
 } from "../../../utils/supabase/supabase.utils";
 import { useNavigate } from "react-router-dom";
 import {
@@ -61,25 +63,46 @@ const PericiaList = () => {
     setFilter({ ...filter, done: checked });
   };
 
-  useEffect(() => {
-    const fetchPericias = async () => {
-      const res = await getPericias();
-      if (res.error) {
-        console.log(res.error);
-        toast.error("Erro ao buscar perícias");
-        return;
+  const handleBilledFilter = (e: ChangeEvent<HTMLInputElement>) => {
+    const { checked } = e.target;
+    setFilter({ ...filter, billed: checked });
+  };
+
+  const handleUpdateBilled = async (pericia: PericiaBilled) => {
+    try {
+      const { error } = await updatePericiaBilled(pericia);
+
+      if (error) {
+        throw new Error(error.message);
       }
 
-      setPericias(res.data);
-      setPericiasFiltered(res.data);
-      setIsLoading(false);
-    };
+      toast.success("Perícia atualizada com sucesso!");
+      fetchPericias();
+    } catch (error) {
+      toast.error(error as string);
+    }
+  };
+
+  const fetchPericias = async () => {
+    const res = await getPericias();
+    if (res.error) {
+      console.log(res.error);
+      toast.error("Erro ao buscar perícias");
+      return;
+    }
+
+    setPericias(res.data);
+    setPericiasFiltered(res.data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
     fetchPericias();
   }, []);
 
   useEffect(() => {
-    const { term, done } = filter;
-    const filteredPericias = filterPericias(pericias, term, done);
+    const { term, done, billed } = filter;
+    const filteredPericias = filterPericias(pericias, term, done, billed);
     setPage(1);
     setPericiasFiltered(filteredPericias);
   }, [filter, pericias]);
@@ -110,11 +133,19 @@ const PericiaList = () => {
               onChange={handleFilter}
             />
           </Grid>
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={6} sm={6}>
             <FormGroup sx={{ width: "100%" }}>
               <FormControlLabel
                 control={<Checkbox onChange={handleDoneFilter} />}
                 label="Finalizadas"
+              />
+            </FormGroup>
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <FormGroup sx={{ width: "100%" }}>
+              <FormControlLabel
+                control={<Checkbox onChange={handleBilledFilter} />}
+                label="Faturadas"
               />
             </FormGroup>
           </Grid>
@@ -136,58 +167,76 @@ const PericiaList = () => {
               ))
             : periciasFiltered
                 .slice(firstIndex(page), lastIndex(page))
-                .map(({ cars, costumers, done, id, finished, date }) => {
-                  const labelId = `checkbox-list-label-${id}`;
-                  const status = getStatus(done, finished);
+                .map(
+                  ({ cars, costumers, done, id, finished, date, billed }) => {
+                    const labelId = `checkbox-list-label-${id}`;
+                    const status = getStatus(done, finished);
 
-                  return (
-                    <ListItem key={id} divider>
-                      <ListItemButton
-                        onClick={() => navigate(`/pericias/${id}`)}
-                        role={undefined}
-                        dense
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          textAlign: "center",
-                        }}
-                      >
-                        <ListItemText
-                          id={labelId}
-                          primary={`${costumers.name}`}
-                          sx={{ flex: "1", textAlign: "left" }}
-                        />
-                        <ListItemText
-                          id={labelId}
-                          primary={`${cars.plate}`}
-                          sx={{ flex: "1" }}
-                        />
-                        <ListItemText
-                          id={labelId}
-                          primary={`${cars.model}`}
-                          sx={{ flex: "1" }}
-                        />
-                        <ListItemText
-                          id={labelId}
-                          primary={status.text}
+                    return (
+                      <ListItem key={id} divider>
+                        <FormGroup>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                onChange={() =>
+                                  handleUpdateBilled({
+                                    id,
+                                    billed: !billed,
+                                  })
+                                }
+                                checked={billed}
+                              />
+                            }
+                            label="Faturado"
+                          />
+                        </FormGroup>
+                        <ListItemButton
+                          onClick={() => navigate(`/pericias/${id}`)}
+                          role={undefined}
+                          dense
                           sx={{
-                            color: status.color,
-                            flex: "1",
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            textAlign: "center",
                           }}
-                        />
-                        <ListItemText
-                          id={labelId}
-                          primary={new Date(date).toLocaleDateString("pt-BR")}
-                          sx={{
-                            flex: "1",
-                          }}
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  );
-                })}
+                        >
+                          <ListItemText
+                            id={labelId}
+                            primary={`${costumers.name}`}
+                            sx={{ flex: "1", textAlign: "left" }}
+                          />
+                          <ListItemText
+                            id={labelId}
+                            primary={`${cars.plate}`}
+                            sx={{ flex: "1" }}
+                          />
+                          <ListItemText
+                            id={labelId}
+                            primary={`${cars.model}`}
+                            sx={{ flex: "1" }}
+                          />
+                          <ListItemText
+                            id={labelId}
+                            primary={status.text}
+                            sx={{
+                              color: status.color,
+                              flex: "1",
+                            }}
+                          />
+                          <ListItemText
+                            id={labelId}
+                            primary={new Date(date).toLocaleDateString("pt-BR")}
+                            sx={{
+                              flex: "1",
+                            }}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    );
+                  }
+                )}
           {}
         </List>
         <Stack spacing={2} mt={5}>
@@ -215,7 +264,8 @@ const lastIndex = (page: number) => {
 const filterPericias = (
   pericias: PericiaWithCarAndCostumer[],
   term: string,
-  done: boolean
+  done: boolean,
+  billed: boolean
 ) => {
   return pericias
     .filter((pericia) => {
@@ -227,6 +277,9 @@ const filterPericias = (
     })
     .filter((pericia) => {
       return pericia.done === done || pericia.finished === done;
+    })
+    .filter((pericia) => {
+      return pericia.billed === billed;
     });
 };
 

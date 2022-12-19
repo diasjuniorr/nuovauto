@@ -15,6 +15,7 @@ import { Car, Costumer } from "../../shared/interfaces/pericia.interface";
 
 interface Props {
   disabled: boolean;
+  withCostumerPrice: boolean;
 }
 
 const carroImg = require("../../assets/pericia.jpg");
@@ -22,14 +23,23 @@ const carroImg = require("../../assets/pericia.jpg");
 const { PARAFANGO_AD, PARAFANGO_AS } = CAR_PARTS;
 const notesInLine = [PARAFANGO_AD.value, PARAFANGO_AS.value];
 
-const PDFGenerator: React.FC<Props> = ({ disabled }) => {
+const PDFGenerator: React.FC<Props> = ({ disabled, withCostumerPrice }) => {
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
-  const { carParts, costumer, car, date, finished, shouldUnmount } =
-    periciaContext;
+  const {
+    carParts,
+    costumer,
+    car,
+    date,
+    finished,
+    shouldUnmount,
+    unmountPrice,
+    costumerPrice,
+  } = periciaContext;
   const { name: CostumerName } = costumer;
   const { plate } = car;
+  const canvasID = withCostumerPrice ? "pdf-canvas-with-price" : "pdf-canvas";
 
-  const canvas = document.getElementById("pdf-canvas") as HTMLCanvasElement;
+  const canvas = document.getElementById(canvasID) as HTMLCanvasElement;
 
   const draw = (context: any) => {
     const img = new Image();
@@ -50,30 +60,35 @@ const PDFGenerator: React.FC<Props> = ({ disabled }) => {
       drawPDFLegend(context);
       drawCarParts(context, carParts);
       drawBorder(context, canvas.width, canvas.height);
+      if (withCostumerPrice) {
+        drawCostumerPrice(context, costumerPrice, unmountPrice);
+      }
     };
   };
 
   const handleGeneratePDF = () => {
     const doc = new jsPDF();
     doc.addImage(canvas, "JPEG", 204, 93, 290, 200, "", "NONE", 90);
-    doc.save(
-      `${removeWhiteSpaces(CostumerName)}-${plate}-${date.toLocaleDateString(
-        "pt-br"
-      )}.pdf`
-    );
+    const fileNameSuffix = withCostumerPrice ? "-with-price" : "";
+
+    const fileName = `${removeWhiteSpaces(
+      CostumerName
+    )}-${plate}-${date.toLocaleDateString("pt-br")}${fileNameSuffix}.pdf`;
+
+    doc.save(fileName);
   };
 
   return (
     <>
-      <Canvas draw={draw} height={1200} width={1200} />
+      <Canvas id={canvasID} draw={draw} height={1200} width={1200} />
       <Button
         fullWidth
         variant="contained"
-        sx={{ mt: 5, mb: 1 }}
+        sx={{ mb: 1 }}
         onClick={handleGeneratePDF}
         disabled={disabled}
       >
-        Gerar PDF
+        {withCostumerPrice ? "Gerar PDF com preço" : "Gerar PDF"}
       </Button>
     </>
   );
@@ -146,7 +161,7 @@ function drawRelocatedText(
 
 function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
   const { costumer, car, finished, date, unmount } = pdfInfoObject;
-  const { brand, model, plate } = car;
+  const { brand, model, plate, insurance_name, color } = car;
   const { name } = costumer;
 
   context.font = "26px Arial";
@@ -154,8 +169,14 @@ function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
   context.fillText(`Cliente: ${name}`, 10, 40);
   context.fillText(`Marca: ${brand}`, 500, 40);
   context.fillText(`Modello: ${model}`, 500, 70);
-  context.fillText(`Targa: ${plate}`, 980, 40);
-  context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 980, 70);
+  context.fillText(`Targa: ${plate}`, 500, 100);
+  context.fillText(`Colore: ${color ? color : ""}`, 830, 40);
+  context.fillText(
+    `Assicurazione: ${insurance_name ? insurance_name : ""}`,
+    830,
+    70
+  );
+  context.fillText(`Data: ${date.toLocaleDateString("pt-br")}`, 830, 100);
   if (finished) {
     context.fillStyle = "red";
     context.fillText(`Liquidata`, 10, 70);
@@ -167,13 +188,25 @@ function drawIdentification(context: any, pdfInfoObject: PDFInfoObject) {
   }
 }
 
-function drawPDFLegend(context: any) {
-  context.font = "26px Arial";
+function drawCostumerPrice(
+  context: any,
+  costumerPrice: string,
+  unmountPrice: number
+) {
+  context.font = "24px Arial";
   context.fillStyle = "black";
-  context.fillText(`C: Cola`, 10, 1100);
-  context.fillText(`V: Verniciare`, 10, 1130);
-  context.fillText(`AL: Allumnino`, 10, 1160);
-  context.fillText(`SOST: Sostituire`, 10, 1190);
+  context.fillText(`Smontaggio: ${unmountPrice} CHF`, 10, 910);
+  context.fillText(`Prezzo: ${costumerPrice} CHF`, 10, 940);
+  context.fillText(`Totale: ${costumerPrice + unmountPrice} CHF`, 10, 970);
+}
+
+function drawPDFLegend(context: any) {
+  context.font = "24px Arial";
+  context.fillStyle = "black";
+  context.fillText(`C: Cola`, 1010, 1100);
+  context.fillText(`V: Verniciare`, 1010, 1130);
+  context.fillText(`AL: Allumnino`, 1010, 1160);
+  context.fillText(`SOST: Sostituire`, 1010, 1190);
 }
 
 function drawBorder(context: any, width: number, height: number) {

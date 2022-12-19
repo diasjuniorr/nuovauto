@@ -19,6 +19,8 @@ const carDefaultValue: Car = {
   brand: "",
   model: "",
   plate: "",
+  color: "",
+  insurance_name: "",
 };
 
 const carPartNoteDefaultValue = {
@@ -41,6 +43,8 @@ interface PericiaState {
   shouldUnmount: boolean;
   unmountPrice: number;
   unmountTotalPrice: number;
+  billed: boolean;
+  costumerPrice: string;
 }
 
 const initialState: PericiaState = {
@@ -58,6 +62,8 @@ const initialState: PericiaState = {
   shouldUnmount: false,
   unmountPrice: 0,
   unmountTotalPrice: 0,
+  billed: false,
+  costumerPrice: "0",
 };
 
 enum PericiaReducerActionTypes {
@@ -81,6 +87,8 @@ interface PericiaReducerPayload {
   pricePerHour?: number;
   unmountPrice?: number;
   unmountTotalPrice?: number;
+  billed?: boolean;
+  costumerPrice?: string;
 }
 
 const periciaReducer = (state: PericiaState, action: PericiaReducerAction) => {
@@ -124,6 +132,8 @@ export interface PericiaContextProps {
   shouldUnmount: boolean;
   unmountPrice: number;
   unmountTotalPrice: number;
+  costumerPrice: string;
+  billed: boolean;
   updatePericia: (pericia: PericiaToUpdate) => void;
   updateCostumer: (costumer: Costumer) => void;
   updateFinished: (finished: boolean) => void;
@@ -133,6 +143,8 @@ export interface PericiaContextProps {
   findCarPart: (name: string) => CarPart;
   updateUnmount: (shouldUnmount: boolean, price: number) => void;
   updateInsuranceHours: (hours: number) => void;
+  updateCostumerPrice: (price: string) => void;
+  updateBilled: (billed: boolean) => void;
   resetPericia: () => void;
 }
 
@@ -151,6 +163,8 @@ export const PericiaContext = createContext<PericiaContextProps>({
   shouldUnmount: false,
   unmountPrice: 0,
   unmountTotalPrice: 0,
+  costumerPrice: "0",
+  billed: false,
   updatePericia: (pericia: PericiaToUpdate) => {},
   updateCostumer: (costumer: Costumer) => {},
   updateFinished: (finished: boolean) => {},
@@ -159,7 +173,9 @@ export const PericiaContext = createContext<PericiaContextProps>({
   updateCarPart: (carPart: CarPart) => {},
   updateUnmount: (shouldUnmount: boolean, price: number) => {},
   updateInsuranceHours: (hours: number) => {},
+  updateCostumerPrice: (price: string) => {},
   resetPericia: () => {},
+  updateBilled: (billed: boolean) => {},
   findCarPart: (name: string) => {
     return {
       name: "",
@@ -195,6 +211,8 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     unmountTotalPrice,
     carParts,
     pricePerHour,
+    billed,
+    costumerPrice,
   } = pericia;
 
   const updatePericiaReducer = (pericia: PericiaToUpdate) => {
@@ -271,6 +289,20 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     );
   };
 
+  const updateBilled = (billed: boolean) => {
+    dispatch(
+      createAction(PericiaReducerActionTypes.UPDATE_PERICIA, { billed })
+    );
+  };
+
+  const updateCostumerPrice = (price: string) => {
+    dispatch(
+      createAction(PericiaReducerActionTypes.UPDATE_PERICIA, {
+        costumerPrice: price,
+      })
+    );
+  };
+
   const updateCarPart = (carPart: CarPart) => {
     const newCarParts = [...carParts];
     const index = carParts.findIndex((cp) => cp.name === carPart.name);
@@ -326,6 +358,8 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
       unmountPrice: 0,
       done: false,
       insuranceHours: 0,
+      billed: false,
+      costumerPrice: "0",
     };
     return updatePericiaReducer(pericia);
   };
@@ -347,6 +381,9 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         shouldUnmount,
         unmountPrice,
         unmountTotalPrice,
+        costumerPrice,
+        billed,
+        updateBilled,
         updatePericia,
         updateCostumer,
         updateFinished,
@@ -356,6 +393,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         updateCarPart,
         findCarPart,
         updateUnmount,
+        updateCostumerPrice,
         resetPericia,
       }}
     >

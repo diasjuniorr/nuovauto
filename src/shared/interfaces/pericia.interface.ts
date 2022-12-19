@@ -10,9 +10,11 @@ export interface Pericia {
   date: Date;
   finished: boolean;
   done: boolean;
+  billed: boolean;
   shouldUnmount: boolean;
   unmountPrice: number;
   insuranceHours: number;
+  costumerPrice: string;
 }
 
 export interface Costumer {
@@ -29,6 +31,8 @@ export interface Car {
   plate: string;
   brand: string;
   model: string;
+  insurance_name?: string;
+  color: string;
 }
 
 export interface CarPart {
