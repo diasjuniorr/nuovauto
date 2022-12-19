@@ -312,7 +312,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
     newCarParts[index].workingHours = workingHours(carPart);
     newCarParts[index].price = price(carPart, pricePerHour);
     newCarParts[index].note = generateNotes(carPart);
-    updateCarPartsReducer(carParts);
+    updateCarPartsReducer(newCarParts);
   };
 
   const findCarPart = (name: string) => {
