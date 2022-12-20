@@ -365,6 +365,41 @@ export const signUpWithEmail = async (user: NewUser) => {
   }
 };
 
+export const updatePassword = async (password: string) => {
+  try {
+    const { data, error } = await supabase.auth.update({
+      password: password,
+    });
+
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data, error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const recoverPassword = async (email: string) => {
+  try {
+    const { data, error } = await supabase.auth.api.resetPasswordForEmail(
+      email,
+      { redirectTo: "/auth/update-password" }
+    );
+
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data, error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 export const signOut = async () => {
   try {
     const { error } = await supabase.auth.signOut();
