@@ -36,7 +36,9 @@ const ResetPassword = () => {
           }}
         >
           <Typography component="h1" variant="h5">
-            Um link para redefinir sua senha foi enviado para o seu email
+            Um link para redefinir sua senha foi enviado para o seu email.{" "}
+            <br />
+            Cheque a caixa de spam se não encontrar.
           </Typography>
         </Box>
       </Container>

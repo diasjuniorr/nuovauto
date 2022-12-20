@@ -67,8 +67,6 @@ const UpdatePassword = () => {
                   return toast.error(res.error.message);
                 }
                 toast.success("Senha alterada com sucesso!");
-                formikHelpers.setSubmitting(false);
-                formikHelpers.resetForm();
                 redirect();
               } catch (err) {
                 toast.error("Erro ao alterar senha");
@@ -116,7 +114,7 @@ const UpdatePassword = () => {
           )}
         </Formik>
       </Box>
-      <ToastContainer />
+      <ToastContainer autoClose={3000} />
     </Container>
   );
 };
