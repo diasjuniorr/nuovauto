@@ -385,8 +385,8 @@ export const updatePassword = async (password: string) => {
 export const recoverPassword = async (email: string) => {
   try {
     const { data, error } = await supabase.auth.api.resetPasswordForEmail(
-      email,
-      { redirectTo: "/auth/update-password" }
+      email
+      // { redirectTo: "/auth/update-password" }
     );
 
     if (error) {
