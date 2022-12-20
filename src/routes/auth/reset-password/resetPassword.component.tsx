@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { Formik, FormikHelpers, FormikProps, Form, Field } from "formik";
 import { object, string } from "yup";
 import { LoadingButton } from "@mui/lab";
@@ -6,6 +5,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
 import { recoverPassword } from "../../../utils/supabase/supabase.utils";
 import { FormTextField } from "../../../components/form/form-input/form-input.component";
+import { useState } from "react";
 
 let resetPasswordSchema = object({
   email: string().required("Email é obrigatória").email("Email inválido"),
@@ -20,12 +20,27 @@ const initialValues: FormValues = {
 };
 
 const ResetPassword = () => {
-  const navigate = useNavigate();
+  const [emailSent, setEmailSent] = useState(false);
 
-  const redirect = () =>
-    setTimeout(() => {
-      navigate("/");
-    }, 3000);
+  if (emailSent)
+    return (
+      <Container component="main" maxWidth="md">
+        <Box
+          sx={{
+            minHeight: "72vh",
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Um link para redefinir sua senha foi enviado para o seu email
+          </Typography>
+        </Box>
+      </Container>
+    );
 
   return (
     <Container component="main" maxWidth="md">
@@ -58,10 +73,9 @@ const ResetPassword = () => {
                   formikHelpers.setSubmitting(false);
                   return toast.error(res.error.message);
                 }
-                toast.success("Email enviado com sucesso");
                 formikHelpers.setSubmitting(false);
                 formikHelpers.resetForm();
-                redirect();
+                setEmailSent(true);
               } catch (err) {
                 toast.error("Erro ao enviar email");
               }

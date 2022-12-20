@@ -6,7 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { signInWithPassword } from "../../../utils/supabase/supabase.utils";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { FormTextField } from "../../../components/form/form-input/form-input.component";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../../contexts/user/user.context";
 
@@ -112,6 +112,11 @@ const SignIn = () => {
                   >
                     SIGN IN
                   </LoadingButton>
+                </Grid>
+                <Grid item xs={12}>
+                  <Link style={{ float: "right" }} to="/auth/reset-password">
+                    Esqueci minha senha
+                  </Link>
                 </Grid>
               </Grid>
             </Form>
