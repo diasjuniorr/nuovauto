@@ -92,6 +92,19 @@ const PericiaEditComponent = () => {
 
   const handleCostumerPriceChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    if (value === "") {
+      return updateCostumerPrice("0");
+    }
+
+    const pattern = /^[0-9]*\.?[0-9]{0,2}$/;
+    if (!value.match(pattern)) {
+      return;
+    }
+
+    if (value[0] === "0" && value[1] !== "." && value.length > 1) {
+      return updateCostumerPrice(value.slice(1));
+    }
+
     updateCostumerPrice(value);
   };
 
