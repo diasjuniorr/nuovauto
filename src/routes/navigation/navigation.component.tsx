@@ -74,7 +74,9 @@ const Navigation = () => {
               })}
             </Menu>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Nuovauto
+              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                Nuovauto
+              </Link>
             </Typography>
             {user && (
               <Button color="inherit" onClick={signOut}>
