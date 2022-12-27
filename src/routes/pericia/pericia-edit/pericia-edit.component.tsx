@@ -406,7 +406,6 @@ const PericiaEditComponent = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <TextField
-              required
               fullWidth
               name="costumerPrice"
               label="Preço cliente/CHF"
