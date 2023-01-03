@@ -268,7 +268,7 @@ const filterPericias = (
   done: boolean,
   billed: boolean
 ) => {
-  return pericias
+  const periciasFiltered = pericias
     .filter((pericia) => {
       return (
         pericia.costumers.name.toLowerCase().includes(term.toLowerCase()) ||
@@ -278,10 +278,15 @@ const filterPericias = (
     })
     .filter((pericia) => {
       return pericia.done === done || pericia.finished === done;
-    })
-    .filter((pericia) => {
-      return pericia.billed === billed;
     });
+
+  if (billed) {
+    return periciasFiltered.filter((pericia) => {
+      return pericia.billed;
+    });
+  }
+
+  return periciasFiltered;
 };
 
 const getStatus = (done: boolean, finished: boolean) => {
