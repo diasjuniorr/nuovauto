@@ -131,6 +131,7 @@ const PericiaList = () => {
               name="filter"
               variant="standard"
               onChange={handleFilter}
+              autoComplete="off"
             />
           </Grid>
           <Grid item xs={6} sm={6}>
