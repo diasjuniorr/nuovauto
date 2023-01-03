@@ -8,6 +8,7 @@ import {
   PericiaContextProps,
 } from "../../../contexts/pericia.context";
 import {
+  findCarByPlate,
   insertCar,
   insertPericia,
 } from "../../../utils/supabase/supabase.utils";
@@ -20,8 +21,15 @@ import { HeaderFormComponent } from "../../../components/pericia/forms/header/he
 import { FinishedFormComponent } from "../../../components/pericia/forms/finished/finished-form-component";
 import { DividerComponent } from "../../../components/pericia/divider/divider-component";
 
-const validateFields = (car: Car, costumer: Costumer) => {
-  if (car.brand && car.model && car.plate && costumer.id) {
+const validateCostumer = (car: Car, costumer: Costumer) => {
+  if (costumer.id) {
+    return true;
+  }
+  return false;
+};
+
+const validateCar = (car: Car) => {
+  if (car.brand && car.model && car.plate && car.color) {
     return true;
   }
   return false;
@@ -49,16 +57,27 @@ const PericiaCreation = () => {
     resetPericia,
   } = periciaContext;
 
-  //TODO refact
-
-  const handleSavePericia = async () => {
-    if (!validateFields(car, costumer)) {
-      toast.error("Preencha os campos obrigatórios!");
+  const handleSaveCar = async () => {
+    if (!validateCar(car)) {
+      toast.error("Preencha os campos do carro!");
       return;
     }
 
     setIsLoading(true);
     try {
+      const plateAlreadyExists = await findCarByPlate(car.plate);
+      if (plateAlreadyExists.error) {
+        console.log(plateAlreadyExists.error);
+        toast.error("Erro ao buscar carro");
+        setIsLoading(false);
+        return;
+      }
+
+      const carExists = compareCars(plateAlreadyExists.data, car);
+      if (carExists) {
+        toast.info("Já existe uma pericia para este carro!");
+      }
+
       const insertCarRes = await insertCar({
         ...car,
       });
@@ -71,9 +90,28 @@ const PericiaCreation = () => {
       }
 
       updateCar(insertCarRes.data);
+    } catch (err) {
+      setIsLoading(false);
+      toast.error("Erro ao salvar carro!");
+      console.log(err);
+    }
+  };
+
+  const handleSavePericia = async () => {
+    if (!validateCostumer(car, costumer)) {
+      toast.error("Preencha os campos do cliente!");
+      return;
+    }
+
+    if (!validateCar(car)) {
+      toast.error("Preencha os campos do carro!");
+      return;
+    }
+
+    try {
       const insertPericiaRes = await insertPericia({
         date,
-        car: insertCarRes.data,
+        car: car,
         pricePerHour,
         finished,
         costumer,
@@ -119,7 +157,12 @@ const PericiaCreation = () => {
         <Typography component="h1" variant="h5">
           Cadastro de Pericia
         </Typography>
-        <HeaderFormComponent isLoading={isLoading} car={car} setCar={setCar} />
+        <HeaderFormComponent
+          isLoading={isLoading}
+          car={car}
+          setCar={setCar}
+          saveCar={handleSaveCar}
+        />
         <Typography component="h1" variant="h5">
           Pericia
         </Typography>
@@ -145,6 +188,17 @@ const PericiaCreation = () => {
       <ToastContainer />
     </Container>
   );
+};
+
+const compareCars = (car1: Car, car2: Car) => {
+  if (
+    car1.brand.toLowerCase() === car2.brand.toLowerCase() &&
+    car1.model.toLowerCase() === car2.model.toLowerCase() &&
+    car1.plate.toLowerCase() === car2.plate.toLowerCase()
+  ) {
+    return true;
+  }
+  return false;
 };
 
 export default PericiaCreation;

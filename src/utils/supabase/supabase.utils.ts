@@ -40,6 +40,23 @@ export const insertCar = async (car: Car) => {
   }
 };
 
+export const findCarByPlate = async (plate: string) => {
+  try {
+    const { data, error } = await supabase
+      .from<Car>("cars")
+      .select("*")
+      .eq("plate", plate);
+    if (error) {
+      return { data: null, error };
+    }
+
+    return { data: data[0], error: null };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 export type PericiaToInsert = Omit<Pericia, "id" | "done">;
 
 export const insertPericia = async (pericia: PericiaToInsert) => {

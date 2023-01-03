@@ -20,12 +20,14 @@ interface HeaderFormComponentProps {
   isLoading: boolean;
   car: Car;
   setCar: (car: Car) => void;
+  saveCar: () => void;
 }
 
 export const HeaderFormComponent: React.FC<HeaderFormComponentProps> = ({
   isLoading,
   car,
   setCar,
+  saveCar,
 }) => {
   const [costumers, setCostumers] = useState<Costumer[]>([]);
   const periciaContext = useContext(PericiaContext) as PericiaContextProps;
@@ -141,6 +143,7 @@ export const HeaderFormComponent: React.FC<HeaderFormComponentProps> = ({
             id="color"
             variant="standard"
             onChange={handleCarChange}
+            onBlur={saveCar}
             disabled={isLoading}
           />
         </Grid>
