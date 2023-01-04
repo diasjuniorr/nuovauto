@@ -89,6 +89,7 @@ interface PericiaReducerPayload {
   unmountTotalPrice?: number;
   billed?: boolean;
   costumerPrice?: string;
+  date?: Date;
 }
 
 const periciaReducer = (state: PericiaState, action: PericiaReducerAction) => {
@@ -145,6 +146,7 @@ export interface PericiaContextProps {
   updateInsuranceHours: (hours: number) => void;
   updateCostumerPrice: (price: string) => void;
   updateBilled: (billed: boolean) => void;
+  updateDate: (date: Date) => void;
   resetPericia: () => void;
 }
 
@@ -174,6 +176,7 @@ export const PericiaContext = createContext<PericiaContextProps>({
   updateUnmount: (shouldUnmount: boolean, price: number) => {},
   updateInsuranceHours: (hours: number) => {},
   updateCostumerPrice: (price: string) => {},
+  updateDate: (date: Date) => {},
   resetPericia: () => {},
   updateBilled: (billed: boolean) => {},
   findCarPart: (name: string) => {
@@ -259,6 +262,10 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
 
   const updateCar = (car: Car) => {
     dispatch(createAction(PericiaReducerActionTypes.UPDATE_PERICIA, { car }));
+  };
+
+  const updateDate = (date: Date) => {
+    dispatch(createAction(PericiaReducerActionTypes.UPDATE_PERICIA, { date }));
   };
 
   const updatePricePerHour = (pricePerHour: number) => {
@@ -394,6 +401,7 @@ export const PericiaProvider: React.FC<Props> = ({ children }) => {
         findCarPart,
         updateUnmount,
         updateCostumerPrice,
+        updateDate,
         resetPericia,
       }}
     >

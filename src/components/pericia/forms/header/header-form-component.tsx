@@ -6,6 +6,10 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Stack from "@mui/material/Stack";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
@@ -38,6 +42,7 @@ export const HeaderFormComponent: React.FC<HeaderFormComponentProps> = ({
     unmountPrice,
     updatePricePerHour,
     updateUnmount,
+    updateDate,
   } = periciaContext;
 
   const handleCarPlateChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -162,16 +167,23 @@ export const HeaderFormComponent: React.FC<HeaderFormComponentProps> = ({
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            fullWidth
-            name="date"
-            label="Data"
-            id="date"
-            variant="standard"
-            value={date.toLocaleDateString("pt-BR")}
-            disabled
-          />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Stack spacing={3}>
+              <DatePicker
+                label="Data"
+                openTo="month"
+                inputFormat="DD/MM/YYYY"
+                views={["year", "month", "day"]}
+                value={date}
+                onChange={(newValue) => {
+                  if (newValue) updateDate(new Date(newValue));
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} variant="standard" />
+                )}
+              />
+            </Stack>
+          </LocalizationProvider>
         </Grid>
         <Grid item xs={6} sm={6}>
           <FormGroup>
