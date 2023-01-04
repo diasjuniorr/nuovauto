@@ -21,7 +21,7 @@ import { HeaderFormComponent } from "../../../components/pericia/forms/header/he
 import { FinishedFormComponent } from "../../../components/pericia/forms/finished/finished-form-component";
 import { DividerComponent } from "../../../components/pericia/divider/divider-component";
 
-const validateCostumer = (car: Car, costumer: Costumer) => {
+const validateCostumer = (costumer: Costumer) => {
   if (costumer.id) {
     return true;
   }
@@ -68,8 +68,9 @@ const PericiaCreation = () => {
       const plateAlreadyExists = await findCarByPlate(car.plate);
       if (plateAlreadyExists.error) {
         console.log(plateAlreadyExists.error);
-        toast.error("Erro ao buscar carro");
+        toast.error("Nao foi possivel verificar se o carro existe!");
         setIsLoading(false);
+        updateCar(car);
         return;
       }
 
@@ -78,6 +79,28 @@ const PericiaCreation = () => {
         toast.info("Já existe uma pericia para este carro!");
       }
 
+      updateCar(car);
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      toast.error("Erro ao salvar carro!");
+      console.log(err);
+    }
+  };
+
+  const handleSavePericia = async () => {
+    if (!validateCostumer(costumer)) {
+      toast.error("Preencha os campos do cliente!");
+      return;
+    }
+
+    if (!validateCar(car)) {
+      toast.error("Preencha os campos do carro!");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
       const insertCarRes = await insertCar({
         ...car,
       });
@@ -89,29 +112,9 @@ const PericiaCreation = () => {
         return;
       }
 
-      updateCar(insertCarRes.data);
-    } catch (err) {
-      setIsLoading(false);
-      toast.error("Erro ao salvar carro!");
-      console.log(err);
-    }
-  };
-
-  const handleSavePericia = async () => {
-    if (!validateCostumer(car, costumer)) {
-      toast.error("Preencha os campos do cliente!");
-      return;
-    }
-
-    if (!validateCar(car)) {
-      toast.error("Preencha os campos do carro!");
-      return;
-    }
-
-    try {
       const insertPericiaRes = await insertPericia({
         date,
-        car: car,
+        car: insertCarRes.data,
         pricePerHour,
         finished,
         costumer,
@@ -192,9 +195,9 @@ const PericiaCreation = () => {
 
 const compareCars = (car1: Car, car2: Car) => {
   if (
-    car1.brand.toLowerCase() === car2.brand.toLowerCase() &&
-    car1.model.toLowerCase() === car2.model.toLowerCase() &&
-    car1.plate.toLowerCase() === car2.plate.toLowerCase()
+    car1.brand.toLowerCase().trim() === car2.brand.toLowerCase().trim() &&
+    car1.model.toLowerCase().trim() === car2.model.toLowerCase().trim() &&
+    car1.plate.toLowerCase().trim() === car2.plate.toLowerCase().trim()
   ) {
     return true;
   }
